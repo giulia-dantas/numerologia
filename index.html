@@ -216,6 +216,29 @@
   details.how summary{cursor:pointer;font-weight:600;padding:8px 0;color:var(--muted)}
   .status{min-height:1.4em;font-size:.88rem;color:var(--cyan);margin-top:8px}
   #out[hidden],#outC[hidden]{display:none}
+
+  /* Leitura completa e relatório */
+  details.more{margin:10px 0 4px}
+  details.more summary{cursor:pointer;color:var(--gold);font-weight:600;padding:6px 0}
+  details.more dl{margin:6px 0 0;display:grid;gap:12px}
+  details.more dt{font-family:var(--serif);font-weight:700;font-size:1.15rem;color:var(--gold);line-height:1.1}
+  details.more dd{margin:2px 0 0}
+  #report{margin-top:14px;background:var(--glass);border:1px solid var(--line);border-radius:22px;padding:6px 20px 20px;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+  #report h3{font-size:1.5rem;color:var(--gold);margin:24px 0 6px}
+  #report p{margin:0 0 10px}
+  #report ul{margin:6px 0 0;padding-left:20px}
+  #report li{margin-bottom:8px}
+  @media print{
+    html,body{background:#fff !important;color:#111 !important}
+    .nebula,#sky,.snd,#ritual,.seg,#f,.recent,.hero,#outC,details.how,#out > *:not(#reportWrap){display:none !important}
+    .wrap{padding:0;max-width:none}
+    #reportWrap h2.sec{color:#111;margin-top:0}
+    #reportWrap h2.sec::before{background:#111;box-shadow:none}
+    #reportWrap .note,#reportWrap .actions,#reportWrap .status{display:none !important}
+    #report{background:none;border:0;padding:0;box-shadow:none}
+    #report h3{color:#111}
+    #report p,#report li{color:#111}
+  }
 </style>
 </head>
 <body>
@@ -308,6 +331,18 @@
       <div class="pyr" id="pyr"></div>
       <p class="note">1º = |mês − dia| · 2º = |dia − ano| · principal = |1º − 2º| · 4º = |mês − ano|</p>
       <div class="rows" id="chRows"></div>
+    </div>
+
+    <div id="reportWrap">
+      <h2 class="sec">Relatório completo</h2>
+      <p class="note">Uma leitura que une todos os números do nome, como num atendimento.</p>
+      <div id="report"></div>
+      <div class="actions" style="margin-top:16px">
+        <button class="btn ghost" type="button" id="copiarR">Copiar relatório</button>
+        <button class="btn ghost" type="button" id="imprimir">Imprimir ou salvar PDF</button>
+      </div>
+      <div class="status" id="statusR" role="status"></div>
+      <p class="note">Se a impressão não abrir aqui, use Copiar relatório e cole num documento.</p>
     </div>
 
     <div class="actions" style="margin-top:30px">
@@ -480,6 +515,159 @@
     7:"Confiança: sair do ceticismo e do isolamento. Aceitar ajuda e aquilo que não se explica.",
     8:"Poder e dinheiro: equilibrar ambição, autoridade e valores. Não medir o próprio valor pelas conquistas."
   };
+  var POS = {
+    1:{expr:'Você realiza abrindo caminhos. Seu talento é iniciar, liderar e decidir quando ninguém se move, e sua missão passa por ser referência de coragem e autonomia.',
+       alma:'No fundo, você quer independência e ser dono da própria direção. Sente-se vivo quando pode criar, decidir e provar do que é capaz.',
+       pers:'As pessoas veem alguém seguro, direto e com presença. Você passa a imagem de quem sabe o que quer, às vezes de forma mais dura do que sente.',
+       cami:'Sua lição de vida é aprender a ser protagonista: confiar na própria voz, assumir riscos e liderar sem atropelar. Cada fase pede mais autonomia.',
+       dia:'Você nasceu com iniciativa natural: tende a dar o primeiro passo e a resolver sozinho. Esse talento extra aparece nos momentos de decisão.',
+       mat:'Depois dos 35 a 40 anos, tende a ganhar mais independência e firmeza de liderança. A vida pede que você assuma o comando do próprio rumo.'},
+    2:{expr:'Você realiza pela cooperação. Seu talento é perceber o outro, mediar conflitos e fazer parcerias funcionarem, e sua missão passa por unir e harmonizar.',
+       alma:'No fundo, você deseja paz, vínculo e ser compreendido. Sente-se bem quando há afeto, equilíbrio e alguém ao lado.',
+       pers:'As pessoas veem alguém gentil, receptivo e discreto. Você transmite acolhimento, mas pode parecer mais tímido ou indeciso do que é.',
+       cami:'Sua lição de vida é cooperar sem se anular: escutar, ter paciência e confiar nas parcerias. O equilíbrio entre dar e receber é o tema central.',
+       dia:'Você nasceu com sensibilidade para perceber climas e pessoas. Esse talento extra ajuda a mediar e a cuidar dos detalhes.',
+       mat:'Depois dos 35 a 40 anos, tende a valorizar parcerias, paz e relações profundas. Diplomacia e paciência passam a render mais do que pressa.'},
+    3:{expr:'Você realiza pela comunicação. Seu talento é a palavra, o humor e a criatividade, e sua missão passa por inspirar e dar cor ao que toca.',
+       alma:'No fundo, você quer se expressar, ser ouvido e viver com alegria. Sente-se vivo quando pode criar e compartilhar.',
+       pers:'As pessoas veem alguém simpático, expressivo e leve. Você chama atenção com facilidade, e esse brilho às vezes esconde seu lado mais sério.',
+       cami:'Sua lição de vida é expressar quem você é sem medo: comunicar, criar e confiar na própria alegria sem se dispersar.',
+       dia:'Você nasceu com graça para se comunicar e animar ambientes. Esse talento extra aparece na conversa e na criatividade.',
+       mat:'Depois dos 35 a 40 anos, tende a se expressar com mais liberdade e a transformar criatividade em obra. Comunicar-se bem abre portas.'},
+    4:{expr:'Você realiza construindo. Seu talento é organizar, planejar e sustentar projetos até o fim, e sua missão passa por criar bases sólidas.',
+       alma:'No fundo, você busca segurança, ordem e algo concreto em que confiar. Sente-se bem quando sabe o que vem pela frente.',
+       pers:'As pessoas veem alguém confiável, sério e responsável. Você passa estabilidade, às vezes com um ar mais reservado ou rígido.',
+       cami:'Sua lição de vida é construir com paciência: disciplina, método e constância, sem perder a leveza e a flexibilidade.',
+       dia:'Você nasceu com senso prático e capacidade de esforço. Esse talento extra ajuda a organizar e a terminar o que começa.',
+       mat:'Depois dos 35 a 40 anos, tende a colher o que construiu e a buscar estabilidade. Método e constância passam a dar frutos visíveis.'},
+    5:{expr:'Você realiza pela mudança. Seu talento é se adaptar, comunicar e experimentar, e sua missão passa por abrir horizontes e mostrar que há outros jeitos.',
+       alma:'No fundo, você quer liberdade, novidade e movimento. Sente-se sufocado por rotina rígida e vivo quando há aventura.',
+       pers:'As pessoas veem alguém magnético, versátil e cheio de vida. Você parece sempre em movimento, e isso pode soar como instabilidade.',
+       cami:'Sua lição de vida é usar a liberdade com consciência: viver mudanças sem fugir de compromissos.',
+       dia:'Você nasceu com curiosidade e facilidade para se adaptar. Esse talento extra ajuda a lidar com o novo.',
+       mat:'Depois dos 35 a 40 anos, tende a ganhar mais liberdade e variedade. A vida convida a se reinventar.'},
+    6:{expr:'Você realiza cuidando. Seu talento é criar harmonia, acolher e assumir responsabilidades, e sua missão passa por servir e embelezar a vida dos outros.',
+       alma:'No fundo, você deseja família, afeto e um lar em paz. Sente-se bem quando cuida de quem ama e é reconhecido por isso.',
+       pers:'As pessoas veem alguém acolhedor, responsável e confiável. Você inspira confiança, e muitos procuram você para pedir ajuda.',
+       cami:'Sua lição de vida é amar e cuidar sem controlar nem se sacrificar demais. O desafio é achar o limite entre ajudar e carregar.',
+       dia:'Você nasceu com senso de cuidado e de justiça. Esse talento extra ajuda a criar harmonia e a proteger quem importa.',
+       mat:'Depois dos 35 a 40 anos, tende a dar mais peso a família, comunidade e vínculos. A responsabilidade afetiva ganha centralidade.'},
+    7:{expr:'Você realiza pela análise e pela busca de sentido. Seu talento é estudar a fundo, enxergar o que está por trás e confiar na intuição, e sua missão passa pela sabedoria.',
+       alma:'No fundo, você quer silêncio, verdade e compreensão profunda. Sente-se bem quando tem tempo para pensar e estudar.',
+       pers:'As pessoas veem alguém reservado, observador e enigmático. Você passa ar de profundidade, às vezes de distância.',
+       cami:'Sua lição de vida é confiar na intuição e no mundo interior, sem se isolar nem se tornar cético demais.',
+       dia:'Você nasceu com mente analítica e intuição aguçada. Esse talento extra ajuda a investigar e a entender o que os outros não percebem.',
+       mat:'Depois dos 35 a 40 anos, tende a se voltar mais para estudo, espiritualidade e autoconhecimento. A sabedoria vira seu maior ativo.'},
+    8:{expr:'Você realiza por gestão e conquista. Seu talento é liderar projetos, lidar com dinheiro e transformar plano em resultado, e sua missão passa por construir autoridade.',
+       alma:'No fundo, você quer reconhecimento, segurança material e poder de realizar. Sente-se bem quando vê seu esforço virar resultado.',
+       pers:'As pessoas veem alguém forte, competente e determinado. Você passa autoridade, e às vezes parece inacessível ou muito exigente.',
+       cami:'Sua lição de vida é lidar com poder, dinheiro e ambição de forma equilibrada, usando a força para algo maior que o ganho próprio.',
+       dia:'Você nasceu com tino para negócios e senso de liderança. Esse talento extra ajuda a organizar recursos e metas.',
+       mat:'Depois dos 35 a 40 anos, tende a ganhar mais prestígio, autoridade e estabilidade financeira, se for consistente. A fase pede ética nas decisões.'},
+    9:{expr:'Você realiza servindo algo maior. Seu talento é a compaixão, a visão ampla e a capacidade de inspirar, e sua missão passa por contribuir para o coletivo.',
+       alma:'No fundo, você deseja um mundo mais justo e sente necessidade de ajudar. Sente-se bem quando sua vida tem propósito.',
+       pers:'As pessoas veem alguém generoso, magnético e de visão ampla. Você passa maturidade, e muitos o procuram para pedir conselhos.',
+       cami:'Sua lição de vida é desapegar: encerrar ciclos, perdoar e servir sem esperar retorno nem se esgotar.',
+       dia:'Você nasceu com sensibilidade humanitária e visão de conjunto. Esse talento extra ajuda a compreender pessoas diferentes.',
+       mat:'Depois dos 35 a 40 anos, tende a se dedicar mais a causas e legados. A vida pede desapego e generosidade.'},
+    11:{expr:'Você realiza pela inspiração. Seu talento é a intuição e a capacidade de tocar as pessoas, e sua missão passa por iluminar caminhos. Pede cuidado com o excesso de tensão.',
+       alma:'No fundo, você busca algo transcendente e sente as coisas com intensidade. Precisa de sentido espiritual e de momentos de silêncio.',
+       pers:'As pessoas veem alguém magnético, sensível e diferente. Você transmite um brilho que desperta curiosidade.',
+       cami:'Sua lição de vida é canalizar a sensibilidade elevada: confiar na intuição e dar forma concreta às ideias, sem se perder em ansiedade.',
+       dia:'Você nasceu com intuição forte e antenas sensíveis. Esse talento extra ajuda a perceber o que não é dito.',
+       mat:'Depois dos 35 a 40 anos, tende a assumir um papel de inspiração e orientação. A vida pede equilíbrio emocional.'},
+    22:{expr:'Você realiza grandes obras. Seu talento é unir visão e execução para construir algo que beneficie muita gente, e sua missão tem alcance coletivo.',
+       alma:'No fundo, você quer deixar uma obra duradoura. Sente a pressão de fazer algo grande e precisa de um propósito claro.',
+       pers:'As pessoas veem alguém sólido, capaz e com visão grande. Você passa potência, às vezes com uma cobrança alta.',
+       cami:'Sua lição de vida é transformar ideal em realidade com disciplina, sem se esmagar pela própria exigência.',
+       dia:'Você nasceu com visão prática e senso de grandeza. Esse talento extra ajuda a planejar projetos de longo alcance.',
+       mat:'Depois dos 35 a 40 anos, tende a ter condições de liderar obras de impacto. A fase pede foco e o apoio de uma boa equipe.'},
+    33:{expr:'Você realiza pelo amor em ação. Seu talento é ensinar, curar e acolher, e sua missão passa por servir com generosidade.',
+       alma:'No fundo, você quer cuidar e elevar quem está ao redor. Sente-se pleno quando serve, mas precisa cuidar de si também.',
+       pers:'As pessoas veem alguém acolhedor e quase protetor. Você inspira confiança de forma natural.',
+       cami:'Sua lição de vida é amar sem se sacrificar: cuidar dos outros mantendo limites e autocuidado.',
+       dia:'Você nasceu com vocação para acolher e orientar. Esse talento extra ajuda a cuidar de quem está ao redor.',
+       mat:'Depois dos 35 a 40 anos, tende a assumir um papel de guia e acolhimento. A vida pede equilíbrio entre doar e receber.'}
+  };
+  var FULL = {
+    1:{f:'Coragem, iniciativa, autoconfiança e capacidade de decidir sob pressão. Começa o que outros apenas imaginam.',
+       d:'Teimosia, impaciência e dificuldade de pedir ajuda. Pode parecer autoritário e acabar isolado no topo.',
+       a:'Gosta da conquista e de parceiros que respeitem sua independência. Precisa aprender a ceder e a mostrar vulnerabilidade.',
+       c:'Brilha como fundador, líder, empreendedor, autônomo ou em cargos de decisão. Funciona mal sob microgestão.',
+       s:'Seu equilíbrio vem de ter autonomia e metas próprias. Sob estresse, tende a endurecer ou a assumir tudo sozinho; vale dividir e descansar.',
+       p:'Escolha uma decisão que vem adiando e dê o primeiro passo esta semana. Depois, pergunte a alguém de confiança o que ele enxerga que você não vê.'},
+    2:{f:'Empatia, paciência, diplomacia e atenção aos detalhes. Cria confiança e faz equipes funcionarem.',
+       d:'Indecisão, hipersensibilidade e tendência a se anular para evitar conflito. Pode guardar mágoas em silêncio.',
+       a:'Entrega-se, valoriza carinho e parceria estável. Precisa dizer o que sente em vez de esperar que o outro adivinhe.',
+       c:'Combina com mediação, atendimento, saúde, educação, design, assessoria e trabalhos em dupla ou em equipe. Combina menos com ambientes agressivos e competitivos.',
+       s:'O equilíbrio vem de relações seguras e rotina calma. Quando se sobrecarrega com as emoções alheias, precisa de pausas e limites.',
+       p:'Pratique dizer um “não” gentil esta semana. Anote o que você precisa, e não só o que os outros precisam.'},
+    3:{f:'Criatividade, carisma, humor e facilidade de comunicação. Anima as pessoas e traz ideias novas.',
+       d:'Dispersão, superficialidade e oscilações de humor. Pode evitar assuntos difíceis com piadas ou deixar projetos pela metade.',
+       a:'Gosta de leveza, flerte e diversão. Precisa de parceiros que acompanhem sua energia e de aprender a ter conversas profundas.',
+       c:'Brilha em comunicação, marketing, ensino, artes, vendas, mídia e entretenimento. Precisa de variedade e liberdade criativa.',
+       s:'O equilíbrio depende de se expressar: falar, escrever, criar. Quando guarda tudo, murcha; reserve espaço para criar toda semana.',
+       p:'Escolha um projeto criativo e termine antes de começar outro. Escreva ou grave o que sente, em vez de só contar histórias leves.'},
+    4:{f:'Disciplina, confiabilidade, organização e perseverança. Transforma plano em resultado concreto.',
+       d:'Rigidez, resistência a mudar e tendência a trabalhar demais. Pode ser visto como controlador ou pessimista.',
+       a:'Leal e constante, mostra afeto mais em atos do que em palavras. Precisa abrir espaço para espontaneidade e carinho verbal.',
+       c:'Combina com engenharia, finanças, administração, construção, logística, direito e gestão de processos.',
+       s:'O equilíbrio vem de uma rotina previsível e da sensação de controle. Sob estresse, tende a se cobrar em excesso; vale agendar o descanso como compromisso.',
+       p:'Escolha um hábito de lazer e proteja-o na agenda como uma reunião importante. Permita-se ter um plano B flexível.'},
+    5:{f:'Adaptabilidade, curiosidade, magnetismo e coragem de mudar. Aprende rápido e se comunica bem.',
+       d:'Impulsividade, inquietude e dificuldade com rotina e compromissos longos. Pode exagerar nos prazeres.',
+       a:'Gosta de aventura e de parceiros que respeitem sua liberdade. Precisa construir confiança e não fugir quando a relação fica séria.',
+       c:'Combina com vendas, viagens, comunicação, tecnologia, consultoria e trabalhos variados. Sofre com rotina fechada.',
+       s:'O equilíbrio vem de movimento: exercício, viagens, experiências novas. Sem uma válvula de escape, tende à ansiedade e aos excessos.',
+       p:'Crie uma rotina mínima com espaço para novidade, como um dia livre por semana. Antes de mudar, pergunte-se se está indo em direção a algo ou fugindo de algo.'},
+    6:{f:'Responsabilidade, afeto, senso estético e justiça. Cria ambientes de acolhimento.',
+       d:'Controle, perfeccionismo e tendência a assumir os problemas dos outros. Pode cobrar gratidão sem perceber.',
+       a:'Dedicado e protetor, quer família e lar. Precisa evitar sufocar e aceitar ser cuidado também.',
+       c:'Combina com saúde, educação, psicologia, gastronomia, decoração, atendimento e trabalho comunitário.',
+       s:'O equilíbrio vem de ser reconhecido e de ter tempo para si. A sobrecarga de cuidados leva à exaustão silenciosa.',
+       p:'Reserve um período semanal só seu, sem culpa. Delegue uma responsabilidade que não é só sua.'},
+    7:{f:'Inteligência analítica, intuição, foco e profundidade. Estuda até dominar o assunto.',
+       d:'Isolamento, ceticismo e dificuldade de se abrir. Pode parecer frio ou crítico demais.',
+       a:'Precisa de parceiros que respeitem seu silêncio e conversem com profundidade. O desafio é compartilhar o que sente.',
+       c:'Combina com pesquisa, ciência, tecnologia, análise, escrita, terapia, filosofia e especialização técnica.',
+       s:'O equilíbrio vem da solitude escolhida, da natureza e do estudo. Se o isolamento vira distância dos outros, procure vínculos de confiança.',
+       p:'Reserve silêncio diário, mas combine um contato humano fixo por semana. Divida uma descoberta sua com alguém.'},
+    8:{f:'Visão estratégica, resiliência, liderança e tino financeiro. Transforma esforço em resultado.',
+       d:'Workaholismo, controle e medo de falhar. Pode medir o próprio valor por dinheiro e status.',
+       a:'Protetor e provedor, mostra amor por meio de conquistas. Precisa oferecer tempo e escuta, e não só recursos.',
+       c:'Combina com gestão, finanças, negócios, direito, política e cargos de comando. Precisa de metas claras.',
+       s:'O equilíbrio vem de limites entre trabalho e vida pessoal. Sob estresse, tende a endurecer e a negligenciar o descanso.',
+       p:'Defina um limite de horário de trabalho e cumpra por 30 dias. Use parte do que ganha em algo que não seja investimento.'},
+    9:{f:'Compaixão, generosidade, ideal e visão ampla. Inspira pelo exemplo.',
+       d:'Dificuldade de soltar o passado, tendência a se esgotar por causas alheias e idealismo que frustra.',
+       a:'Ama de forma ampla e idealista. Pode se apaixonar pelo potencial do outro; precisa de parceria real.',
+       c:'Combina com causas sociais, saúde, educação, artes, ONGs, diplomacia, terapia e trabalhos de impacto.',
+       s:'O equilíbrio vem de encerrar ciclos e perdoar. Carregar mágoas ou os problemas do mundo pesa; descansar também é uma forma de servir.',
+       p:'Escolha um ciclo para encerrar: uma conversa, um objeto, um hábito. Ajude de forma sustentável, com limites.'},
+    11:{f:'Intuição, inspiração, sensibilidade e magnetismo. Percebe o que está por trás das palavras.',
+       d:'Ansiedade, nervosismo e oscilação entre euforia e insegurança. Pode se sentir deslocado.',
+       a:'Busca conexão profunda e espiritual. Precisa de parceiros calmos e de aprender a nomear as emoções.',
+       c:'Combina com artes, ensino, terapia, espiritualidade, comunicação e inovação. Precisa de propósito.',
+       s:'O equilíbrio vem de silêncio, sono regular e ancoragem prática. A sensibilidade alta pede pausas e rotina simples; se a ansiedade pesar, procure apoio profissional.',
+       p:'Dê forma concreta a uma intuição: escreva, esboce ou planeje. Crie um ritual diário curto de silêncio.'},
+    22:{f:'Visão grande, disciplina e capacidade de materializar. Une ideal e prática.',
+       d:'Cobrança alta, medo de não corresponder ao potencial e risco de sobrecarga. Às vezes age como um 4 pequeno.',
+       a:'Leal, quer construir algo duradouro a dois. Precisa evitar tratar a relação como um projeto.',
+       c:'Combina com grandes projetos, arquitetura, engenharia, empreendimentos, instituições e liderança de impacto.',
+       s:'O equilíbrio vem de dividir o peso com uma equipe e de celebrar as etapas. A pressão interna pede descanso e metas realistas.',
+       p:'Divida a grande visão em etapas de 90 dias. Escolha uma pessoa para apoiar a execução.'},
+    33:{f:'Amor incondicional e dom de ensinar e curar. Eleva ambientes e pessoas.',
+       d:'Autossacrifício, culpa e dificuldade de dizer não. Carrega as dores alheias.',
+       a:'Entrega profunda e cuidado. Precisa de reciprocidade e de limites.',
+       c:'Combina com ensino, cura, terapia, cuidado, trabalho comunitário e orientação.',
+       s:'O equilíbrio vem de autocuidado e de limites claros. Doar sem se repor leva ao esgotamento.',
+       p:'Pratique receber: aceite ajuda e descanse sem culpa. Estabeleça um limite claro de disponibilidade.'}
+  };
+  var MNOTE = {
+    11:'Como número-mestre, o 11 também pode vibrar como 2 no dia a dia. Leia a interpretação do 2 para o lado mais cotidiano.',
+    22:'Como número-mestre, o 22 também pode vibrar como 4 no dia a dia. Leia a interpretação do 4 para o lado mais cotidiano.',
+    33:'Como número-mestre, o 33 também pode vibrar como 6 no dia a dia. Leia a interpretação do 6 para o lado mais cotidiano.'
+  };
   var GRP = {1:0,5:0,7:0,2:1,4:1,8:1,3:2,6:2,9:2};
   var TENSION = ["1-8","1-4","2-5","3-4","4-5","5-6","3-7","8-9","6-7"];
   var SCORE = {A:3,C:2,D:1};
@@ -542,10 +730,10 @@
         var c1=Math.abs(pm-pd), c2=Math.abs(pd-py), c3=Math.abs(c1-c2), c4=Math.abs(pm-py);
         var e1=36-lp;
         res.chal={base:{d:pd,m:pm,y:py},list:[
-          {n:c1,name:"1º desafio",age:"do nascimento aos "+e1+" anos"},
-          {n:c2,name:"2º desafio",age:"dos "+e1+" aos "+(e1+9)+" anos"},
-          {n:c3,name:"Desafio principal",age:"dos "+(e1+9)+" aos "+(e1+18)+" anos"},
-          {n:c4,name:"4º desafio",age:"a partir dos "+(e1+18)+" anos"}
+          {n:c1,end:e1,name:"1º desafio",age:"do nascimento aos "+e1+" anos"},
+          {n:c2,end:e1+9,name:"2º desafio",age:"dos "+e1+" aos "+(e1+9)+" anos"},
+          {n:c3,end:e1+18,name:"Desafio principal",age:"dos "+(e1+9)+" aos "+(e1+18)+" anos"},
+          {n:c4,end:999,name:"4º desafio",age:"a partir dos "+(e1+18)+" anos"}
         ]};
       }
     }
@@ -600,7 +788,7 @@
     $("heroNum").innerHTML =
       '<div class="hn"><div class="orb big o-gold"><b>'+e.value+'</b></div>'+
       '<div><h3>Expressão (Destino)</h3><p class="ttl">'+me.t+'</p><p class="kw">'+me.k+'</p></div></div>'+
-      '<p class="intro">'+INTRO.expr+'</p><p>'+me.x+'</p><p class="calc">'+ecalc+'</p>'+eflag;
+      '<p class="intro">'+INTRO.expr+'</p><p>'+posText(e.value,'expr')+'</p>'+fullHTML(e.value,true)+'<p class="calc">'+ecalc+'</p>'+eflag;
 
     var defs = [
       ["alma","Alma (Motivação)"],
@@ -619,7 +807,7 @@
       if(o.karmic) karmicList.push({label:d[1], n:o.karmic});
       det.innerHTML =
         '<summary><span class="orb '+ORB[d[0]]+'"><b>'+o.value+'</b></span><span class="lbl"><b>'+d[1]+'</b><span class="ttl">'+m.t+'</span></span></summary>'+
-        '<div class="body"><p class="intro">'+INTRO[d[0]]+'</p><p class="kw">'+m.k+'</p><p>'+m.x+'</p><p class="calc">'+calc+'</p>'+flag+'</div>';
+        '<div class="body"><p class="intro">'+INTRO[d[0]]+'</p><p class="kw">'+m.k+'</p><p>'+posText(o.value,d[0])+'</p>'+fullHTML(o.value,false)+'<p class="calc">'+calc+'</p>'+flag+'</div>';
       rows.appendChild(det);
     });
 
@@ -673,6 +861,109 @@
 
     $("out").hidden=false;
     $("status").textContent="";
+  }
+
+  var lastReport = '';
+  function lc(s){return s.charAt(0).toLowerCase()+s.slice(1)}
+  function kw2(n){return M[n].k.split(' · ').slice(0,2).join(' e ')}
+  function tname(n){return M[n].t.replace(' · número-mestre','')}
+  function posText(n,key){return (POS[n]&&POS[n][key])||M[n].x}
+  function fullHTML(n,open){
+    var f=FULL[n]; if(!f) return '';
+    var note=MNOTE[n]?'<p class="note">'+MNOTE[n]+'</p>':'';
+    return '<details class="more"'+(open?' open':'')+'><summary>Leitura completa do '+n+'</summary><dl>'+
+      '<dt>Pontos fortes</dt><dd>'+f.f+'</dd>'+
+      '<dt>Desafios</dt><dd>'+f.d+'</dd>'+
+      '<dt>No amor</dt><dd>'+f.a+'</dd>'+
+      '<dt>Na carreira</dt><dd>'+f.c+'</dd>'+
+      '<dt>Equilíbrio emocional</dt><dd>'+f.s+'</dd>'+
+      '<dt>Conselho prático</dt><dd>'+f.p+'</dd></dl>'+note+'</details>';
+  }
+
+  function buildReport(r,name){
+    var nm=firstRaw(name), S=[];
+    var e=r.expr.value, a=r.alma?r.alma.value:null, p=r.pers?r.pers.value:null;
+    var c=r.cami?r.cami.value:null, mt=r.mat?r.mat.value:null, dy=r.dia?r.dia.value:null;
+    var base=a||e;
+
+    S.push({h:'Visão geral',ps:[nm+', seu nome vibra no número '+e+' ('+tname(e)+'). Isso indica que você tende a realizar por meio de '+kw2(e)+'. A seguir, veja como os seus números conversam entre si.']});
+
+    if(a&&p){
+      var T1={A:'Há afinidade entre o que você sente e o que mostra: as pessoas tendem a perceber quem você realmente é.',C:'O que você sente e o que mostra são diferentes, mas se completam: sua imagem funciona como uma ponte para o que você carrega por dentro.',D:'Existe contraste entre o que você sente e o que mostra, e as pessoas podem não perceber seus desejos reais. Quando você se mostra por inteiro, as relações ficam mais fáceis.'};
+      S.push({h:'Por dentro e por fora',ps:['Por dentro, sua Alma '+a+' deseja '+kw2(a)+'. Por fora, sua Personalidade '+p+' se mostra por meio de '+kw2(p)+'. '+T1[level(a,p)]+(a===p?' Alma e Personalidade têm o mesmo número, o que reforça essa coerência.':'')]});
+    }
+
+    var T2={A:'Isso conversa bem com o que sua Alma deseja: fazer o que ama tende a ser natural.',C:'Isso complementa o que sua Alma deseja: seus talentos abrem caminho para desejos diferentes, e vale conectar os dois.',D:'Isso difere do que sua Alma deseja, e você pode sentir que o que sabe fazer não é exatamente o que quer. Buscar atividades que unam os dois alivia essa tensão.'};
+    S.push({h:'O que você veio realizar',ps:['Sua Expressão '+e+' aponta para '+kw2(e)+'. '+(a?T2[level(e,a)]:''),'Na vida profissional, '+lc(FULL[e].c)]});
+
+    if(c){
+      var T3={A:'Seu caminho e seus talentos andam na mesma direção, o que tende a deixar a jornada mais fluida.',C:'Seu caminho e seus talentos são diferentes, e a vida pede que você desenvolva habilidades novas ao longo do tempo.',D:'Há contraste entre seu caminho e seus talentos naturais. Isso costuma exigir esforço extra, mas também gera muito crescimento.'};
+      S.push({h:'Seu caminho de vida',ps:[
+        'Seu Caminho de Vida é '+c+' ('+tname(c)+'). '+posText(c,'cami'),
+        T3[level(c,e)],
+        'Seu número de Maturidade é '+mt+'. '+posText(mt,'mat'),
+        'Seu dia de nascimento (número '+dy+'): '+posText(dy,'dia')
+      ]});
+    } else {
+      S.push({h:'Seu caminho de vida',ps:['Informe a data de nascimento para incluir Caminho de Vida, Maturidade e Desafios neste relatório.']});
+    }
+
+    S.push({h:'Amor e relações',ps:['No amor, a vibração do '+base+' ('+tname(base)+') aparece assim. '+FULL[base].a]});
+    S.push({h:'Equilíbrio emocional',ps:['Para o seu equilíbrio emocional, a vibração do '+base+' mostra que '+lc(FULL[base].s),'Esta é uma reflexão simbólica, e não uma orientação de saúde.']});
+
+    var miss=[], dom=[], mx=0, i;
+    for(i=1;i<=9;i++){ if(r.freq[i]===0) miss.push(i); if(r.freq[i]>mx) mx=r.freq[i]; }
+    if(mx>=3){ for(i=1;i<=9;i++){ if(r.freq[i]===mx) dom.push(i); } }
+    var ps5=[];
+    if(miss.length){
+      ps5.push((miss.length===1?'O número ':'Os números ')+miss.join(', ')+(miss.length===1?' não aparece':' não aparecem')+' no seu nome. Na tradição, são lições a desenvolver: '+miss.map(function(n){return 'o '+n+' pede para '+LESSON[n]}).join('; ')+'.');
+    }
+    if(dom.length&&dom.length<=2){
+      dom.forEach(function(n){ ps5.push('O número '+n+' aparece '+mx+' vezes e fica intensificado: seus traços ('+kw(n)+') ficam mais marcantes na sua personalidade.') });
+    }
+    [['Expressão',r.expr],['Alma',r.alma],['Personalidade',r.pers],['Caminho de Vida',r.cami],['Dia de nascimento',r.dia],['Maturidade',r.mat]].forEach(function(x){
+      if(x[1]&&x[1].karmic) ps5.push('Dívida cármica em '+x[0]+': '+KARMIC[x[1].karmic]);
+    });
+    if(ps5.length) S.push({h:'Lições, intensidades e dívidas',ps:ps5});
+
+    if(r.years){
+      S.push({h:'Seu ano pessoal',ps:[
+        'Em '+r.years[0].year+', você vive o Ano Pessoal '+r.years[0].n+'. '+YEAR[r.years[0].n],
+        'Em '+r.years[1].year+', entra no Ano Pessoal '+r.years[1].n+'. '+YEAR[r.years[1].n]
+      ]});
+    }
+
+    if(r.chal){
+      var now=new Date(), dd=r.date, L=r.chal.list;
+      var age=now.getFullYear()-dd.y-(((now.getMonth()+1)<dd.m||((now.getMonth()+1)===dd.m&&now.getDate()<dd.d))?1:0);
+      var cur=L[3];
+      for(i=0;i<4;i++){ if(age<L[i].end){cur=L[i];break} }
+      S.push({h:'Seus desafios',ps:[
+        'Seu desafio principal é o '+L[2].n+'. '+CHAL[L[2].n],
+        'Pela idade, você tende a estar vivendo o '+lc(cur.name)+' (número '+cur.n+', '+cur.age+'). '+CHAL[cur.n]
+      ]});
+    }
+
+    var li=['Expressão ('+e+'): '+FULL[e].p];
+    if(c) li.push('Caminho de Vida ('+c+'): '+FULL[c].p); else if(a) li.push('Alma ('+a+'): '+FULL[a].p);
+    if(miss.length) li.push('Número ausente '+miss[0]+': pratique '+LESSON[miss[0]]+'.'); else if(p) li.push('Personalidade ('+p+'): '+FULL[p].p);
+    S.push({h:'Passos práticos',li:li});
+
+    S.push({h:'Para terminar',ps:['Este relatório é uma leitura simbólica da numerologia pitagórica, feita para inspirar reflexão. Use-o como um espelho, e não como uma sentença.']});
+    return S;
+  }
+
+  function renderReport(r,name){
+    var S=buildReport(r,name), html='', txt=['Relatório de '+name,''];
+    S.forEach(function(s){
+      html+='<h3>'+esc(s.h)+'</h3>'; txt.push(s.h.toUpperCase());
+      (s.ps||[]).forEach(function(p){ html+='<p>'+esc(p)+'</p>'; txt.push(p) });
+      if(s.li){ html+='<ul>'+s.li.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>'; s.li.forEach(function(x){ txt.push('- '+x) }) }
+      txt.push('');
+    });
+    $('report').innerHTML=html;
+    lastReport=txt.join('\n');
+    $('statusR').textContent='';
   }
 
   function summary(r, name){
@@ -820,7 +1111,7 @@
     ritual(["Lendo cada letra do nome…","Somando as vibrações…","Abrindo o seu mapa…"],function(){
       var r=analyze(name,date,y);
       last={r:r,name:name};
-      render(r);
+      render(r); renderReport(r,name);
       pushHist({name:name,date:date,y:y,mode:"s"});
       scrollTo_("out");
     });
@@ -929,6 +1220,11 @@
     sb.setAttribute("aria-pressed",r?"true":"false");
     sb.setAttribute("aria-label",r?"Desligar som ambiente":"Ligar som ambiente");
     sbt.textContent=r?"Som ligado":"Som desligado";
+  });
+
+  $('copiarR').addEventListener('click',function(){ if(lastReport) copyTo(lastReport,$('statusR')) });
+  $('imprimir').addEventListener('click',function(){
+    try{ window.print() }catch(e){ $('statusR').textContent='Não foi possível imprimir aqui. Use Copiar relatório e cole num documento.' }
   });
 
   drawHist();
