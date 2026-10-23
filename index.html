@@ -218,6 +218,21 @@
   #out[hidden],#outC[hidden]{display:none}
 
   /* Leitura completa e relatório */
+  .seg2{margin-top:0}
+  .sysf{display:grid;gap:8px}
+  .sysf small{color:var(--muted);font-weight:400;line-height:1.45}
+  #cabOpts{display:grid;gap:8px;margin-top:2px}
+  #cabOpts[hidden]{display:none}
+  .tri{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;white-space:pre;background:var(--glass);border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0 0}
+  .tri mark{background:var(--amber-bg);color:var(--amber);border-radius:3px;padding:0 1px}
+  .o-amber{--o:#F6B26B;--od:#3D2208}
+  dl.bl{margin:0;display:grid;gap:12px}
+  dl.bl dt{font-family:var(--serif);font-weight:700;font-size:1.15rem;color:var(--gold);line-height:1.1}
+  dl.bl dd{margin:2px 0 0}
+  dl.bl ul{margin:2px 0 0;padding-left:20px}
+  dl.bl li{margin-bottom:6px}
+  .bsum{margin:12px 0}
+  .bsum p{margin:0 0 6px}
   details.more{margin:10px 0 4px}
   details.more summary{cursor:pointer;color:var(--gold);font-weight:600;padding:6px 0}
   details.more dl{margin:6px 0 0;display:grid;gap:12px}
@@ -274,8 +289,21 @@
   </div>
 
   <form id="f" class="panel" autocomplete="off" novalidate>
+    <div class="sysf" role="group" aria-labelledby="sysL">
+      <span id="sysL" style="font-weight:600;font-size:.95rem">Sistema de cálculo</span>
+      <div class="seg seg2">
+        <button type="button" id="sP" aria-pressed="true">Pitagórico</button>
+        <button type="button" id="sC" aria-pressed="false">Cabalístico</button>
+      </div>
+      <small id="sysHint">Tabela de 1 a 9. Acentos aparecem no nome, mas não mudam o valor das letras.</small>
+      <div id="cabOpts" hidden>
+        <label class="check"><input id="acc" type="checkbox" checked> Valorizar os acentos no cálculo (tradicional)</label>
+        <label class="check"><input id="x6" type="checkbox"> Letra X vale 6 (algumas escolas; o padrão é 5)</label>
+      </div>
+    </div>
     <label class="field" for="nome"><span id="l1">Nome completo</span>
-      <input id="nome" type="text" inputmode="text" autocapitalize="words" placeholder="Ex.: Maria Clara Souza Lima" maxlength="120">
+      <input id="nome" type="text" inputmode="text" autocapitalize="words" placeholder="Ex.: André Luiz Conceição" maxlength="120">
+      <small>Pode digitar com acentos e cedilha, como André ou Conceição.</small>
     </label>
     <label class="field" for="data">Data de nascimento <small>(opcional: libera Caminho de Vida, Ano Pessoal e Desafios)</small>
       <input id="data" type="date">
@@ -300,7 +328,7 @@
 
   <section id="out" hidden aria-live="polite">
     <h2 class="sec">Seu nome em letras</h2>
-    <p class="legend"><span><i class="v"></i>Vogais (Alma)</span><span><i class="c"></i>Consoantes (Personalidade)</span></p>
+    <p class="legend"><span><i class="v"></i><span id="lgV">Vogais (Alma)</span></span><span><i class="c"></i><span id="lgC">Consoantes (Personalidade)</span></span></p>
     <div class="words" id="words"></div>
 
     <article class="hero-num" id="heroNum"></article>
@@ -319,10 +347,38 @@
     <div class="freq" id="freq"></div>
     <div id="lessons"></div>
 
+    <div id="blockWrap">
+      <h2 class="sec">Bloqueios do nome</h2>
+      <p class="note">Bloqueios são os números que faltam ou aparecem em excesso no nome, além das dívidas cármicas. Cada escola de numerologia define de um jeito; aqui usamos a leitura pitagórica tradicional.</p>
+      <div id="blockSum" class="bsum"></div>
+      <div class="rows" id="blockRows"></div>
+      <p class="note" style="margin-top:10px">Toque em cada bloqueio para ver a indicação, o direcionamento, o que a vida quer ensinar e as soluções. É uma leitura simbólica para reflexão. Se o desconforto emocional for intenso ou constante, procure apoio profissional.</p>
+    </div>
+
     <div id="yearWrap" hidden>
       <h2 class="sec">Ano pessoal</h2>
       <div class="yearbox" id="years"></div>
-      <p class="note" style="margin-top:10px">Muitas escolas contam o ano pessoal a partir do aniversário, não de 1º de janeiro.</p>
+      <p class="note" id="yNote" style="margin-top:10px">Muitas escolas contam o ano pessoal a partir do aniversário, não de 1º de janeiro.</p>
+    </div>
+
+    <div id="cabWrap" hidden>
+      <h2 class="sec">Ciclos de vida</h2>
+      <p class="note">Três grandes fases regidas pelo mês, pelo dia e pelo ano de nascimento. O 1º ciclo vai até 37 menos o seu Destino; o 2º dura 27 anos; o 3º segue até o fim da vida.</p>
+      <div class="rows" id="cicRows"></div>
+      <h2 class="sec">Desafios</h2>
+      <p class="note">Obstáculos de cada ciclo, pela diferença entre mês, dia e ano.</p>
+      <div class="rows" id="desRows"></div>
+      <h2 class="sec">Momentos decisivos</h2>
+      <p class="note">Quatro períodos que trazem oportunidades, sobretudo no lado profissional.</p>
+      <div class="rows" id="mdRows"></div>
+    </div>
+
+    <div id="triWrap" hidden>
+      <h2 class="sec">Triângulo da vida</h2>
+      <p class="note">Cada letra vira um número. Somando os vizinhos e reduzindo a um dígito, forma-se o triângulo invertido. Três ou mais números iguais lado a lado são lidas como sequência negativa na tradição cabalística. Os Arcanos do Tarô egípcio, que também se leem nesse triângulo, não estão incluídos.</p>
+      <div id="triSum"></div>
+      <details class="more"><summary>Ver o triângulo</summary><pre class="tri" id="triBox"></pre></details>
+      <p class="note">Leitura simbólica para reflexão, sem previsão de saúde ou de acontecimentos.</p>
     </div>
 
     <div id="pyrWrap" hidden>
@@ -364,17 +420,19 @@
       <button class="btn ghost" type="button" id="novaC">Nova consulta</button>
     </div>
     <div class="status" id="statusC" role="status"></div>
+    <p class="note" id="cSys"></p>
     <p class="note">Os números-mestres 11, 22 e 33 são comparados como 2, 4 e 6. A compatibilidade numerológica é uma leitura simbólica: não prevê nem decide a qualidade de uma relação.</p>
   </section>
 
   <details class="how" style="margin-top:38px">
     <summary>Como o cálculo funciona</summary>
-    <p class="note">Cada letra vale um número de 1 a 9. Acentos e cedilha são ignorados. As somas são reduzidas até um dígito, mantendo os números-mestres 11, 22 e 33.</p>
+    <p class="note">Cada letra vale um número de 1 a 9. Acentos e cedilha são aceitos e aparecem no nome, mas não mudam o valor da letra (É vale o mesmo que E). As somas são reduzidas até um dígito, mantendo os números-mestres 11, 22 e 33.</p>
     <div class="table" aria-label="Tabela pitagórica">
       <div><b>1</b><span>A J S</span></div><div><b>2</b><span>B K T</span></div><div><b>3</b><span>C L U</span></div>
       <div><b>4</b><span>D M V</span></div><div><b>5</b><span>E N W</span></div><div><b>6</b><span>F O X</span></div>
       <div><b>7</b><span>G P Y</span></div><div><b>8</b><span>H Q Z</span></div><div><b>9</b><span>I R</span></div>
     </div>
+    <p class="note"><b>Sistema cabalístico (tabela caldeu-hebraica, de 1 a 8):</b> 1 = A I J Q Y; 2 = B K R; 3 = C G L S; 4 = D M T; 5 = E H N X; 6 = U V W; 7 = O Z; 8 = F P (o X vale 5 na tabela mais clássica; algumas fontes usam 6, e há uma opção para isso). Os acentos mudam o valor: til soma 3, acento agudo soma 2, circunflexo soma 7, o Ç vale 6, e trema e acento grave dobram o valor da letra. Só 11 e 22 são mantidos como números-mestres. O apóstrofo soma 2 à letra anterior. Essas regras aparecem em livros e cursos brasileiros de numerologia cabalística, mas algumas escolas variam. Motivação (vogais), Impressão (consoantes) e Expressão (todas as letras) vêm do nome, e a Impressão nunca é 11 ou 22. O Destino é a soma de todos os algarismos da data. A Missão é Expressão + Destino. O Dia natalício é o dia do nascimento, e o Número psíquico é esse dia reduzido a um dígito. Os ciclos de vida são regidos por mês, dia e ano; o 1º vai até 37 menos o Destino, o 2º dura 27 anos e o 3º segue até o fim. Desafios e momentos decisivos seguem esses períodos. O ano pessoal vai de um aniversário ao seguinte. No triângulo da vida, somam-se os vizinhos e reduz-se a um dígito. Não incluí Arcanos, Resposta Subconsciente, dias e cores favoráveis nem a harmonia conjugal cabalística, cujas regras não consegui confirmar. Neste modo, Alma vira Motivação, Personalidade vira Impressão e Caminho de Vida vira Destino.</p>
     <p class="note">Expressão: todas as letras. Alma: vogais. Personalidade: consoantes. Caminho de Vida: dia, mês e ano de nascimento. Maturidade: Caminho de Vida + Expressão. Desafios: diferenças entre dia, mês e ano reduzidos a um dígito. Compatibilidade: compara os mesmos números das duas pessoas, agrupados em 1-5-7, 2-4-8 e 3-6-9. Numerologia é uma tradição simbólica de autoconhecimento, não uma ciência.</p>
   </details>
 </main>
@@ -501,9 +559,11 @@
     pers:"Como os outros te percebem à primeira vista.",
     cami:"A lição central da sua vida, calculada pela data de nascimento.",
     dia:"Um talento extra que vem do dia em que você nasceu.",
-    mat:"Quem você tende a se tornar a partir dos 35 a 40 anos."
+    mat:"Quem você tende a se tornar a partir dos 35 a 40 anos.",
+    mis:"A vocação que você traz: o que veio fazer nesta existência (Expressão + Destino).",
+    psi:"Como você se vê por dentro e lida com as forças interiores (o dia de nascimento reduzido a um dígito)."
   };
-  var ORB = {expr:"o-gold",alma:"o-cyan",pers:"o-violet",cami:"o-rose",dia:"o-blue",mat:"o-green"};
+  var ORB = {expr:"o-gold",alma:"o-cyan",pers:"o-violet",cami:"o-rose",dia:"o-blue",mat:"o-green",mis:"o-green",psi:"o-blue"};
   var CHAL = {
     0:"Sem desafio fixo: você escolhe seu caminho com liberdade. O risco é a falta de direção ou a sensação de que tudo é possível. Pede autodisciplina para decidir.",
     1:"Afirmar-se: confiar na própria voz sem se impor aos outros nem depender de aprovação.",
@@ -663,6 +723,131 @@
        s:'O equilíbrio vem de autocuidado e de limites claros. Doar sem se repor leva ao esgotamento.',
        p:'Pratique receber: aceite ajuda e descanse sem culpa. Estabeleça um limite claro de disponibilidade.'}
   };
+  var SPECIAL = {'Æ':'AE','Œ':'OE','Ø':'O','Ł':'L','Đ':'D'};
+  function baseOf(c){
+    var u=c.toUpperCase();
+    if(SPECIAL[u]) return SPECIAL[u];
+    return u.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  }
+  var MAPC = {A:1,I:1,J:1,Q:1,Y:1,B:2,K:2,R:2,C:3,G:3,L:3,S:3,D:4,M:4,T:4,E:5,H:5,N:5,X:5,U:6,V:6,W:6,O:7,Z:7,F:8,P:8};
+  var MK = {acute:String.fromCharCode(0x301),grave:String.fromCharCode(0x300),circ:String.fromCharCode(0x302),tilde:String.fromCharCode(0x303),diae:String.fromCharCode(0x308),cedi:String.fromCharCode(0x327)};
+  function cabValue(c,acc){
+    var d=c.toUpperCase().normalize('NFD'), b=d.charAt(0), m=d.slice(1), v=MAPC[b];
+    if(v===undefined) return 0;
+    if(acc===false) return v;
+    if(b==='C' && m.indexOf(MK.cedi)>=0) return 6;
+    if(m.indexOf(MK.acute)>=0) v+=2;
+    if(m.indexOf(MK.tilde)>=0) v+=3;
+    if(m.indexOf(MK.circ)>=0) v+=7;
+    if(m.indexOf(MK.grave)>=0 || m.indexOf(MK.diae)>=0) v*=2;
+    return v;
+  }
+  function cabx(s){
+    if(SYS!=='c') return s;
+    return s.replace(/Caminho de Vida/g,'Destino').replace(/\bPersonalidade\b/g,'Impressão').replace(/\bAlma\b/g,'Motivação');
+  }
+  var SEQT = {
+    1:'Limitação e perda de coragem para começar o novo; risco de longos períodos de inatividade.',
+    2:'Timidez e indecisão; tendência a ser subjugado por quem está por perto e a perder autoestima.',
+    3:'Sensação de ser incompreendido; dificuldade de diálogo, de se impor e de convencer.',
+    4:'Dificuldade de realização profissional, de remuneração e de permanência nos trabalhos.',
+    5:'Mudanças indesejadas de casa, profissão ou meio social; altos e baixos frequentes.',
+    6:'Decepções com amigos, sócios, parentes e parceiros que não compreendem seus propósitos.',
+    7:'Afastamento de tudo e de todos; risco de vaidade, intolerância e solidão.',
+    8:'Tendência a se tornar arredio, a oscilar entre abundância e escassez e a se descontrolar emocionalmente.',
+    9:'Dificuldades financeiras, perdas e fracassos em negócios, com períodos de estagnação.'
+  };
+  function buildTriangle(words){
+    var row=[]; words.forEach(function(w){ w.letters.forEach(function(l){ row.push(plain(l.val)); }); });
+    var rows=[row];
+    while(row.length>1){ var nx=[]; for(var i=0;i<row.length-1;i++) nx.push(plain(row[i]+row[i+1])); rows.push(nx); row=nx; }
+    var seqs=[];
+    rows.forEach(function(r,ri){ var i=0; while(i<r.length){ var j=i; while(j+1<r.length&&r[j+1]===r[i]) j++; if(j-i+1>=3) seqs.push({n:r[i],len:j-i+1,row:ri,at:i}); i=j+1; } });
+    return {rows:rows,seqs:seqs};
+  }
+  function ageTxt(a,b){ return b>=900 ? 'a partir dos '+a+' anos' : (a===0 ? 'do nascimento aos '+b+' anos' : 'dos '+a+' aos '+b+' anos'); }
+  function buildCabDates(d,m,y,dest){
+    var now=new Date(), cy=now.getFullYear(), cm=now.getMonth()+1, cd=now.getDate();
+    var passed=(cm>m)||(cm===m&&cd>=d);
+    var py=passed?cy:cy-1;
+    var pad=function(n){return (n<10?'0':'')+n};
+    var ap=plain(ds(d)+ds(m)+ds(py)), mp=plain(ap+cm), dp=plain(mp+cd);
+    var age=cy-y-(passed?0:1);
+    var e1=37-dest;
+    var rm=red(m), rd=red(d), ry=red(y);
+    var cic=[{n:rm,a:0,b:e1},{n:rd,a:e1,b:e1+27},{n:ry,a:e1+27,b:999}];
+    var pm=plain(m), pd=plain(d), pyy=plain(y);
+    var x1=Math.abs(pm-pd), x2=Math.abs(pd-pyy), x3=Math.abs(x1-x2);
+    var des=[{n:x1,a:0,b:e1},{n:x2,a:e1,b:e1+27},{n:x3,a:e1+27,b:999}];
+    var m1=red(rm+rd), m2=red(rd+ry), m3=red(m1+m2), m4=red(rm+ry);
+    var md=[{n:m1,a:0,b:e1},{n:m2,a:e1,b:e1+9},{n:m3,a:e1+9,b:e1+18},{n:m4,a:e1+18,b:999}];
+    [cic,des,md].forEach(function(L){ L.forEach(function(x){ x.txt=ageTxt(x.a,x.b); x.now=(age>=x.a&&age<x.b); }); });
+    return {ap:{n:ap,from:pad(d)+'/'+pad(m)+'/'+py,to:pad(d)+'/'+pad(m)+'/'+(py+1)},mp:mp,dp:dp,age:age,e1:e1,cic:cic,des:des,md:md};
+  }
+  var BLOCK = {
+    1:{sig:'Dificuldade de tomar a frente, decidir por conta própria e acreditar no próprio valor. Pode haver dependência da aprovação alheia e medo de se expor.',
+       dir:'Aparece em decisões de carreira, em começar projetos e em dizer o que quer. Direcione a atenção para autonomia, autoconfiança e iniciativa.',
+       les:'A vida quer ensinar a confiar na própria voz e a assumir o protagonismo, em vez de esperar que alguém decida por você.',
+       sol:['Tome uma pequena decisão por dia sem consultar ninguém e vá aumentando o tamanho delas.','Comece um projeto pessoal e dê o primeiro passo em até 48 horas, mesmo sem estar perfeito.','Anote suas conquistas da semana para reforçar a confiança de que você consegue.']},
+    2:{sig:'Dificuldade com paciência, escuta e cooperação. Pode agir com pressa, atropelar detalhes e ter dificuldade em pedir ou aceitar ajuda.',
+       dir:'Aparece em parcerias, relações próximas e trabalho em equipe. Direcione a atenção para escuta, diplomacia e cuidado com o outro.',
+       les:'A vida quer ensinar que ninguém realiza tudo sozinho e que cooperar fortalece, em vez de enfraquecer.',
+       sol:['Em conversas importantes, espere o outro terminar de falar e repita com suas palavras o que entendeu.','Peça ajuda em uma tarefa por semana e agradeça de forma específica.','Reserve um momento por dia para observar detalhes: um gesto, um tom de voz, uma necessidade do outro.']},
+    3:{sig:'Dificuldade de se expressar, de falar o que sente e de mostrar criatividade. Pode haver timidez, autocrítica forte e medo de ser julgado.',
+       dir:'Aparece em conversas, apresentações e na vida social e criativa. Direcione a atenção para comunicação, alegria e expressão.',
+       les:'A vida quer ensinar que sua voz importa e que expressar o que sente alivia o peso e aproxima as pessoas.',
+       sol:['Escreva ou grave áudios dizendo o que sente, sem se editar, por 10 minutos por dia.','Escolha uma atividade criativa (desenho, música, escrita, dança) e pratique toda semana sem se cobrar resultado.','Fale em ambientes seguros, como um grupo pequeno, e aumente o público aos poucos.']},
+    4:{sig:'Dificuldade com rotina, organização e constância. Pode começar muito e abandonar no meio, ou viver com a sensação de desordem.',
+       dir:'Aparece em finanças, prazos, saúde e projetos de longo prazo. Direcione a atenção para estrutura, método e disciplina.',
+       les:'A vida quer ensinar que resultado duradouro vem de passos pequenos e repetidos, e que organização liberta em vez de aprisionar.',
+       sol:['Crie uma rotina mínima de três hábitos e mantenha por 21 dias antes de acrescentar outro.','Use uma agenda ou lista única para prazos e contas e revise toda semana.','Divida projetos grandes em etapas pequenas, com data para cada uma.']},
+    5:{sig:'Dificuldade com mudanças, flexibilidade e novidade. Pode haver apego à rotina, medo de arriscar e resistência a sair da zona de conforto.',
+       dir:'Aparece em transições de carreira, mudanças de cidade, relacionamentos e viagens. Direcione a atenção para liberdade, adaptação e curiosidade.',
+       les:'A vida quer ensinar que mudar faz parte do crescimento e que a segurança verdadeira vem da capacidade de se adaptar.',
+       sol:['Faça uma coisa nova por semana: um caminho diferente, um lugar novo, um curso curto.','Diante de uma mudança, liste três possíveis ganhos antes de listar os riscos.','Converse com alguém que viveu uma transição parecida e pergunte como foi.']},
+    6:{sig:'Dificuldade com responsabilidade afetiva, compromisso e cuidado. Pode haver distância da família, fuga de obrigações ou, ao contrário, sensação de peso demais nelas.',
+       dir:'Aparece na família, no lar e nos relacionamentos duradouros. Direcione a atenção para vínculos, cuidado e equilíbrio entre dar e receber.',
+       les:'A vida quer ensinar a cuidar com presença e a assumir responsabilidades sem se sufocar nem sufocar os outros.',
+       sol:['Reserve um momento fixo por semana para quem importa para você, sem celular.','Assuma uma responsabilidade doméstica ou familiar e cumpra com regularidade.','Cuide de si primeiro, com sono, alimentação e pausas, para poder cuidar bem dos outros.']},
+    7:{sig:'Dificuldade de ficar em silêncio, de confiar na intuição e de olhar para dentro. Pode haver agitação constante, decisões por impulso ou superficialidade.',
+       dir:'Aparece em estudos, espiritualidade e autoconhecimento. Direcione a atenção para reflexão, estudo e silêncio.',
+       les:'A vida quer ensinar que as respostas mais importantes aparecem na pausa e que confiar na intuição exige tempo de escuta interior.',
+       sol:['Reserve 10 minutos por dia de silêncio, sem tela, caminhando ou sentado.','Estude um tema que desperte sua curiosidade, um pouco por dia.','Antes de decisões importantes, durma sobre o assunto e anote o que sente na manhã seguinte.']},
+    8:{sig:'Dificuldade com dinheiro, metas e autoridade. Pode haver insegurança financeira, receio de cobrar o que vale ou medo de assumir poder e responsabilidade.',
+       dir:'Aparece em finanças, negociações e carreira. Direcione a atenção para organização financeira, valorização do próprio trabalho e liderança.',
+       les:'A vida quer ensinar a lidar com recursos e poder de forma saudável e a reconhecer o próprio valor.',
+       sol:['Registre receitas e gastos por 30 dias para ter clareza do cenário real.','Defina uma meta financeira simples, com valor e prazo, e acompanhe todo mês.','Pratique informar o preço do seu trabalho e negociar sem pedir desculpas.']},
+    9:{sig:'Dificuldade de desapegar, perdoar e olhar para o coletivo. Pode haver apego ao passado, foco excessivo em si ou dificuldade de encerrar ciclos.',
+       dir:'Aparece em términos, perdas e na relação com o que não depende de você. Direcione a atenção para generosidade, perdão e encerramento.',
+       les:'A vida quer ensinar a soltar o que já cumpriu seu papel e a contribuir com algo maior do que você.',
+       sol:['Escolha um ciclo inacabado e feche: uma conversa, um objeto, uma decisão.','Faça um ato de ajuda regular, como voluntariado ou doação, sem esperar retorno.','Escreva uma carta de perdão que você não precisa enviar.']}
+  };
+  var EXCESS = {
+    1:{sig:'Excesso de 1: tendência ao individualismo, à teimosia e a querer controlar. Pode ser difícil aceitar opiniões diferentes.',les:'A vida quer ensinar que liderar também é ouvir e dividir o crédito.',sol:['Peça a opinião de alguém antes de decidir algo importante.','Delegue uma tarefa e aceite que seja feita de outro jeito.']},
+    2:{sig:'Excesso de 2: sensibilidade exagerada, indecisão e tendência a se anular para agradar.',les:'A vida quer ensinar que dizer não e ter posição própria também é cuidar das relações.',sol:['Treine dizer o que pensa em situações pequenas.','Defina um prazo para decidir e cumpra.']},
+    3:{sig:'Excesso de 3: dispersão, conversa demais e dificuldade de aprofundar. Pode usar o humor para fugir de assuntos sérios.',les:'A vida quer ensinar que profundidade e foco dão mais alcance à sua criatividade.',sol:['Escolha um projeto por vez e termine antes de começar outro.','Pratique ouvir mais do que falar em uma conversa por dia.']},
+    4:{sig:'Excesso de 4: rigidez, excesso de trabalho e resistência a mudanças. Pode haver cobrança alta consigo e com os outros.',les:'A vida quer ensinar que descanso e flexibilidade também fazem parte da construção.',sol:['Agende pausas e lazer como compromissos.','Aceite um plano B e um imprevisto por semana sem se irritar.']},
+    5:{sig:'Excesso de 5: impulsividade, inquietude e dificuldade de manter compromissos. Pode haver excessos em prazeres.',les:'A vida quer ensinar que liberdade verdadeira inclui responsabilidade e constância.',sol:['Crie uma rotina mínima e mantenha por 21 dias.','Antes de decidir por impulso, espere 24 horas.']},
+    6:{sig:'Excesso de 6: controle, perfeccionismo e tendência a assumir os problemas dos outros. Pode cobrar gratidão sem perceber.',les:'A vida quer ensinar que cuidar não é controlar e que cada pessoa tem o próprio caminho.',sol:['Deixe alguém resolver um problema sem você intervir.','Reserve um tempo semanal só seu, sem culpa.']},
+    7:{sig:'Excesso de 7: isolamento, ceticismo e dificuldade de se abrir. Pode parecer distante.',les:'A vida quer ensinar que compartilhar o que você pensa e sente aproxima e enriquece sua sabedoria.',sol:['Combine um contato humano fixo por semana.','Divida uma descoberta ou um sentimento com uma pessoa de confiança.']},
+    8:{sig:'Excesso de 8: foco em dinheiro, status e poder, com risco de workaholismo e dureza.',les:'A vida quer ensinar que valor pessoal não se mede por conquistas e que poder serve ao coletivo.',sol:['Defina um horário para encerrar o trabalho e cumpra.','Destine parte do que ganha a algo que não seja investimento: lazer ou ajuda a alguém.']},
+    9:{sig:'Excesso de 9: idealismo, sacrifício por causas alheias e dificuldade de soltar o passado.',les:'A vida quer ensinar que ajudar exige limites e que descansar também é servir.',sol:['Escolha uma causa e dedique a ela um tempo limitado.','Encerre um ciclo do passado por mês.']}
+  };
+  var KSOL = {
+    13:{les:'A vida quer ensinar o valor do trabalho constante e paciente, sem atalhos.',sol:['Cumpra uma tarefa por dia até o fim, mesmo que pequena.','Evite pular etapas: faça o básico bem feito antes de buscar o resultado rápido.','Mantenha um registro semanal do que você construiu.']},
+    14:{les:'A vida quer ensinar moderação: usar a liberdade sem se perder em excessos.',sol:['Identifique um excesso (comida, gastos, telas, álcool, trabalho) e defina um limite claro.','Troque uma fuga por uma atividade que traga presença, como caminhada ou esporte.','Assuma compromissos de médio prazo e cumpra.']},
+    16:{les:'A vida quer ensinar humildade: quando o ego cai, algo mais verdadeiro se reconstrói.',sol:['Peça feedback honesto a alguém de confiança e escute sem se defender.','Pratique gratidão diária por três coisas simples.','Diante de uma queda, pergunte o que ela ensina antes de procurar culpados.']},
+    19:{les:'A vida quer ensinar a equilibrar independência e cooperação: pedir ajuda sem dominar nem se isolar.',sol:['Peça ajuda em algo pequeno por semana.','Divida decisões com quem será afetado por elas.','Valorize o trabalho dos outros em voz alta.']}
+  };
+  function blockRow(cls,num,label,sub,fields){
+    var dl='<dl class="bl">'+fields.map(function(f){
+      var v=Array.isArray(f[1])?'<ul>'+f[1].map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>':f[1];
+      return '<dt>'+f[0]+'</dt><dd>'+v+'</dd>';
+    }).join('')+'</dl>';
+    var det=el('details','row');
+    det.innerHTML='<summary><span class="orb '+cls+'"><b>'+num+'</b></span><span class="lbl"><b>'+label+'</b><span class="ttl">'+sub+'</span></span></summary><div class="body">'+dl+'</div>';
+    return det;
+  }
   var MNOTE = {
     11:'Como número-mestre, o 11 também pode vibrar como 2 no dia a dia. Leia a interpretação do 2 para o lado mais cotidiano.',
     22:'Como número-mestre, o 22 também pode vibrar como 4 no dia a dia. Leia a interpretação do 4 para o lado mais cotidiano.',
@@ -678,7 +863,7 @@
     pers:{A:"Causam boa impressão um no outro logo de início, e o convívio flui.",C:"A primeira impressão é de curiosidade: cada um enxerga no outro o que não tem.",D:"O jeito de se apresentar de um pode soar estranho ao outro no começo. Costuma passar com convivência."},
     cami:{A:"Caminhos de vida na mesma direção. Aprendem lições parecidas e podem caminhar juntos.",C:"Caminhos diferentes que se somam: um aprende com o outro.",D:"Lições de vida distintas. A relação pede paciência para respeitar o rumo do outro."}
   };
-  var mode = "s", lastC = null, busy = false;
+  var mode = "s", lastC = null, busy = false, SYS = 'p';
   function BASEN(n){return n===11?2:(n===22?4:(n===33?6:n))}
   function level(a,b){
     a=BASEN(a); b=BASEN(b);
@@ -691,38 +876,62 @@
   function kw(n){return M[n].k.split(" · ")[0]}
 
   function ds(n){return String(n).split("").reduce(function(a,d){return a+Number(d)},0)}
-  function chain(n){var c=[n];while(n>9&&MASTER.indexOf(n)<0){n=ds(n);c.push(n)}return c}
+  function chain(n,noM){var c=[n];var ms=noM?[]:((SYS==='c')?[11,22]:MASTER);while(n>9&&ms.indexOf(n)<0){n=ds(n);c.push(n)}return c}
   function red(n){var c=chain(n);return c[c.length-1]}
   function plain(n){while(n>9)n=ds(n);return n}
   function karmicOf(c){for(var i=0;i<c.length;i++){if(KARMIC[c[i]])return c[i]}return null}
-  function pack(n){var c=chain(n);return {sum:n,chain:c,value:c[c.length-1],karmic:karmicOf(c)}}
+  function pack(n,noM){var c=chain(n,noM);return {sum:n,chain:c,value:c[c.length-1],karmic:karmicOf(c)}}
 
   var $ = function(id){return document.getElementById(id)};
   var last = null;
 
   function analyze(name, dateStr, yVowel){
-    var clean = name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase();
-    var parts = clean.split(/\s+/).map(function(w){return w.replace(/[^A-Z]/g,"")}).filter(Boolean);
+    var cab=(SYS==='c');
+    var accOn=!($('acc')&&!$('acc').checked);
+    MAPC.X = ($('x6')&&$('x6').checked) ? 6 : 5;
+    var parts = name.normalize('NFC').split(cab?/[\s\-–—.]+/:/[\s\-–—'’.]+/).filter(Boolean);
     var words = [], all=0, vs=0, cs=0, freq=[0,0,0,0,0,0,0,0,0,0];
     parts.forEach(function(w){
       var letters=[], tot=0;
-      w.split("").forEach(function(ch){
-        var v = MAP[ch];
-        var isV = "AEIOU".indexOf(ch)>=0 || (yVowel && ch==="Y");
-        letters.push({ch:ch,val:v,vowel:isV});
-        tot+=v; all+=v; freq[v]++;
-        if(isV) vs+=v; else cs+=v;
+      var items=[];
+      Array.from(w).forEach(function(c0){
+        if(cab&&(c0==="'"||c0==='’')){ if(items.length&&accOn) items[items.length-1].x+=2; return; }
+        items.push({c:c0,x:0});
       });
-      words.push({text:w,letters:letters,total:tot});
+      items.forEach(function(it){
+        var c=it.c, disp=c.toUpperCase(), base=baseOf(c);
+        if(!/^[A-Z]+$/.test(base)) return;
+        for(var bi=0;bi<base.length;bi++){
+          var b=base.charAt(bi), v=cab?((base.length===1&&!SPECIAL[disp])?cabValue(c,accOn):MAPC[b]):MAP[b];
+          if(cab&&bi===base.length-1) v+=it.x;
+          var isV='AEIOU'.indexOf(b)>=0 || (yVowel && b==='Y');
+          letters.push({ch:(base.length===1?disp:b),val:v,vowel:isV});
+          tot+=v; all+=v; freq[plain(v)]++;
+          if(isV) vs+=v; else cs+=v;
+        }
+      });
+      if(letters.length) words.push({text:w,letters:letters,total:tot});
     });
-    var res = {words:words, freq:freq, expr:pack(all), alma:vs?pack(vs):null, pers:cs?pack(cs):null};
+    var res = {words:words, freq:freq, expr:pack(all), alma:vs?pack(vs):null, pers:cs?pack(cs,cab):null};
+    if(cab){
+      res.cab=true;
+      if([2,4].indexOf(res.expr.value)>=0 && res.alma && res.pers){ var ax=chain(res.alma.value+res.pers.value); var av=ax[ax.length-1]; if(av===11||av===22) res.expr.hidden=av; }
+      res.tri=buildTriangle(words);
+    }
     if(dateStr){
       var p = dateStr.split("-").map(Number), y=p[0], m=p[1], d=p[2];
       if(y&&m&&d){
-        var life = pack(red(d)+red(m)+red(y));
+        var cab2=(SYS==='c');
+        var life = cab2 ? pack(ds(d)+ds(m)+ds(y)) : pack(red(d)+red(m)+red(y));
         res.cami = life;
         res.dia = pack(d);
-        res.mat = pack(life.value + res.expr.value);
+        if(!cab2) res.mat = pack(life.value + res.expr.value);
+        else {
+          if([2,4].indexOf(life.value)>=0){ var ac=chain(red(d)+red(m)+red(y)); var acv=ac[ac.length-1]; if(acv===11||acv===22) life.hidden=acv; }
+          res.mis = pack(res.expr.value + life.value);
+          res.psi = pack(d,true); res.psi.karmic=null;
+          res.cab2 = buildCabDates(d,m,y,life.value);
+        }
         var cy = new Date().getFullYear();
         res.years = [cy,cy+1].map(function(yr){return {year:yr,n:plain(ds(d)+ds(m)+ds(yr))}});
         res.date = {d:d,m:m,y:y};
@@ -737,6 +946,7 @@
         ]};
       }
     }
+    if(SYS==='c') delete res.chal;
     return res;
   }
 
@@ -764,6 +974,8 @@
 
   function render(r){
     var wrap = $("words"); wrap.innerHTML="";
+    $("lgV").textContent = SYS==="c" ? "Vogais (Motivação)" : "Vogais (Alma)";
+    $("lgC").textContent = SYS==="c" ? "Consoantes (Impressão)" : "Consoantes (Personalidade)";
     var i=0;
     r.words.forEach(function(w){
       var box = el("div","word"), tiles = el("div","tiles");
@@ -783,11 +995,12 @@
     // hero number (Expressão)
     var e=r.expr, me=M[e.value];
     var ecalc = e.chain.length>1 ? "Soma "+e.chain.join(" → ") : "Soma "+e.chain[0];
+    if(e.hidden) ecalc+=" · possível "+e.hidden+" oculto na soma separada (Motivação + Impressão)";
     var eflag = e.karmic ? '<div class="flag">Dívida cármica '+KARMIC[e.karmic].split(" ")[0]+'</div>' : "";
     if(e.karmic) karmicList.push({label:"Expressão", n:e.karmic});
     $("heroNum").innerHTML =
       '<div class="hn"><div class="orb big o-gold"><b>'+e.value+'</b></div>'+
-      '<div><h3>Expressão (Destino)</h3><p class="ttl">'+me.t+'</p><p class="kw">'+me.k+'</p></div></div>'+
+      '<div><h3>'+(SYS==='c'?'Expressão':'Expressão (Destino)')+'</h3><p class="ttl">'+me.t+'</p><p class="kw">'+me.k+'</p></div></div>'+
       '<p class="intro">'+INTRO.expr+'</p><p>'+posText(e.value,'expr')+'</p>'+fullHTML(e.value,true)+'<p class="calc">'+ecalc+'</p>'+eflag;
 
     var defs = [
@@ -797,11 +1010,13 @@
       ["dia","Dia de nascimento"],
       ["mat","Maturidade"]
     ];
+    if(SYS==='c') defs=[["alma","Motivação"],["pers","Impressão"],["cami","Destino"],["mis","Missão"],["dia","Dia natalício"],["psi","Número psíquico"]];
     var rows = $("rows"); rows.innerHTML="";
     defs.forEach(function(d){
       var o = r[d[0]]; if(!o) return;
       var m = M[o.value];
       var calc = o.chain.length>1 ? "Soma "+o.chain.join(" → ") : "Soma "+o.chain[0];
+      if(o.hidden) calc+=" · possível "+o.hidden+" oculto na soma separada (dia, mês e ano)";
       var det = el("details","row");
       var flag = o.karmic ? '<div class="flag">Dívida cármica '+KARMIC[o.karmic].split(" ")[0]+'</div>' : "";
       if(o.karmic) karmicList.push({label:d[1], n:o.karmic});
@@ -825,18 +1040,30 @@
     var missing=[];
     for(var n=1;n<=9;n++){
       var q = r.freq[n];
-      var c = el("div","col"+(q===0?" miss":""));
+      var c = el("div","col"+((q===0&&!(SYS==="c"&&n===9))?" miss":""));
       var h = max? Math.round((q/max)*84):0;
       c.innerHTML = '<span class="q">'+q+'×</span><div class="bar" style="height:'+h+'px"></div><span class="k">'+n+'</span>';
       f.appendChild(c);
-      if(q===0) missing.push(n);
+      if(q===0&&!(SYS==="c"&&n===9)) missing.push(n);
     }
     var ls = $("lessons"); ls.innerHTML="";
     if(missing.length){
       missing.forEach(function(n){ ls.appendChild(el("div","lesson","<b>Falta o "+n+":</b> "+LESSON[n]+".")); });
     } else {
-      ls.appendChild(el("p","note","Todos os números de 1 a 9 aparecem no seu nome. Não há lições cármicas por ausência."));
+      ls.appendChild(el("p","note",(SYS==="c"?"Todos os números de 1 a 8 aparecem no seu nome. ":"Todos os números de 1 a 9 aparecem no seu nome. ")+"Não há lições cármicas por ausência."));
     }
+
+    var excB=[]; for(var qb=1;qb<=9;qb++){ if(r.freq[qb]>=4) excB.push(qb); }
+    var kmap={}; karmicList.forEach(function(k){ (kmap[k.n]=kmap[k.n]||[]).push(k.label); });
+    var kkeys=Object.keys(kmap);
+    var bsum=$('blockSum'), brows=$('blockRows'); bsum.innerHTML=''; brows.innerHTML='';
+    bsum.innerHTML='<p><b>Números ausentes:</b> '+(missing.length?missing.join(', '):'nenhum')+'</p>'+
+      '<p><b>Em excesso (4 vezes ou mais):</b> '+(excB.length?excB.join(', '):'nenhum')+'</p>'+
+      '<p><b>Dívidas cármicas:</b> '+(kkeys.length?kkeys.map(function(k){return KARMIC[k].split(' ')[0]}).join(', '):'nenhuma')+'</p>';
+    missing.forEach(function(n){ var b=BLOCK[n]; brows.appendChild(blockRow('o-amber',n,'Bloqueio do '+n+' (ausente)','Tema: '+kw2(n),[['Indicação',b.sig],['Direcionamento',b.dir],['O que a vida quer ensinar',b.les],['Soluções',b.sol]])); });
+    excB.forEach(function(n){ var b=EXCESS[n]; brows.appendChild(blockRow('o-rose',n,'Excesso do '+n+' ('+r.freq[n]+' vezes)','Tema: '+kw2(n),[['Indicação',b.sig],['O que a vida quer ensinar',b.les],['Soluções',b.sol]])); });
+    kkeys.forEach(function(k){ var b=KSOL[k]; brows.appendChild(blockRow('o-violet',k,'Dívida cármica '+KARMIC[k].split(' ')[0],'Aparece em: '+kmap[k].join(', '),[['Indicação',KARMIC[k].split(' — ')[1]],['O que a vida quer ensinar',b.les],['Soluções',b.sol]])); });
+    if(!brows.children.length) brows.appendChild(el('p','note','Nenhum bloqueio de nome encontrado: todos os números de 1 a 9 aparecem e nenhum está em excesso.'));
 
     var yw = $("yearWrap"), yb = $("years"); yb.innerHTML="";
     if(r.years){
@@ -859,6 +1086,43 @@
       });
     } else pw.hidden=true;
 
+    var cw=$('cabWrap'), tw=$('triWrap');
+    if(r.cab2){
+      var c2=r.cab2;
+      cw.hidden=false;
+      $('yearWrap').hidden=false;
+      $('years').innerHTML='';
+      [['Ano pessoal',c2.ap.n,'de '+c2.ap.from+' a '+c2.ap.to],['Mês pessoal',c2.mp,'neste mês'],['Dia pessoal',c2.dp,'hoje']].forEach(function(x){
+        $('years').appendChild(el('div','year','<div class="y">'+x[2]+'</div><div class="n">'+x[0]+' '+x[1]+'</div><div>'+YEAR[x[1]]+'</div>'));
+      });
+      $('yNote').textContent='No sistema cabalístico, o ano pessoal vai de um aniversário ao seguinte. O mês e o dia pessoal seguem a mesma lógica, em escala menor.';
+      var CICT=['Infância, adolescência e juventude: fase de formação.','Fase de realizar sonhos e objetivos.','Busca dos valores espirituais e balanço de tudo o que foi vivido.'];
+      var REG=['mês','dia','ano'];
+      var rc=$('cicRows'); rc.innerHTML='';
+      c2.cic.forEach(function(c,i){ rc.appendChild(blockRow('o-cyan',c.n,(i+1)+'º ciclo, regido pelo '+REG[i]+(c.now?' (fase atual)':''),c.txt,[['Fase',CICT[i]],['Tema do número',tname(c.n)+': '+M[c.n].k+'.']])); });
+      var rd2=$('desRows'); rd2.innerHTML='';
+      c2.des.forEach(function(c,i){ rd2.appendChild(blockRow('o-amber',c.n,(i+1)+'º desafio'+(c.now?' (fase atual)':''),c.txt,[['O desafio',CHAL[c.n]]])); });
+      var rm2=$('mdRows'); rm2.innerHTML='';
+      c2.md.forEach(function(c,i){ rm2.appendChild(blockRow('o-violet',c.n,(i+1)+'º momento decisivo'+(c.now?' (fase atual)':''),c.txt,[['Tema da fase',tname(c.n)+': '+M[c.n].k+'.']])); });
+    } else {
+      cw.hidden=true;
+      $('yNote').textContent='Muitas escolas contam o ano pessoal a partir do aniversário, não de 1º de janeiro.';
+    }
+    if(r.tri){
+      tw.hidden=false;
+      var T=r.tri, flag=T.rows.map(function(row){return new Array(row.length)});
+      var sumHtml='';
+      T.seqs.forEach(function(s){
+        for(var q=s.at;q<s.at+s.len;q++) flag[s.row][q]=true;
+        sumHtml+='<p><b>'+new Array(s.len+1).join(String(s.n))+'</b> na linha '+(s.row+1)+'. '+SEQT[s.n]+(s.len>3?' Como a repetição passa de três, o desafio é proporcionalmente mais acentuado.':'')+'</p>';
+      });
+      if(!T.seqs.length) sumHtml='<p>Nenhuma sequência de três ou mais números iguais apareceu no triângulo do seu nome.</p>';
+      $('triSum').innerHTML=sumHtml;
+      $('triBox').innerHTML=T.rows.map(function(row,ri){
+        return new Array(ri+1).join(' ')+row.map(function(v,ci){return flag[ri][ci]?'<mark>'+v+'</mark>':String(v)}).join(' ');
+      }).join('\n');
+    } else { tw.hidden=true; }
+
     $("out").hidden=false;
     $("status").textContent="";
   }
@@ -867,7 +1131,7 @@
   function lc(s){return s.charAt(0).toLowerCase()+s.slice(1)}
   function kw2(n){return M[n].k.split(' · ').slice(0,2).join(' e ')}
   function tname(n){return M[n].t.replace(' · número-mestre','')}
-  function posText(n,key){return (POS[n]&&POS[n][key])||M[n].x}
+  function posText(n,key){ if(key==='mis') key='cami'; if(key==='psi') key='alma'; return (POS[n]&&POS[n][key])||M[n].x }
   function fullHTML(n,open){
     var f=FULL[n]; if(!f) return '';
     var note=MNOTE[n]?'<p class="note">'+MNOTE[n]+'</p>':'';
@@ -901,18 +1165,35 @@
       S.push({h:'Seu caminho de vida',ps:[
         'Seu Caminho de Vida é '+c+' ('+tname(c)+'). '+posText(c,'cami'),
         T3[level(c,e)],
-        'Seu número de Maturidade é '+mt+'. '+posText(mt,'mat'),
+        mt?('Seu número de Maturidade é '+mt+'. '+posText(mt,'mat')):'',
         'Seu dia de nascimento (número '+dy+'): '+posText(dy,'dia')
       ]});
     } else {
       S.push({h:'Seu caminho de vida',ps:['Informe a data de nascimento para incluir Caminho de Vida, Maturidade e Desafios neste relatório.']});
     }
 
+    if(r.cab2){
+      var cb=r.cab2, ps7=[], cc=null, dd2=null, mm2=null, k7;
+      for(k7=0;k7<cb.cic.length;k7++){ if(cb.cic[k7].now) cc={c:cb.cic[k7],i:k7}; }
+      for(k7=0;k7<cb.des.length;k7++){ if(cb.des[k7].now) dd2=cb.des[k7]; }
+      for(k7=0;k7<cb.md.length;k7++){ if(cb.md[k7].now) mm2=cb.md[k7]; }
+      if(r.mis) ps7.push('Sua Missão é '+r.mis.value+' ('+tname(r.mis.value)+'), a soma da Expressão com o Destino. '+posText(r.mis.value,'mis'));
+      if(cc) ps7.push('O seu 1º ciclo de vida vai até os '+cb.e1+' anos. Hoje, aos '+cb.age+' anos, você está no '+(cc.i+1)+'º ciclo, regido pelo número '+cc.c.n+' ('+tname(cc.c.n)+').');
+      if(dd2) ps7.push('O desafio desta fase é o '+dd2.n+'. '+CHAL[dd2.n]);
+      if(mm2) ps7.push('O momento decisivo atual é o '+mm2.n+' ('+tname(mm2.n)+'): '+M[mm2.n].k+'.');
+      S.push({h:'Missão, ciclos e momentos decisivos',ps:ps7});
+    }
+    if(r.tri){
+      var tps=[];
+      r.tri.seqs.forEach(function(s){ tps.push('Sequência '+new Array(s.len+1).join(String(s.n))+' (linha '+(s.row+1)+'): '+SEQT[s.n]); });
+      if(!tps.length) tps.push('O triângulo do seu nome não tem sequências de três ou mais números iguais.');
+      S.push({h:'Triângulo da vida',ps:tps});
+    }
     S.push({h:'Amor e relações',ps:['No amor, a vibração do '+base+' ('+tname(base)+') aparece assim. '+FULL[base].a]});
     S.push({h:'Equilíbrio emocional',ps:['Para o seu equilíbrio emocional, a vibração do '+base+' mostra que '+lc(FULL[base].s),'Esta é uma reflexão simbólica, e não uma orientação de saúde.']});
 
     var miss=[], dom=[], mx=0, i;
-    for(i=1;i<=9;i++){ if(r.freq[i]===0) miss.push(i); if(r.freq[i]>mx) mx=r.freq[i]; }
+    for(i=1;i<=9;i++){ if(r.freq[i]===0 && !(SYS==='c'&&i===9)) miss.push(i); if(r.freq[i]>mx) mx=r.freq[i]; }
     if(mx>=3){ for(i=1;i<=9;i++){ if(r.freq[i]===mx) dom.push(i); } }
     var ps5=[];
     if(miss.length){
@@ -925,6 +1206,25 @@
       if(x[1]&&x[1].karmic) ps5.push('Dívida cármica em '+x[0]+': '+KARMIC[x[1].karmic]);
     });
     if(ps5.length) S.push({h:'Lições, intensidades e dívidas',ps:ps5});
+
+    var exc=[]; for(i=1;i<=9;i++){ if(r.freq[i]>=4) exc.push(i); }
+    var kar={};
+    [r.expr,r.alma,r.pers,r.cami,r.dia,r.mat].forEach(function(o){ if(o&&o.karmic) kar[o.karmic]=true });
+    var bps=[];
+    miss.forEach(function(n){
+      var b=BLOCK[n];
+      bps.push('Bloqueio do '+n+' (número ausente). '+b.sig+' Direcionamento: '+b.dir);
+      bps.push(b.les+' Para destravar: '+b.sol.join(' '));
+    });
+    exc.forEach(function(n){
+      var b=EXCESS[n];
+      bps.push(b.sig+' '+b.les+' Para equilibrar: '+b.sol.join(' '));
+    });
+    Object.keys(kar).forEach(function(k){
+      var b=KSOL[k];
+      bps.push('Dívida cármica '+KARMIC[k].split(' ')[0]+'. '+b.les+' Para trabalhar: '+b.sol.join(' '));
+    });
+    if(bps.length) S.push({h:'Bloqueios, o que a vida ensina e soluções',ps:bps});
 
     if(r.years){
       S.push({h:'Seu ano pessoal',ps:[
@@ -946,7 +1246,7 @@
 
     var li=['Expressão ('+e+'): '+FULL[e].p];
     if(c) li.push('Caminho de Vida ('+c+'): '+FULL[c].p); else if(a) li.push('Alma ('+a+'): '+FULL[a].p);
-    if(miss.length) li.push('Número ausente '+miss[0]+': pratique '+LESSON[miss[0]]+'.'); else if(p) li.push('Personalidade ('+p+'): '+FULL[p].p);
+    if(miss.length) li.push('Bloqueio do '+miss[0]+': '+BLOCK[miss[0]].sol[0]); else if(p) li.push('Personalidade ('+p+'): '+FULL[p].p);
     S.push({h:'Passos práticos',li:li});
 
     S.push({h:'Para terminar',ps:['Este relatório é uma leitura simbólica da numerologia pitagórica, feita para inspirar reflexão. Use-o como um espelho, e não como uma sentença.']});
@@ -955,9 +1255,10 @@
 
   function renderReport(r,name){
     var S=buildReport(r,name), html='', txt=['Relatório de '+name,''];
+    if(SYS==='c'){ S.forEach(function(s){ s.h=cabx(s.h); if(s.ps) s.ps=s.ps.map(cabx); if(s.li) s.li=s.li.map(cabx); }); }
     S.forEach(function(s){
       html+='<h3>'+esc(s.h)+'</h3>'; txt.push(s.h.toUpperCase());
-      (s.ps||[]).forEach(function(p){ html+='<p>'+esc(p)+'</p>'; txt.push(p) });
+      (s.ps||[]).forEach(function(p){ if(!p) return; html+='<p>'+esc(p)+'</p>'; txt.push(p) });
       if(s.li){ html+='<ul>'+s.li.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>'; s.li.forEach(function(x){ txt.push('- '+x) }) }
       txt.push('');
     });
@@ -970,12 +1271,14 @@
     var L = ["Numerologia de "+name];
     var add=function(label,o){ if(o) L.push(label+": "+o.value+" ("+M[o.value].t.replace(" · número-mestre","")+")"+(o.karmic?" · dívida cármica "+o.karmic:"")) };
     add("Expressão",r.expr); add("Alma",r.alma); add("Personalidade",r.pers);
-    add("Caminho de Vida",r.cami); add("Dia de nascimento",r.dia); add("Maturidade",r.mat);
-    var miss=[]; for(var n=1;n<=9;n++) if(r.freq[n]===0) miss.push(n);
+    add("Caminho de Vida",r.cami); add("Missão",r.mis); add("Dia de nascimento",r.dia); add("Número psíquico",r.psi); add("Maturidade",r.mat);
+    var miss=[]; for(var n=1;n<=9;n++) if(r.freq[n]===0 && !(SYS==='c'&&n===9)) miss.push(n);
     L.push("Números ausentes: "+(miss.length?miss.join(", "):"nenhum"));
+    var exs=[]; for(var xi=1;xi<=9;xi++){ if(r.freq[xi]>=4) exs.push(xi); }
+    L.push("Números em excesso: "+(exs.length?exs.join(", "):"nenhum"));
     if(r.years) L.push("Ano pessoal "+r.years[0].year+": "+r.years[0].n);
     if(r.chal) L.push("Desafios: "+r.chal.list.map(function(c){return c.n}).join(", "));
-    return L.join("\n");
+    return cabx(L.join("\n"));
   }
 
   /* ---------- History ---------- */
@@ -983,7 +1286,7 @@
   function getHist(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []}}
   function setHist(h){try{localStorage.setItem(KEY,JSON.stringify(h))}catch(e){}}
   function pushHist(item){
-    var h=getHist().filter(function(x){return !(x.name===item.name && x.date===item.date && x.name2===item.name2 && (x.mode||"s")===item.mode)});
+    var h=getHist().filter(function(x){return !(x.name===item.name && x.date===item.date && x.name2===item.name2 && (x.mode||"s")===item.mode && (x.sys||"p")===item.sys)});
     h.unshift(item); setHist(h.slice(0,6)); drawHist();
   }
   function drawHist(){
@@ -995,7 +1298,7 @@
     h.forEach(function(it){
       var b=el("button","chip"); b.type="button";
       b.textContent = it.mode==="c" ? it.name+" + "+it.name2 : it.name;
-      b.addEventListener("click",function(){ setMode(it.mode==="c"?"c":"s"); $("nome").value=it.name; $("data").value=it.date||""; $("y").checked=!!it.y; $("nome2").value=it.name2||""; $("data2").value=it.date2||""; run(); });
+      b.addEventListener("click",function(){ setSystem(it.sys||"p"); $('acc').checked=(it.acc!==false); $('x6').checked=!!it.x6; setMode(it.mode==="c"?"c":"s"); $("nome").value=it.name; $("data").value=it.date||""; $("y").checked=!!it.y; $("nome2").value=it.name2||""; $("data2").value=it.date2||""; run(); });
       box.appendChild(b);
     });
     var clr=el("button","chip link"); clr.type="button"; clr.textContent="Limpar";
@@ -1112,7 +1415,7 @@
       var r=analyze(name,date,y);
       last={r:r,name:name};
       render(r); renderReport(r,name);
-      pushHist({name:name,date:date,y:y,mode:"s"});
+      pushHist({name:name,date:date,y:y,mode:"s",sys:SYS,acc:$('acc').checked,x6:$('x6').checked});
       scrollTo_("out");
     });
   }
@@ -1144,6 +1447,7 @@
 
   function renderCompat(a,b,n1,n2){
     var KINDS=[["expr","Expressão"],["alma","Alma"],["pers","Personalidade"],["cami","Caminho de Vida"]];
+    if(SYS==='c') KINDS=[["expr","Expressão"],["alma","Motivação"],["pers","Impressão"],["cami","Destino"]];
     var f1=first(n1), f2=first(n2);
     var pts=0, cnt=0, hi=[], lo=[], html="", lines=[];
     KINDS.forEach(function(k){
@@ -1167,6 +1471,7 @@
     if(lo.length) rs.push("Mais contraste em: "+lo.join(", ")+".");
     if(!a.cami||!b.cami) rs.push("Informe as duas datas de nascimento para incluir o Caminho de Vida.");
     $("cResume").textContent=rs.join(" ");
+    $("cSys").textContent = SYS==='c' ? 'No sistema cabalístico, os números dos dois nomes usam a tabela cabalística, mas a comparação segue o método geral por grupos (1-5-7, 2-4-8, 3-6-9). Não usei a tabela de harmonia conjugal cabalística, que não consegui confirmar.' : '';
     $("cPairs").innerHTML=html;
     $("statusC").textContent="";
     lastC={text:["Compatibilidade: "+n1+" e "+n2].concat(lines,["Visão geral: "+verdict]).join("\n")};
@@ -1183,7 +1488,7 @@
     ritual(["Lendo os dois nomes…","Cruzando as vibrações…","Revelando a sintonia…"],function(){
       var a=analyze(n1,d1,y), b=analyze(n2,d2,y);
       renderCompat(a,b,n1,n2);
-      pushHist({name:n1,date:d1,y:y,mode:"c",name2:n2,date2:d2});
+      pushHist({name:n1,date:d1,y:y,mode:"c",name2:n2,date2:d2,sys:SYS,acc:$('acc').checked,x6:$('x6').checked});
       $("outC").hidden=false;
       scrollTo_("outC");
     });
@@ -1192,7 +1497,7 @@
   /* ---------- Events ---------- */
   $("f").addEventListener("submit",function(e){e.preventDefault();run()});
   $("exemplo").addEventListener("click",function(){
-    $("nome").value="Maria Clara Souza Lima"; $("data").value="1990-05-14";
+    $("nome").value="André Luiz da Conceição"; $("data").value="1990-05-14";
     if(mode==="c"){ $("nome2").value="Pedro Henrique Alves"; $("data2").value="1988-11-03"; }
     run();
   });
@@ -1221,6 +1526,19 @@
     sb.setAttribute("aria-label",r?"Desligar som ambiente":"Ligar som ambiente");
     sbt.textContent=r?"Som ligado":"Som desligado";
   });
+
+  function setSystem(s){
+    SYS=s;
+    $('cabOpts').hidden = s!=='c';
+    $('sP').setAttribute('aria-pressed',s==='p'?'true':'false');
+    $('sC').setAttribute('aria-pressed',s==='c'?'true':'false');
+    $('sysHint').textContent = s==='p'
+      ? 'Tabela de 1 a 9. Acentos aparecem no nome, mas não mudam o valor das letras.'
+      : 'Tabela caldeu-hebraica de 1 a 8. Os acentos mudam o valor: til soma 3, agudo soma 2, circunflexo soma 7, cedilha vale 6, trema e grave dobram. Mestres: 11 e 22.';
+    $('out').hidden=true; $('outC').hidden=true; showErr('');
+  }
+  $('sP').addEventListener('click',function(){setSystem('p')});
+  $('sC').addEventListener('click',function(){setSystem('c')});
 
   $('copiarR').addEventListener('click',function(){ if(lastReport) copyTo(lastReport,$('statusR')) });
   $('imprimir').addEventListener('click',function(){
