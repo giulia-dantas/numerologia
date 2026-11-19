@@ -217,6 +217,21 @@
   .status{min-height:1.4em;font-size:.88rem;color:var(--cyan);margin-top:8px}
   #out[hidden],#outC[hidden]{display:none}
 
+  /* Qual nome usar */
+  .pick{margin:14px 0;padding:20px 16px;text-align:center;background:var(--glass);border:1px solid rgba(242,207,138,.55);border-radius:22px;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:0 24px 70px -34px var(--gold)}
+  .pick .lead2{margin:0;color:var(--muted)}
+  .pick .nm{font-family:var(--serif);font-weight:700;font-size:clamp(1.9rem,8vw,2.6rem);line-height:1.1;color:var(--gold);margin:6px 0 2px;text-shadow:0 0 26px rgba(242,207,138,.4)}
+  .pick .ok{color:var(--green);font-weight:600;margin:6px 0 0}
+  .strat h3{font-size:1.3rem;color:var(--gold);margin:22px 0 6px}
+  .strat ul{margin:6px 0 0;padding-left:20px}
+  .strat li{margin-bottom:8px}
+  .cmpw{overflow-x:auto;margin:8px 0}
+  table.cmp{width:100%;border-collapse:collapse;font-size:.9rem}
+  .cmp th{color:var(--gold);text-align:left;font-weight:600;padding:8px;border-bottom:1px solid var(--line-s)}
+  .cmp td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  .cmp td small{color:var(--muted)}
+  .cmp .big2{font-family:var(--serif);font-weight:700;font-size:1.4rem}
+  .cmp .good{color:var(--green)}
   /* Leitura completa e relatório */
   .seg2{margin-top:0}
   .sysf{display:grid;gap:8px}
@@ -378,6 +393,7 @@
       <p class="note">Cada letra vira um número. Somando os vizinhos e reduzindo a um dígito, forma-se o triângulo invertido. Três ou mais números iguais lado a lado são lidas como sequência negativa na tradição cabalística. Os Arcanos do Tarô egípcio, que também se leem nesse triângulo, não estão incluídos.</p>
       <div id="triSum"></div>
       <details class="more"><summary>Ver o triângulo</summary><pre class="tri" id="triBox"></pre></details>
+      <div id="stratBox" class="strat"></div>
       <p class="note">Leitura simbólica para reflexão, sem previsão de saúde ou de acontecimentos.</p>
     </div>
 
@@ -433,6 +449,7 @@
       <div><b>7</b><span>G P Y</span></div><div><b>8</b><span>H Q Z</span></div><div><b>9</b><span>I R</span></div>
     </div>
     <p class="note"><b>Sistema cabalístico (tabela caldeu-hebraica, de 1 a 8):</b> 1 = A I J Q Y; 2 = B K R; 3 = C G L S; 4 = D M T; 5 = E H N X; 6 = U V W; 7 = O Z; 8 = F P (o X vale 5 na tabela mais clássica; algumas fontes usam 6, e há uma opção para isso). Os acentos mudam o valor: til soma 3, acento agudo soma 2, circunflexo soma 7, o Ç vale 6, e trema e acento grave dobram o valor da letra. Só 11 e 22 são mantidos como números-mestres. O apóstrofo soma 2 à letra anterior. Essas regras aparecem em livros e cursos brasileiros de numerologia cabalística, mas algumas escolas variam. Motivação (vogais), Impressão (consoantes) e Expressão (todas as letras) vêm do nome, e a Impressão nunca é 11 ou 22. O Destino é a soma de todos os algarismos da data. A Missão é Expressão + Destino. O Dia natalício é o dia do nascimento, e o Número psíquico é esse dia reduzido a um dígito. Os ciclos de vida são regidos por mês, dia e ano; o 1º vai até 37 menos o Destino, o 2º dura 27 anos e o 3º segue até o fim. Desafios e momentos decisivos seguem esses períodos. O ano pessoal vai de um aniversário ao seguinte. No triângulo da vida, somam-se os vizinhos e reduz-se a um dígito. Não incluí Arcanos, Resposta Subconsciente, dias e cores favoráveis nem a harmonia conjugal cabalística, cujas regras não consegui confirmar. Neste modo, Alma vira Motivação, Personalidade vira Impressão e Caminho de Vida vira Destino.</p>
+    <p class="note"><b>Qual nome usar (modo cabalístico):</b> o app testa combinações dos seus próprios nomes (por exemplo, só o primeiro e o último), a inicial de um nome que ficou de fora e a grafia sem acento (André/Andre), e mostra as que não formam sequências negativas no triângulo. A sugestão principal prefere nomes inteiros, com o primeiro nome e um sobrenome, e só depois a que mantém a sua Expressão. Letras extras aparecem só como orientação, nunca como nome inventado. É uma estratégia de uso do nome (assinatura, redes, apresentação), e o registro legal não muda.</p>
     <p class="note">Expressão: todas as letras. Alma: vogais. Personalidade: consoantes. Caminho de Vida: dia, mês e ano de nascimento. Maturidade: Caminho de Vida + Expressão. Desafios: diferenças entre dia, mês e ano reduzidos a um dígito. Compatibilidade: compara os mesmos números das duas pessoas, agrupados em 1-5-7, 2-4-8 e 3-6-9. Numerologia é uma tradição simbólica de autoconhecimento, não uma ciência.</p>
   </details>
 </main>
@@ -863,7 +880,7 @@
     pers:{A:"Causam boa impressão um no outro logo de início, e o convívio flui.",C:"A primeira impressão é de curiosidade: cada um enxerga no outro o que não tem.",D:"O jeito de se apresentar de um pode soar estranho ao outro no começo. Costuma passar com convivência."},
     cami:{A:"Caminhos de vida na mesma direção. Aprendem lições parecidas e podem caminhar juntos.",C:"Caminhos diferentes que se somam: um aprende com o outro.",D:"Lições de vida distintas. A relação pede paciência para respeitar o rumo do outro."}
   };
-  var mode = "s", lastC = null, busy = false, SYS = 'p';
+  var mode = "s", lastC = null, busy = false, SYS = 'p', yAuto = false;
   function BASEN(n){return n===11?2:(n===22?4:(n===33?6:n))}
   function level(a,b){
     a=BASEN(a); b=BASEN(b);
@@ -970,6 +987,144 @@
     s+=node("d",ch.base.d,"dia","base",25,"#5CE1E6");
     s+=node("y",ch.base.y,"ano","base",25,"#5CE1E6");
     return s+'</svg>';
+  }
+
+  /* ---------- Qual nome usar (sistema cabalístico) ---------- */
+  var PARTIC = {da:1,de:1,do:1,das:1,dos:1,e:1,di:1,du:1,del:1,la:1,von:1,van:1};
+  function noAcc(s){ return s.normalize('NFD').replace(/[̀-ͯ]/g,'').normalize('NFC'); }
+  function evalName(txt,yv){
+    var r=analyze(txt,'',yv);
+    return {seqs:(r.tri?r.tri.seqs:[]).map(function(s){return new Array(s.len+1).join(String(s.n))}),
+            exp:r.expr.value, alma:r.alma?r.alma.value:0, pers:r.pers?r.pers.value:0};
+  }
+  function strategy(name,yv){
+    var accOn=!($('acc')&&!$('acc').checked);
+    var tk=name.trim().split(/\s+/).filter(Boolean), un=[], pend=[];
+    tk.forEach(function(t){
+      if(PARTIC[t.toLowerCase()]) pend.push(t);
+      else { un.push({txt:pend.concat([t]).join(' '),ini:t.charAt(0).toUpperCase()}); pend=[]; }
+    });
+    if(pend.length&&un.length) un[un.length-1].txt+=' '+pend.join(' ');
+    if(!un.length) return null;
+    if(un.length>8) un=un.slice(0,4).concat(un.slice(-4));
+    var n=un.length, full=un.map(function(u){return u.txt}).join(' '), ref=evalName(full,yv);
+    var seen={}, cand=[];
+    function copy(o){ var c={}; for(var p in o) c[p]=o[p]; return c; }
+    function add(txt,tipo,ex){
+      var k=txt.toLowerCase(); if(seen[k]) return; seen[k]=1;
+      var c=copy(ex); c.txt=txt; c.tipo=tipo; c.r=evalName(txt,yv); cand.push(c);
+      var sem=noAcc(txt);
+      if(accOn&&sem!==txt&&!ex.semAcento){ var e2=copy(ex); e2.semAcento=true; e2.comAcento=txt; add(sem,tipo,e2); }
+    }
+    for(var mask=1;mask<(1<<n);mask++){
+      var idx=[], i;
+      for(i=0;i<n;i++) if(mask>>i&1) idx.push(i);
+      var base={temPrimeiro:!!(mask&1),temUltimo:!!(mask>>(n-1)&1),qtd:idx.length,
+        omitidos:un.filter(function(u,j){return !(mask>>j&1)}).map(function(u){return u.txt})};
+      if(idx.length<n) add(idx.map(function(j){return un[j].txt}).join(' '),'partes',base);
+      if(idx.length<n&&n>2){
+        for(var k=0;k<n;k++){
+          if(mask>>k&1) continue;
+          var parts=[];
+          for(var j=0;j<n;j++){ if(mask>>j&1) parts.push(un[j].txt); else if(j===k) parts.push(un[j].ini+'.'); }
+          var ex=copy(base); ex.omitidos=base.omitidos.filter(function(o){return o!==un[k].txt}); ex.inicializado=un[k].txt;
+          add(parts.join(' '),'inicial',ex);
+        }
+      }
+    }
+    var fsem=noAcc(full);
+    if(accOn&&fsem!==full) add(fsem,'partes',{temPrimeiro:true,temUltimo:true,qtd:n,omitidos:[],semAcento:true,comAcento:full});
+    function chave(c){ return (c.temPrimeiro?0:100)+(c.tipo==='inicial'?30:0)+(c.r.exp===ref.exp?0:4)+Math.abs(c.qtd-2)*3+(c.temUltimo?0:3)+(c.semAcento?2:0); }
+    var zeros=cand.filter(function(c){return c.r.seqs.length===0}).sort(function(a,b){return chave(a)-chave(b)});
+    var principal=zeros[0]||null, alt=[];
+    function poe(c){ if(c&&c!==principal&&alt.indexOf(c)<0&&alt.length<3) alt.push(c); }
+    poe(zeros.filter(function(c){return c.r.exp===ref.exp&&c!==principal})[0]);
+    poe(zeros.filter(function(c){return c.tipo==='inicial'&&c!==principal})[0]);
+    poe(zeros.filter(function(c){return c.qtd===1&&c!==principal})[0]);
+    zeros.slice(1).forEach(poe);
+    var letrasOk=[];
+    if(ref.seqs.length){
+      var bases=[full]; if(n>1) bases.push(un[0].txt+' '+un[n-1].txt);
+      var vis={}, por={};
+      bases.forEach(function(b){
+        var ps=b.split(' ');
+        [0,ps.length-1].forEach(function(pos){
+          if(PARTIC[ps[pos].toLowerCase()]) return;
+          'AEIOUYSHRN'.split('').forEach(function(ch){
+            var q=ps.slice(); q[pos]=q[pos]+ch.toLowerCase();
+            var t=q.join(' '), kk=t.toLowerCase(); if(vis[kk]) return; vis[kk]=1;
+            if(!evalName(t,yv).seqs.length){ por[ps[pos]]=por[ps[pos]]||[]; if(por[ps[pos]].indexOf(ch)<0) por[ps[pos]].push(ch); }
+          });
+        });
+      });
+      Object.keys(por).slice(0,2).forEach(function(k){ letrasOk.push({onde:k,letras:por[k]}); });
+    }
+    return {ref:ref,full:full,principal:principal,alt:alt,letrasOk:letrasOk,un:un};
+  }
+  function stratMean(n){ return n?('<b>'+tname(n)+'</b> ('+M[n].k+')'):'—'; }
+  function stratHow(P){
+    var omit=P.omitidos.map(esc).join(', '), t=[];
+    if(P.tipo==='inicial') t.push('Escreva o nome exatamente assim, com a inicial <b>'+esc(P.inicializado.charAt(0))+'.</b> no lugar de "'+esc(P.inicializado)+'"'+(omit?' e sem '+omit:'')+'.');
+    else t.push(omit?('Use apenas '+(P.qtd===1?'este nome':'estes '+P.qtd+' nomes')+' e deixe de fora '+omit+'.'):'Mantenha todos os seus nomes.');
+    if(P.semAcento) t.push('<b>Escreva sem acento</b> ('+esc(P.comAcento)+' → '+esc(P.txt)+'). No sistema cabalístico o acento soma ao valor da letra (por exemplo, o É vale 7 e o E sem acento vale 5), e tirá-lo muda o triângulo. É uma grafia que existe e é muito usada.');
+    return t.join(' ');
+  }
+  function stratWhy(P){
+    var omit=P.omitidos.join(', ');
+    var o=[P.semAcento?'tirar o acento':'',P.tipo==='inicial'?('trocar um nome pela inicial'+(omit?' e retirar outros':'')):(omit?'retirar '+omit:'')].filter(Boolean).join(' e ')||'alterar o nome';
+    return 'Cada letra do nome vira um número, e esses números são somados dois a dois, linha após linha, formando o triângulo. A sequência negativa é o mesmo número repetido 3 vezes seguidas numa linha. Ao '+o+', as letras mudam e todo o triângulo se refaz. Com este nome, nenhum número se repete 3 vezes seguidas.';
+  }
+  function stratHTML(name){
+    if(!name) return '';
+    var S=strategy(name,$('y').checked); if(!S) return '';
+    var r0=S.ref, P=S.principal;
+    function lst(a){ return a.length?a.join(', '):'nenhuma'; }
+    var h='<h2 class="sec">Qual nome usar</h2>'+
+      '<p class="note">Na numerologia cabalística, o nome com que você assina, se apresenta e aparece (redes, cartão, trabalho) é o que passa a vibrar no dia a dia. O nome de registro continua o mesmo: dá para quebrar sequências negativas mudando só o jeito de usar o nome, escolhendo quais nomes assinar, incluindo a inicial de um nome que ficou de fora ou tirando o acento.</p>';
+    if(!r0.seqs.length) return h+'<p><b>O seu nome não forma sequências negativas.</b> Pode usar o nome completo ou a forma curta que preferir. Se mudar a forma de assinar, confira de novo aqui.</p>';
+    h+='<p>O seu nome completo, <b>'+esc(S.full)+'</b>, forma <b>'+r0.seqs.length+'</b> sequência'+(r0.seqs.length>1?'s':'')+' negativa'+(r0.seqs.length>1?'s':'')+': <b>'+lst(r0.seqs)+'</b>.</p>';
+    if(!P){
+      h+='<p><b>Nenhuma combinação dos seus nomes, iniciais e acentos elimina todas as sequências.</b> Isso acontece com alguns nomes.</p>';
+    } else {
+      h+='<div class="pick"><p class="lead2">Para quebrar as sequências, use no dia a dia este nome:</p><p class="nm">'+esc(P.txt)+'</p><p class="ok">Nenhuma sequência negativa</p></div>';
+      h+='<h3>Como usar</h3><ul><li>'+stratHow(P)+'</li><li>Use esse formato ao <b>assinar</b>, no e-mail, nas redes sociais, no cartão de visita, no currículo e ao <b>se apresentar</b>.</li><li>Nos documentos oficiais (RG, CPF, certidões, diploma) continua o nome completo. <b>Você não muda nada no registro.</b></li></ul>';
+      h+='<h3>Por que isso quebra as sequências</h3><p>'+stratWhy(P)+'</p>';
+      function row(lab,desc,a,b){ return '<tr><td><b>'+lab+'</b><br><small>'+desc+'</small></td><td class="big2">'+(a||'—')+'</td><td class="big2">'+(b||'—')+'</td><td>'+(a===b?'Não muda.':'Antes: '+stratMean(a)+'.<br>Agora: '+stratMean(b)+'.')+'</td></tr>'; }
+      h+='<h3>O que muda com este nome</h3><div class="cmpw"><table class="cmp"><tr><th></th><th>Nome completo</th><th>Nome sugerido</th><th>Na prática</th></tr>'+
+        '<tr><td><b>Sequências negativas</b></td><td>'+lst(r0.seqs)+'</td><td class="good"><b>nenhuma</b></td><td>As sequências deixam de atuar no nome que você usa.</td></tr>'+
+        row('Expressão','todas as letras: o que você mostra e faz',r0.exp,P.r.exp)+
+        row('Motivação','vogais: o que você deseja por dentro',r0.alma,P.r.alma)+
+        row('Impressão','consoantes: a impressão que causa',r0.pers,P.r.pers)+'</table></div>'+
+        '<p>Esses três números são somas das letras do nome. <b>Quando o nome usado muda, eles mudam junto</b>, e por isso mostramos o antes e o depois. O Destino, que vem da data de nascimento, nunca muda.</p>'+
+        (P.r.exp===r0.exp?'<p class="ok" style="color:var(--green)"><b>Boa notícia:</b> este nome mantém a sua Expressão '+r0.exp+'.</p>':
+          '<p>A Expressão passa de <b>'+r0.exp+'</b> para <b>'+P.r.exp+'</b>. '+(S.alt.some(function(c){return c.r.exp===r0.exp})?'Se você prefere manter a Expressão '+r0.exp+', veja a alternativa marcada abaixo.':'Nenhuma combinação testada mantém a Expressão '+r0.exp+' e elimina as sequências ao mesmo tempo.')+'</p>');
+    }
+    if(S.alt.length){
+      h+='<h3>Outras opções (também sem sequências negativas)</h3><ul>'+S.alt.map(function(c){
+        var modo=(c.semAcento?'sem acento, ':'')+(c.tipo==='inicial'?'com a inicial '+esc(c.inicializado.charAt(0))+'.':(c.qtd===1?'só um nome':c.qtd+(c.qtd===S.un.length?' nomes, todos':' nomes')));
+        return '<li><b>'+esc(c.txt)+'</b> ('+modo+'). Expressão <b>'+c.r.exp+'</b>'+(c.r.exp===r0.exp?' (<b>igual à do nome completo</b>)':' (muda de '+r0.exp+')')+', Motivação '+c.r.alma+', Impressão '+c.r.pers+'.</li>';
+      }).join('')+'</ul>';
+    }
+    if(S.letrasOk.length){
+      h+='<h3>E se eu quiser acrescentar uma letra?</h3><p>Uma letra a mais também muda o triângulo. Pelos cálculos, '+S.letrasOk.map(function(l){return 'no fim de "<b>'+esc(l.onde)+'</b>" quebram as sequências as letras <b>'+l.letras.join(', ')+'</b>';}).join('; ')+'.</p>'+
+        '<p><b>Só use isso se a letra formar uma grafia que realmente exista</b> do seu nome (como Ana e Anna, Julia e Giulia) e que você aceite assinar. Se o resultado for uma palavra inventada, ignore esta opção e fique com as sugestões acima, que usam só os seus próprios nomes.</p>';
+    }
+    return h;
+  }
+  function stratText(name){
+    var S=strategy(name,$('y').checked); if(!S) return [];
+    var r0=S.ref, P=S.principal, strip=function(s){return s.replace(/<[^>]+>/g,'')};
+    if(!r0.seqs.length) return ['O seu nome não forma sequências negativas, então pode usar o nome completo ou a forma curta que preferir.'];
+    if(!P) return ['O seu nome completo, '+S.full+', forma as sequências '+r0.seqs.join(', ')+'. Nenhuma combinação dos seus nomes, iniciais e acentos elimina todas elas.'];
+    var ps=['O seu nome completo, '+S.full+', forma as sequências negativas '+r0.seqs.join(', ')+'. Para quebrá-las sem mudar o registro, use no dia a dia o nome '+P.txt+'. '+strip(stratHow(P))+' Nos documentos oficiais continua o nome completo.',
+            strip(stratWhy(P))];
+    var mu=[];
+    [['Expressão','exp'],['Motivação','alma'],['Impressão','pers']].forEach(function(k){
+      var a=r0[k[1]], b=P.r[k[1]];
+      if(a!==b) mu.push(k[0]+' passa de '+a+' ('+tname(a)+') para '+b+' ('+tname(b)+')');
+    });
+    ps.push(mu.length?('Com este nome, '+mu.join('; ')+'. Esses números são somas das letras do nome e mudam quando o nome usado muda. O Destino não muda.'):'Com este nome, Expressão, Motivação e Impressão se mantêm.');
+    return ps;
   }
 
   function render(r){
@@ -1118,6 +1273,7 @@
       });
       if(!T.seqs.length) sumHtml='<p>Nenhuma sequência de três ou mais números iguais apareceu no triângulo do seu nome.</p>';
       $('triSum').innerHTML=sumHtml;
+      $('stratBox').innerHTML=stratHTML(last&&last.name);
       $('triBox').innerHTML=T.rows.map(function(row,ri){
         return new Array(ri+1).join(' ')+row.map(function(v,ci){return flag[ri][ci]?'<mark>'+v+'</mark>':String(v)}).join(' ');
       }).join('\n');
@@ -1188,6 +1344,7 @@
       r.tri.seqs.forEach(function(s){ tps.push('Sequência '+new Array(s.len+1).join(String(s.n))+' (linha '+(s.row+1)+'): '+SEQT[s.n]); });
       if(!tps.length) tps.push('O triângulo do seu nome não tem sequências de três ou mais números iguais.');
       S.push({h:'Triângulo da vida',ps:tps});
+      var stp=stratText(name); if(stp.length) S.push({h:'Qual nome usar',ps:stp});
     }
     S.push({h:'Amor e relações',ps:['No amor, a vibração do '+base+' ('+tname(base)+') aparece assim. '+FULL[base].a]});
     S.push({h:'Equilíbrio emocional',ps:['Para o seu equilíbrio emocional, a vibração do '+base+' mostra que '+lc(FULL[base].s),'Esta é uma reflexão simbólica, e não uma orientação de saúde.']});
@@ -1530,11 +1687,14 @@
   function setSystem(s){
     SYS=s;
     $('cabOpts').hidden = s!=='c';
+    // No sistema cabalístico o Y conta como vogal (confirmado em comparação com leituras reais); marca sozinho e desmarca ao voltar
+    if(s==='c'){ if(!$('y').checked){ $('y').checked=true; yAuto=true; } }
+    else if(yAuto){ $('y').checked=false; yAuto=false; }
     $('sP').setAttribute('aria-pressed',s==='p'?'true':'false');
     $('sC').setAttribute('aria-pressed',s==='c'?'true':'false');
     $('sysHint').textContent = s==='p'
       ? 'Tabela de 1 a 9. Acentos aparecem no nome, mas não mudam o valor das letras.'
-      : 'Tabela caldeu-hebraica de 1 a 8. Os acentos mudam o valor: til soma 3, agudo soma 2, circunflexo soma 7, cedilha vale 6, trema e grave dobram. Mestres: 11 e 22.';
+      : 'Tabela caldeu-hebraica de 1 a 8. Os acentos mudam o valor: til soma 3, agudo soma 2, circunflexo soma 7, cedilha vale 6, trema e grave dobram. Mestres: 11 e 22. O Y conta como vogal (marcado sozinho abaixo).';
     $('out').hidden=true; $('outC').hidden=true; showErr('');
   }
   $('sP').addEventListener('click',function(){setSystem('p')});
