@@ -492,21 +492,7 @@
   </div>
 </section>
 
-<section class="sec" id="metodo">
-  <div class="wrap">
-    <div class="sh"><p class="kicker">Sem mistério</p><h2>Como a conta é feita</h2>
-    <p class="lead">Nada de caixa-preta. A conta usa a sua data e as letras do seu nome, aparece passo a passo na tela, e você mesmo pode conferir cada soma.</p></div>
-    <div class="how">
-      <div class="st"><div class="n">1</div><h3>A data mostra o ano</h3><p>Dia + mês de nascimento + o ano do seu último aniversário, somados até sobrar um dígito. Esse é o seu Ano Pessoal, e ele muda no dia do seu aniversário.</p></div>
-      <div class="st"><div class="n">2</div><h3>O nome vira números</h3><p>Cada letra vale um número de 1 a 8, pela tabela da numerologia cabalística (abaixo). Acentos e o ç têm valores próprios.</p></div>
-      <div class="st"><div class="n">3</div><h3>O triângulo mostra bloqueios</h3><p>Somando as letras vizinhas, forma-se um triângulo. Se o mesmo número aparece três vezes seguidas, isso é um bloqueio.</p></div>
-    </div>
-    <div class="ltab" aria-label="Tabela de letras da numerologia cabalística">
-      <div><b>1</b><span>A I J Q Y</span></div><div><b>2</b><span>B K R</span></div><div><b>3</b><span>C G L S</span></div><div><b>4</b><span>D M T</span></div>
-      <div><b>5</b><span>E H N</span></div><div><b>6</b><span>U V W X</span></div><div><b>7</b><span>O Z</span></div><div><b>8</b><span>F P</span></div>
-    </div>
-  </div>
-</section>
+
 
 <section class="sec" id="giulia" hidden>
   <div class="narrow"><div class="gcard" id="gcard"></div></div>
@@ -523,12 +509,13 @@
       <details class="q"><summary>A numerologia combina com a minha religião?</summary><p>Aqui ela entra como ferramenta de autoconhecimento e reflexão: não faz previsão e não toma o lugar da sua fé. Muita gente usa o ciclo do ano como um calendário de decisões, do mesmo jeito que se olha a estação antes de plantar. Se algum ponto não combinar com a sua crença, é só deixar de lado.</p></details>
       <details class="q"><summary>Preciso crer na numerologia para ler o meu resultado?</summary><p>Não. Leia como um espelho: veja o que bate com o que você vive e o que não bate. O que fizer sentido, você aproveita. O resto, descarta.</p></details>
       <details class="q"><summary>O que eu vejo no teste gratuito?</summary><p>O resultado aparece na tela na hora. Ele traz o seu Ano Pessoal com a conta feita na sua frente, o que o ano pede, o clima do mês em que você está e quantos bloqueios o seu nome forma. Os capítulos que dizem como agir, o calendário dos meses e a forma de contornar os bloqueios ficam na consulta completa.</p></details>
-      <details class="q"><summary>Para que serve o meu nome completo?</summary><p>O nome de nascimento forma o triângulo que mostra se existem bloqueios, isto é, o mesmo número repetido três vezes seguidas. Quanto mais fiel à certidão, mais fiel o resultado.</p></details>
+      <details class="q"><summary>Para que serve o meu nome completo?</summary><p>O nome de nascimento entra na leitura e mostra se existem bloqueios. Quanto mais fiel à certidão, mais fiel o resultado.</p></details>
       <details class="q"><summary>O que acontece com o meu e-mail e o meu WhatsApp?</summary><p>Eles servem para a Giulia Dantas falar com você sobre o seu resultado e a consulta completa, e para liberar o seu acesso depois da compra. Se quiser que os seus dados sejam apagados, é só avisar pelo mesmo contato.</p></details>
       <details class="q"><summary>Dá para fazer a conta de um familiar ou amigo?</summary><p>Dá, e muita gente faz para presentear. Use o nome completo e a data de nascimento da pessoa. O e-mail e o WhatsApp continuam sendo os seus, e é para você que o contato e o acesso vão.</p></details>
       <details class="q"><summary>Como e quando chega a consulta completa?</summary><p>Assim que o pagamento é confirmado, o link de acesso ao seu mapa chega no seu e-mail. Você entra com o mesmo e-mail que usou aqui e vê apenas o seu resultado.</p></details>
+      <details class="q"><summary>Como funciona a devolução em até 7 dias?</summary><p>Dentro da sua área, durante os 7 dias seguintes à liberação do acesso, existe o botão “Pedir devolução”. Ao confirmar, o seu acesso é encerrado na hora e a Giulia devolve o valor pela mesma forma de pagamento.</p></details>
       <details class="q"><summary>Consigo guardar o resultado em PDF ou no celular?</summary><p>Consegue. A consulta completa fica na sua área, e dali você pode imprimir, salvar em PDF e instalar como aplicativo no celular para reler quando quiser.</p></details>
-      <details class="q"><summary>Quem está por trás da leitura?</summary><p>A conta segue a numerologia cabalística, e cada passo aparece na tela para você conferir (veja “Como a conta é feita”). A leitura é assinada por Giulia Dantas, numeróloga.</p></details>
+      <details class="q"><summary>Quem está por trás da leitura?</summary><p>A leitura segue a numerologia cabalística e é assinada por Giulia Dantas, numeróloga. A conta do seu ano aparece na tela, passo a passo, logo depois do teste.</p></details>
     </div>
     <div style="text-align:center;margin-top:30px"><a class="btn big" href="#teste">Fazer o meu teste grátis</a></div>
   </div>
@@ -1240,10 +1227,10 @@ window.LEAD = { save: d => addDoc(collection(db, "leads"), Object.assign({}, d, 
     h+='<div class="card"><div class="hn"><div class="orb o-cyan"><b>'+m.num+'</b></div><div><h3>E '+CAB.MESES[m.m-1]+'?</h3><p class="kw">'+MM.nome+'</p></div></div><p style="color:var(--soft)">'+MM.txt+'</p><p style="color:var(--soft)"><b style="color:var(--ink)">Fazer:</b> '+MM.fazer+'</p></div>';
     if(nb){
       h+='<div class="card warn"><h3>O seu nome forma '+nb+' bloqueio'+(nb>1?'s':'')+'</h3><div class="seqs">'+seqs.map(function(s){return '<span class="seq">'+s+'</span>';}).join('')+'</div>'+
-        '<p style="color:var(--soft)">Bloqueio é quando o mesmo número aparece três vezes seguidas no triângulo do nome. '+(uniq.length?'O <b style="color:var(--ink)">'+uniq[0]+'</b>, por exemplo, ': 'Ele ')+'costuma pesar em: <i>'+esc(CAB.BLOCO[uniq[0]].trava.split('.')[0])+'.</i></p>'+
+        '<p style="color:var(--soft)">Bloqueio é um número que se repete três vezes seguidas no seu nome e costuma pesar numa área da vida. '+(uniq.length?'O <b style="color:var(--ink)">'+uniq[0]+'</b>, por exemplo, ': 'Ele ')+'costuma pesar em: <i>'+esc(CAB.BLOCO[uniq[0]].trava.split('.')[0])+'.</i></p>'+
         '<p style="color:var(--gold)"><b>O que fazer com isso, e como assinar o seu nome sem esses bloqueios, está na consulta completa.</b></p></div>';
     } else {
-      h+='<div class="card"><h3>O seu nome não forma bloqueios</h3><p style="color:var(--soft)">Nenhum número se repete três vezes seguidas no triângulo do seu nome. Na consulta completa, você vê também o seu destino, o seu coração e a sua expressão.</p></div>';
+      h+='<div class="card"><h3>O seu nome não forma bloqueios</h3><p style="color:var(--soft)">Nenhum número se repete três vezes seguidas no seu nome. Na consulta completa, você vê também o seu destino, o seu coração e a sua expressão.</p></div>';
     }
     h+='<div class="locked"><div class="sh" style="margin-bottom:18px"><p class="kicker">O que está fechado para você</p><h2>O resto do seu mapa</h2></div>';
     h+=lk('A armadilha do seu ano '+C.ap, '<b>'+esc(A.armadilha.split('.')[0])+'.</b> O que fazer para não cair nela está na consulta completa.');

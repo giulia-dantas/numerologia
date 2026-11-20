@@ -221,6 +221,12 @@
   input[type=email],input[type=password]{width:100%;font:inherit;font-size:18px;color:var(--ink);background:rgba(255,255,255,.06);border:1px solid var(--line-s);border-radius:12px;padding:13px 14px;min-height:52px}
   input[type=email]:focus,input[type=password]:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px rgba(242,207,138,.2)}
   #saveWrap{margin-top:30px}
+  body.cliente details.how{display:none !important}
+  #refundBox{margin-top:34px}
+  #refundBox[hidden],#rfConfirm[hidden]{display:none !important}
+  body.consultor #refundBox{display:none !important}
+  #refundBox h3{color:var(--gold);margin:0 0 6px}
+  .tagdev{color:#FFB4C0;font-weight:600}
   #saveWrap textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:rgba(255,255,255,.06);border:1px solid var(--line-s);border-radius:12px;padding:12px 14px;min-height:84px;resize:vertical}
   #cliMsg .from{color:var(--gold);font-family:var(--serif);font-style:italic;font-size:1.2rem;margin:0 0 6px}
   #cliMsg p{white-space:pre-wrap}
@@ -570,6 +576,18 @@
     <p class="note">Leitura de numerologia cabalística, uma tradição simbólica de autoconhecimento. Não substitui a sua fé nem o acompanhamento de médico, psicólogo, advogado ou contador.</p>
   </section>
 
+  <section id="refundBox" class="panel" hidden>
+    <h3>Garantia de 7 dias</h3>
+    <p id="rfPrazo" class="note"></p>
+    <p>Se a consulta não era o que você esperava, você pode pedir a devolução por aqui. <b>Ao confirmar, o seu acesso é encerrado na hora</b>, e a Giulia devolve o valor pela mesma forma de pagamento.</p>
+    <div class="actions" id="rfAskRow"><button class="btn ghost" type="button" id="rfAsk">Pedir devolução</button></div>
+    <div id="rfConfirm" hidden>
+      <p><b>Tem certeza?</b> Você perde o acesso ao seu resultado agora.</p>
+      <div class="actions"><button class="btn" type="button" id="rfYes">Sim, confirmar devolução</button><button class="btn ghost" type="button" id="rfNo">Cancelar</button></div>
+    </div>
+    <div class="status" id="rfSt" role="status"></div>
+  </section>
+
   <section id="saveWrap" class="panel" hidden>
     <h3>Salvar como cliente</h3>
     <p class="note">Cadastra esta leitura para o cliente acessar com o e-mail dele. Ele verá apenas o próprio resultado, sem poder pesquisar nada.</p>
@@ -577,6 +595,7 @@
     <label class="field" for="svMsg"><span>Mensagem para o cliente <small>(opcional)</small></span>
       <textarea id="svMsg" maxlength="500" placeholder="Ex.: Oi! Aqui está o seu mapa. Comece pela seção Qual nome usar."></textarea>
     </label>
+    <label class="check"><input id="svSend" type="checkbox" checked><span>Enviar o e-mail de acesso ao cliente assim que salvar</span></label>
     <div class="actions"><button class="btn" type="button" id="svGo">Salvar cliente</button></div>
     <div class="status" id="svSt" role="status"></div>
   </section>
@@ -946,7 +965,7 @@ return {calcular:calcular,estrategia:estrategia,destinoDe:destinoDe,COMPAT:COMPA
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, getDocs, setDoc, deleteDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const app = initializeApp({
   apiKey: "AIzaSyBBH4zsdmS0I7a4IsXuJ444kqwPIelGIxw",
@@ -970,10 +989,16 @@ window.FB = {
   logout: () => signOut(auth),
   getClient: async email => { const s = await getDoc(doc(db, COL, norm(email))); return s.exists() ? s.data() : null; },
   listClients: async () => { const s = await getDocs(collection(db, COL)); return s.docs.map(d => Object.assign({ id: d.id }, d.data())); },
+  // Ao salvar de novo, preserva a data de liberação (início dos 7 dias) e o estado do acesso (ativo ou devolução)
   saveClient: async (email, data) => {
-    const id = norm(email), ref = doc(db, COL, id), old = await getDoc(ref);
-    await setDoc(ref, Object.assign({}, data, { email: id, atualizadoEm: serverTimestamp(), criadoEm: (old.exists() && old.data().criadoEm) ? old.data().criadoEm : serverTimestamp() }));
+    const id = norm(email), ref = doc(db, COL, id), old = await getDoc(ref), o = old.exists() ? old.data() : {};
+    const extra = { email: id, atualizadoEm: serverTimestamp(), criadoEm: o.criadoEm || serverTimestamp(), liberadoEm: o.liberadoEm || serverTimestamp(), status: o.status || "ativo" };
+    if (o.devolucaoEm) extra.devolucaoEm = o.devolucaoEm;
+    await setDoc(ref, Object.assign({}, data, extra));
   },
+  // O cliente só consegue gravar estes dois campos, e só dentro de 7 dias (as regras do Firestore garantem isso)
+  requestRefund: email => updateDoc(doc(db, COL, norm(email)), { status: "devolucao", devolucaoEm: serverTimestamp() }),
+  setStatus: (id, status) => updateDoc(doc(db, COL, norm(id)), { status: status, devolucaoEm: status === "devolucao" ? serverTimestamp() : null }),
   removeClient: id => deleteDoc(doc(db, COL, norm(id))),
   listLeads: async () => { const s = await getDocs(collection(db, "leads")); return s.docs.map(d => Object.assign({ id: d.id }, d.data())); },
   removeLead: id => deleteDoc(doc(db, "leads", String(id)))
@@ -2338,6 +2363,9 @@ if (window.__fbres) window.__fbres();
   }
   document.body.classList.add(ROLE);
 
+  function tsDate(t){ return t&&t.toDate?t.toDate():(t&&t.seconds?new Date(t.seconds*1000):null); }
+  function dmy(d){ return pad2(d.getDate())+'/'+pad2(d.getMonth()+1)+'/'+d.getFullYear(); }
+
   if(ROLE==='cliente'){
     document.body.classList.add('gated');
     var hl=document.querySelector('.hero h1'), ld=document.querySelector('.hero .lead');
@@ -2356,6 +2384,26 @@ if (window.__fbres) window.__fbres();
       window.addEventListener('beforeinstallprompt',function(e){ e.preventDefault(); dpi=e; instBtn.hidden=false; });
       instBtn.addEventListener('click',function(){ if(!dpi) return; dpi.prompt(); dpi.userChoice.then(function(){ dpi=null; instBtn.hidden=true; }); });
     }
+    /* ----- garantia de 7 dias: pedir devolução encerra o acesso na hora ----- */
+    function mostrarDevolucao(c,email){
+      var box=$('refundBox'), ini=tsDate(c.liberadoEm); if(!box||!ini) return;
+      var fim=new Date(ini.getTime()+7*86400000), restam=Math.ceil((fim-new Date())/86400000);
+      if(restam<=0) return;
+      $('rfPrazo').textContent='Você pode pedir a devolução até '+dmy(fim)+' ('+restam+(restam===1?' dia restante':' dias restantes')+').';
+      $('rfConfirm').hidden=true; $('rfAskRow').hidden=false; $('rfSt').textContent=''; box.hidden=false;
+      $('rfAsk').onclick=function(){ $('rfAskRow').hidden=true; $('rfConfirm').hidden=false; };
+      $('rfNo').onclick=function(){ $('rfConfirm').hidden=true; $('rfAskRow').hidden=false; };
+      $('rfYes').onclick=function(){
+        $('rfYes').disabled=true; $('rfSt').textContent='Registrando o pedido…';
+        FB.requestRefund(email).then(function(){
+          box.hidden=true; ['out','outCab','cliMsg'].forEach(function(id){ var e=$(id); if(e) e.hidden=true; });
+          hl.textContent='Devolução solicitada'; ld.textContent='O seu acesso foi encerrado.';
+          cg.hidden=false; cform.hidden=true; cg.querySelector('h3').textContent='Pedido registrado';
+          $('cliGateTxt').textContent='Recebemos o seu pedido de devolução e o seu acesso ao resultado foi encerrado. A Giulia devolve o valor pela mesma forma de pagamento e pode falar com você pelo e-mail ou WhatsApp informados na compra.';
+          cst.textContent=''; $('cliBar').hidden=true; try{ FB.logout(); }catch(e){}
+        }).catch(function(e){ $('rfYes').disabled=false; $('rfSt').textContent=(e&&e.code&&e.code.indexOf('permission')>=0)?'Não foi possível registrar: o prazo de 7 dias terminou. Fale com a Giulia.':msgErr(e); });
+      };
+    }
     function carregar(u){
       cg.hidden=true; $('cliBar').hidden=false;
       if(!standalone&&/iphone|ipad|ipod/i.test(navigator.userAgent)) $('instTip').hidden=false;
@@ -2363,8 +2411,11 @@ if (window.__fbres) window.__fbres();
         if(!c){ cg.hidden=false; cform.hidden=true; $('cliGateTxt').textContent=''; cst.textContent='O e-mail '+u.email+' ainda não está cadastrado. Fale com o seu consultor.'; return; }
         ld.textContent='Preparado para '+c.nome+'. Toque nas abas e nas linhas para ler cada interpretação.';
         if(c.mensagem){ $('cliTxt').textContent=c.mensagem; $('cliMsg').hidden=false; }
-        runRecord(c);
-      }).catch(function(e){ cg.hidden=false; cform.hidden=true; cst.textContent=msgErr(e); });
+        runRecord(c); mostrarDevolucao(c,u.email);
+      }).catch(function(e){
+        cg.hidden=false; cform.hidden=true;
+        cst.textContent=(e&&e.code&&e.code.indexOf('permission')>=0)?'O acesso a este resultado está encerrado ou ainda não foi liberado. Fale com a Giulia.':msgErr(e);
+      });
     }
     window.FBready.then(function(){
       FB.onAuth(function(u){
@@ -2423,14 +2474,20 @@ if (window.__fbres) window.__fbres();
       var box=$('cliList'); box.innerHTML='';
       if(!clientes.length){ box.appendChild(el('p','note','Nenhum cliente cadastrado ainda. Faça uma consulta e use “Salvar como cliente”.')); return; }
       clientes.slice().sort(function(a,b){ return String(a.nome||'').localeCompare(String(b.nome||''),'pt-BR'); }).forEach(function(c){
-        var d=el('div','pair'), cab=(c.sistema==='c');
-        d.innerHTML='<div class="pn"><span class="orb sm '+(cab?'o-gold':'o-cyan')+'"><b>'+(cab?'C':'P')+'</b></span></div><div class="pt"><b>'+esc(c.nome||'(sem nome)')+'</b><p class="note">'+esc(c.id)+' · '+(cab?'Cabalístico':'Pitagórico')+' · nascimento '+fmtd(c.nascimento)+'</p>'+(c.mensagem?'<p class="note">“'+esc(c.mensagem)+'”</p>':'')+'<div class="actions"></div></div>';
+        var d=el('div','pair'), cab=(c.sistema==='c'), dev=(c.status==='devolucao'), lib=tsDate(c.liberadoEm), dv=tsDate(c.devolucaoEm);
+        var situ=dev?'<p class="note tagdev">Devolução solicitada'+(dv?' em '+dmy(dv):'')+' · acesso bloqueado</p>':(lib?'<p class="note">Acesso liberado em '+dmy(lib)+(Date.now()<lib.getTime()+7*86400000?' · garantia de 7 dias em andamento':'')+'</p>':'');
+        d.innerHTML='<div class="pn"><span class="orb sm '+(cab?'o-gold':'o-cyan')+'"><b>'+(cab?'C':'P')+'</b></span></div><div class="pt"><b>'+esc(c.nome||'(sem nome)')+'</b><p class="note">'+esc(c.id)+' · '+(cab?'Cabalístico':'Pitagórico')+' · nascimento '+fmtd(c.nascimento)+'</p>'+situ+(c.mensagem?'<p class="note">“'+esc(c.mensagem)+'”</p>':'')+'<div class="actions"></div></div>';
         var ac=d.querySelector('.actions');
         function btn(t,fn){ var b=el('button','btn ghost',t); b.type='button'; b.addEventListener('click',fn); ac.appendChild(b); return b; }
         btn('Ver resultado',function(){ showView('consulta'); runRecord(c); $('svEmail').value=c.id; $('svMsg').value=c.mensagem||''; });
         btn('Enviar acesso',function(){
           $('clSt').textContent='Enviando o link de acesso para '+c.id+'…';
           FB.sendLink(c.id).then(function(){ $('clSt').textContent='Link de acesso enviado para '+c.id+'.'; }).catch(function(e){ $('clSt').textContent=msgErr(e); });
+        });
+        btn(dev?'Reativar acesso':'Bloquear acesso',function(){
+          var novo=dev?'ativo':'devolucao';
+          if(novo==='devolucao'&&!window.confirm('Bloquear o acesso de '+(c.nome||c.id)+' agora?')) return;
+          FB.setStatus(c.id,novo).then(function(){ c.status=novo; c.devolucaoEm=novo==='devolucao'?{toDate:function(){return new Date();}}:null; renderClientes(); $('clSt').textContent=novo==='ativo'?'Acesso reativado.':'Acesso bloqueado.'; }).catch(function(e){ $('clSt').textContent=msgErr(e); });
         });
         btn('Remover',function(){
           if(!window.confirm('Remover '+(c.nome||c.id)+'? O cliente perde o acesso ao resultado.')) return;
@@ -2469,7 +2526,12 @@ if (window.__fbres) window.__fbres();
       if(!last.date){ st.textContent='Informe a data de nascimento na consulta para salvar o cliente.'; return; }
       st.textContent='Salvando…';
       FB.saveClient(em,{nome:last.name,nascimento:last.date,casa:last.casa||'',sistema:SYS,mensagem:($('svMsg').value||'').trim().slice(0,500)})
-        .then(function(){ st.textContent='Cliente salvo. Em “Clientes”, use “Enviar acesso” para mandar o link de entrada.'; return carregarClientes(); })
+        .then(function(){
+          if(!($('svSend')&&$('svSend').checked)){ st.textContent='Cliente salvo. Em “Clientes”, use “Enviar acesso” para mandar o link de entrada.'; return carregarClientes(); }
+          st.textContent='Cliente salvo. Enviando o e-mail de acesso…';
+          return FB.sendLink(em).then(function(){ st.textContent='Cliente salvo e e-mail de acesso enviado para '+em+'.'; return carregarClientes(); })
+            .catch(function(e2){ st.textContent='Cliente salvo, mas o e-mail não foi enviado: '+msgErr(e2); return carregarClientes(); });
+        })
         .catch(function(e){ st.textContent=msgErr(e); });
     });
   }
