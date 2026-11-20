@@ -1,0 +1,1277 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070A1C">
+<script>if(!(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches))document.documentElement.classList.add("js");</script>
+<title>Seu Ano Pessoal, de graça | Giulia Dantas Numerologia</title>
+<meta name="description" content="Descubra em qual ano da sua vida você está. Com a sua data de nascimento, Giulia Dantas faz a conta do seu Ano Pessoal e mostra se o seu nome forma bloqueios. Grátis, na hora.">
+<meta property="og:title" content="Em qual ano da sua vida você está? Teste grátis">
+<meta property="og:description" content="Faça a conta do seu Ano Pessoal de graça e descubra se o seu nome forma bloqueios. Giulia Dantas · Numerologia.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://giulia-dantas.github.io/numerologia/icon-512.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== tema escuro (padrão) ===== */
+  :root{
+    --void:#070A1C; --ink:#EEF0FF; --soft:#D2D6F3; --muted:#A8ADCE;
+    --card:rgba(18,20,54,.62); --line:rgba(255,255,255,.14); --line-s:rgba(255,255,255,.3);
+    --gold:#F2CF8A; --ok:#8DF0B4; --cyan:#5CE1E6; --rose:#FF8FD1; --amber:#F6B26B;
+    --serif:"Cormorant Garamond","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --shadow:0 24px 70px -34px rgba(124,92,255,.7);
+    color-scheme:dark;
+  }
+  /* ===== tema claro (seções creme) ===== */
+  .lt{
+    --ink:#241B4B; --soft:#4B4673; --muted:#7A759C;
+    --card:#FFFFFF; --line:rgba(60,40,120,.12); --line-s:rgba(60,40,120,.26);
+    --gold:#A9731A; --ok:#2C8F57; --shadow:0 18px 44px -26px rgba(60,40,120,.4);
+    color:var(--ink); color-scheme:light;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth;background:#070A1C}
+  body{margin:0;background:var(--void);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%;overflow-x:hidden}
+  .nebula{position:fixed;inset:0;z-index:-2;pointer-events:none;background:
+    radial-gradient(60% 38% at 12% 6%,rgba(124,92,255,.38),transparent 62%),
+    radial-gradient(48% 36% at 92% 28%,rgba(92,225,230,.17),transparent 64%),
+    radial-gradient(70% 46% at 50% 104%,rgba(255,110,200,.2),transparent 66%),
+    linear-gradient(180deg,#070A1C 0%,#0E0A2B 58%,#0A0A1F 100%)}
+  #sky{position:fixed;top:0;left:0;z-index:-1;pointer-events:none}
+  img{max-width:100%;height:auto}
+  p{margin:0 0 10px}
+  a{color:var(--gold)}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  .narrow{max-width:720px;margin:0 auto;padding:0 20px}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:8px}
+
+  /* ===== seções: alternam escuro / creme ===== */
+  .sec{position:relative;padding:72px 0}
+  .sec.dk{background:transparent}
+  .sec.dk + .sec.dk{border-top:1px solid rgba(242,207,138,.16)}
+  .sec.lt{background:linear-gradient(180deg,#FBF7EE 0%,#F4ECDC 100%);border-top:1px solid rgba(169,115,26,.28);border-bottom:1px solid rgba(169,115,26,.28)}
+  .sh{text-align:center;margin:0 auto 34px;max-width:680px}
+  .kicker{color:var(--gold);font-weight:700;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;margin:0 0 10px}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,5.4vw,2.9rem);line-height:1.08;margin:0 0 14px;color:var(--ink)}
+  .sh h2::after{content:"";display:block;width:60px;height:2px;margin:18px auto 0;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+  h3{font-family:var(--serif);font-weight:600;font-size:1.45rem;line-height:1.15;margin:0;color:var(--ink)}
+  .lead{color:var(--soft);max-width:58ch;margin:0 auto}
+
+  /* botões */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:700;cursor:pointer;background:linear-gradient(180deg,#F8DDA0,#E3B35C);color:#1A1330;border:0;border-radius:14px;padding:14px 26px;min-height:52px;text-decoration:none;box-shadow:0 12px 30px -12px rgba(200,150,50,.85);transition:transform .15s,box-shadow .15s}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 16px 36px -12px rgba(200,150,50,.95)}
+  .btn:active{transform:translateY(1px)}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line-s);box-shadow:none;font-weight:600}
+  .btn.sm{min-height:42px;padding:8px 18px;font-size:.92rem}
+  .btn.big{font-size:1.08rem;padding:16px 32px;min-height:58px}
+  .btn.full{width:100%}
+
+  /* ===== som ===== */
+  .snd{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:14px;z-index:40;display:flex;align-items:center;gap:7px;min-height:42px;padding:0 15px 0 12px;border-radius:999px;background:rgba(18,20,54,.72);border:1px solid rgba(255,255,255,.3);color:#EEF0FF;font:600 .85rem var(--sans);cursor:pointer;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+  .snd svg{width:20px;height:20px;flex:none}
+  .snd .waves{display:none}
+  .snd[aria-pressed="true"] .waves{display:inline}
+  .snd[aria-pressed="true"] .slash{display:none}
+  .snd[aria-pressed="true"]{color:#F2CF8A;border-color:rgba(242,207,138,.65);box-shadow:0 0 18px -4px #F2CF8A}
+
+  /* ===== topo + hero ===== */
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 0 4px}
+  @media (max-width:1400px){header.top{margin-right:30px}}
+  @media (max-width:1240px){header.top{margin-right:150px}}
+  header.top img{height:46px;width:auto;display:block}
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:36px 0 40px}
+  .eyebrow{display:inline-block;margin:0 0 16px;padding:5px 14px;border:1px solid rgba(242,207,138,.5);border-radius:99px;color:#F2CF8A;font-size:.8rem;font-weight:600;letter-spacing:.05em}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.6rem,7vw,4.3rem);line-height:1.02;margin:0 0 20px;letter-spacing:-.01em;color:#fff;text-shadow:0 0 40px rgba(155,130,255,.4)}
+  h1 em{font-style:italic;color:#F2CF8A;text-shadow:0 0 34px rgba(242,207,138,.45)}
+  .hero .sub{font-size:1.1rem;color:#D9DCF5;max-width:46ch;margin-bottom:26px}
+  .hero .sub b{color:#fff;font-weight:600}
+  .micro{margin:12px 0 0;font-size:.86rem;color:#A8ADCE}
+  .hart{display:grid;justify-items:center;gap:12px}
+  .portrait{position:relative;width:min(76vw,370px);aspect-ratio:1/1.28}
+  .portrait .ring{position:absolute;inset:0;width:100%;height:100%}
+  /* foto praticamente inteira dentro do aro redondo: a imagem ocupa toda a altura e as laterais ganham a própria foto desfocada */
+  .pcircle{position:absolute;left:18%;top:12.5%;width:64%;height:75%;border-radius:50%;overflow:hidden;border:2px solid #F2CF8A;background:#0c1030;box-shadow:0 0 70px -6px rgba(242,207,138,.55),0 0 0 7px rgba(242,207,138,.08)}
+  .pcircle .pfoto{position:absolute;left:-15.05%;top:-1.95%;width:115%;height:115%;max-width:none;object-fit:fill}
+  .portrait .ring svg{width:100%;height:100%;display:block;overflow:visible}
+  .portrait .sweep{position:absolute;left:16%;top:11%;width:68%;height:78%;border-radius:50%;background:conic-gradient(from var(--a,0deg),transparent 0 52%,rgba(242,207,138,.95) 96%,transparent 100%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));filter:drop-shadow(0 0 8px #F2CF8A);animation:sweepA 5s linear infinite}
+  .hart .tag{margin:6px 0 0;text-align:center;color:#F2CF8A;font-family:var(--serif);font-size:1.45rem}
+  .hart .tag b{color:#fff;font-weight:600}
+  .hart .tag2{margin:-6px 0 0;text-align:center;color:#A8ADCE;font-family:var(--serif);font-style:italic;font-size:1.1rem}
+  .trust{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:6px 0 54px}
+  .trust div{padding:15px 16px;background:rgba(18,20,54,.6);border:1px solid rgba(255,255,255,.14);border-radius:18px;font-size:.86rem;color:#CBD0EE;line-height:1.4}
+  .trust b{display:block;color:#fff;font-weight:600;font-size:.94rem;margin-bottom:2px}
+  .trust b::before{content:"✦ ";color:#F2CF8A}
+
+  /* ===== roda (astrolábio) ===== */
+  .ring-line{fill:none;stroke:rgba(255,255,255,.3);stroke-width:1}
+  .ring-dash{fill:none;stroke:rgba(255,255,255,.24);stroke-width:1;stroke-dasharray:2 7}
+  .pl{filter:drop-shadow(0 0 6px currentColor)}
+  .mark{font-family:var(--serif);font-weight:600;font-size:15px;fill:#F2CF8A;opacity:.6}
+  .core{fill:#F2CF8A;filter:drop-shadow(0 0 10px #F2CF8A)}
+  @media (prefers-reduced-motion: no-preference){
+    .ring g.o{animation:rot var(--d,70s) linear infinite}
+    @keyframes rot{to{transform:rotate(360deg)}}
+    .mark{animation:markglow 9s ease-in-out infinite;animation-delay:calc(var(--i) * 1s)}
+    @keyframes markglow{0%,100%{opacity:.55}6%{opacity:1;fill:#fff}14%{opacity:.55}}
+    .core{animation:pulse 3.4s ease-in-out infinite}@keyframes pulse{50%{opacity:.55}}
+    body.rito .ring g.o{animation-duration:4s}
+  }
+  @media (max-width:820px){
+    header.top{margin-right:0}
+    .hero{grid-template-columns:1fr;padding:22px 0 30px;text-align:center}
+    .hero .sub{margin-left:auto;margin-right:auto}.hart{order:-1}
+    .portrait{width:min(72vw,300px)}
+    header.top img{height:40px}.trust{grid-template-columns:1fr 1fr}
+    header.top .btn{display:none}
+  }
+  @media (max-width:420px){.trust{grid-template-columns:1fr}}
+
+  /* ===== formulário ===== */
+  #teste .panel{max-width:640px;margin:0 auto}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:28px;box-shadow:var(--shadow)}
+  .steps{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:.85rem;margin:0 0 4px}
+  .steps i{width:28px;height:4px;border-radius:2px;background:var(--line-s)}.steps i.on{background:var(--gold)}
+  form{display:grid;gap:16px;margin-top:12px}
+  label.field{display:grid;gap:6px;font-weight:600;font-size:.95rem;color:var(--ink)}
+  label.field small{font-weight:400;color:var(--muted)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:560px){.two{grid-template-columns:1fr}.panel{padding:22px}}
+  input[type=text],input[type=date],input[type=email],input[type=tel]{width:100%;font:inherit;font-size:17px;color:var(--ink);background:rgba(255,255,255,.06);border:1px solid var(--line-s);border-radius:12px;padding:13px 14px;min-height:52px}
+  .lt input[type=text],.lt input[type=date],.lt input[type=email],.lt input[type=tel]{background:#FBF9FF}
+  input::placeholder{color:var(--muted);opacity:.8}
+  input:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px rgba(169,115,26,.2)}
+  input.bad{border-color:#E0536C}
+  .err{color:#C4344F;font-size:.86rem;margin:0}
+  .check{display:flex;gap:10px;align-items:flex-start;font-size:.88rem;color:var(--muted)}
+  .check input{width:20px;height:20px;margin-top:2px;accent-color:#B9852C;flex:none}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  .safe{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;color:var(--muted);font-size:.84rem;margin-top:16px}
+  .safe span::before{content:"✦";color:var(--gold);margin-right:6px}
+
+  /* ===== calendário ===== */
+  .years{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media (max-width:700px){.years{grid-template-columns:1fr 1fr}}
+  @media (max-width:420px){.years{grid-template-columns:1fr}}
+  .yc{display:flex;gap:14px;align-items:center;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+  .yc b{font-family:var(--serif);font-size:2.2rem;line-height:1;color:var(--gold);min-width:1ch}
+  .yc span{font-size:.92rem;color:var(--soft);line-height:1.35}
+  .yc strong{color:var(--ink);display:block;font-weight:600}
+
+  /* ===== como funciona / método ===== */
+  .how{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media (max-width:760px){.how{grid-template-columns:1fr}}
+  .how .st{padding:24px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+  .how .n{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--gold);color:var(--gold);font-family:var(--serif);font-weight:700;font-size:1.25rem;margin-bottom:12px}
+  .how h3{font-size:1.28rem;margin-bottom:6px}.how p{margin:0;color:var(--soft);font-size:.95rem}
+  .ltab{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin:28px 0 0;text-align:center}
+  @media (max-width:760px){.ltab{grid-template-columns:repeat(4,1fr)}}
+  .ltab div{padding:12px 4px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+  .ltab b{display:block;font-family:var(--serif);font-size:1.6rem;color:var(--gold);line-height:1.1}
+  .ltab span{font-size:.82rem;letter-spacing:.06em;color:var(--soft)}
+
+  /* ===== comparação ===== */
+  .cmp{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media (max-width:760px){.cmp{grid-template-columns:1fr}}
+  .cmp .col{padding:26px;border-radius:24px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow)}
+  .cmp .col.pro{border:1.5px solid var(--gold);background:linear-gradient(180deg,rgba(242,207,138,.1),var(--card) 60%)}
+  .cmp h3{margin-bottom:4px}.cmp .col>p{color:var(--muted);font-size:.9rem;margin-bottom:14px}
+  ul.ticks{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  ul.ticks li{padding-left:28px;position:relative;font-size:.95rem;color:var(--ink)}
+  ul.ticks li::before{content:"✓";position:absolute;left:0;top:0;color:var(--ok);font-weight:700}
+
+  /* ===== quem assina / depoimentos ===== */
+  .gcard{display:flex;gap:26px;align-items:center;padding:30px;background:var(--card);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow)}
+  @media (max-width:640px){.gcard{flex-direction:column;text-align:center}}
+  .gcard .gfoto{width:156px;height:234px;border-radius:999px 999px 26px 26px;object-fit:cover;object-position:50% 25%;border:2px solid var(--gold);box-shadow:0 0 0 6px rgba(169,115,26,.1),0 18px 40px -18px rgba(60,40,120,.5);flex:none}
+  .gcard h2{margin:0 0 2px}.gcard .role{color:var(--gold);font-weight:600;margin:0 0 10px}
+  .gcard p{color:var(--soft)}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 0;padding:0;list-style:none}
+  @media (max-width:640px){.chips{justify-content:center}}
+  .chips li{padding:4px 12px;border:1px solid var(--line-s);border-radius:99px;font-size:.82rem;color:var(--soft)}
+  .deps{display:grid;gap:14px}
+  .dep{padding:22px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+  .dep p{margin:0 0 8px;font-family:var(--serif);font-size:1.25rem;font-style:italic;color:var(--ink)}
+  .dep span{color:var(--gold);font-size:.9rem;font-weight:600}
+
+  /* ===== faq ===== */
+  details.q{border-top:1px solid var(--line)}
+  details.q:last-of-type{border-bottom:1px solid var(--line)}
+  details.q summary{list-style:none;cursor:pointer;padding:18px 32px 18px 0;font-weight:600;position:relative;color:var(--ink)}
+  details.q summary::-webkit-details-marker{display:none}
+  details.q summary::after{content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--gold)}
+  details.q[open] summary::after{content:"–"}
+  details.q p{color:var(--soft);margin:0 0 18px}
+
+  footer{padding:60px 0 130px;text-align:center;color:#A8ADCE;font-size:.84rem;position:relative;background:linear-gradient(180deg,transparent,rgba(5,7,22,.9));border-top:1px solid rgba(242,207,138,.3)}
+  footer .orn{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto 28px;max-width:340px;color:#F2CF8A}
+  footer .orn i{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(242,207,138,.75))}
+  footer .orn i:last-child{background:linear-gradient(270deg,transparent,rgba(242,207,138,.75))}
+  footer img{width:min(82vw,380px);height:auto;display:block;margin:0 auto 12px;filter:drop-shadow(0 0 22px rgba(242,207,138,.3))}
+  footer .ftag{font-family:var(--serif);font-style:italic;font-size:1.2rem;color:#D9DCF5;margin:0 0 20px}
+  footer .flinks{display:flex;gap:10px 28px;flex-wrap:wrap;justify-content:center;margin:0 0 26px}
+  footer .flinks a{position:relative;color:#F2CF8A;text-decoration:none;font-weight:600;font-size:.92rem}
+  footer .flinks a::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .3s}
+  footer .flinks a:hover::after{transform:scaleX(1)}
+  footer .legal{max-width:60ch;margin:0 auto 10px;font-size:.8rem;color:#9CA1C6}
+  footer .legal a{color:#F2CF8A}
+  footer .copy{color:#757AA3;font-size:.78rem;margin:0}
+
+  /* ===== ritual ===== */
+  #ritual{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(5,6,20,.9);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  #ritual[hidden]{display:none}
+  .rbox{text-align:center;padding:24px}
+  #ritualRing{width:min(60vw,210px);aspect-ratio:1;margin:0 auto 18px;filter:drop-shadow(0 0 26px rgba(242,207,138,.4))}
+  #ritualRing svg{width:100%;height:100%;display:block;overflow:visible}
+  #ritualText{font-family:var(--serif);font-style:italic;font-weight:500;font-size:1.7rem;color:#F2CF8A;min-height:2.4em;margin:0}
+
+  /* ===== resultado (sempre escuro) ===== */
+  #resBox .center{text-align:center}
+  .orb{position:relative;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;flex:none;background:radial-gradient(circle at 30% 24%,var(--od,#3B2A0C),#080A22 78%);border:1.5px solid var(--o,#F2CF8A);box-shadow:0 0 20px -4px var(--o,#F2CF8A),inset 0 0 16px -6px var(--o,#F2CF8A)}
+  .orb b{font-family:var(--serif);font-weight:700;font-size:2.1rem;line-height:1;color:var(--o,#F2CF8A)}
+  .o-gold{--o:#F2CF8A;--od:#3B2A0C}.o-cyan{--o:#5CE1E6;--od:#0A3340}
+  .orb.big{width:132px;height:132px;box-shadow:0 0 50px -6px var(--o),inset 0 0 30px -8px var(--o)}
+  .orb.big b{font-size:4.4rem}
+  .orb.big::after{content:"";position:absolute;inset:-14% -42%;border:1.5px solid var(--o);border-radius:50%;transform:rotate(-18deg) scaleY(.28);opacity:.75;pointer-events:none}
+  .calcbox{margin:12px 0 0;padding:4px 18px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 24px 70px -40px #F2CF8A}
+  .calcbox .cr{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .calcbox .cr:last-child{border-bottom:0}
+  .calcbox .cr span:first-child{color:var(--muted);font-weight:600}
+  .calcbox .cr span:last-child{font-variant-numeric:tabular-nums;text-align:right}
+  .calcbox .cr.sum span:last-child{color:var(--gold);font-weight:700}
+  .yhero{display:grid;justify-items:center;text-align:center;margin:34px 0 8px}
+  .yhero .tagc{margin:0;color:var(--gold);font-weight:700;font-size:.95rem}
+  .yhero .orb.big{margin:22px 0 8px}
+  .yhero .bigttl{font-family:var(--serif);font-style:italic;font-weight:600;font-size:clamp(2.3rem,9.5vw,3.2rem);line-height:1.05;margin:14px 0 8px;color:#fff;text-shadow:0 0 34px rgba(155,130,255,.45)}
+  .yhero .resumo{max-width:44ch;margin:0 auto;color:var(--soft)}
+  .byline{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--muted);margin:16px 0 0;font-size:.95rem}
+  .byline img{width:34px;height:34px;border-radius:50%;border:1px solid rgba(242,207,138,.65);box-shadow:0 0 16px -2px rgba(242,207,138,.55)}
+  .byline b{color:var(--ink);font-weight:600}
+  .card{margin:18px 0 0;padding:22px;background:var(--card);border:1px solid var(--line);border-radius:22px}
+  .card .hn{display:flex;gap:18px;align-items:center;margin-bottom:10px}
+  .card .hn h3{font-size:1.5rem}.card .kw{color:var(--cyan);font-weight:600;font-size:.9rem;margin:0}
+  .card.warn{border-color:rgba(246,178,107,.5)}
+  .seqs{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+  .seq{font-family:var(--serif);font-weight:700;font-size:1.6rem;color:var(--amber);padding:2px 14px;border:1px solid rgba(246,178,107,.55);border-radius:12px;background:rgba(246,178,107,.1)}
+  .locked{margin-top:34px}
+  .lk{position:relative;margin:12px 0 0;padding:18px 18px 16px;background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+  .lk .t{display:flex;gap:12px;align-items:flex-start}
+  .lk .ic{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:rgba(242,207,138,.12);border:1px solid rgba(242,207,138,.5);color:var(--gold)}
+  .lk .ic svg{width:17px;height:17px}
+  .lk h4{margin:0 0 3px;font-family:var(--serif);font-size:1.3rem;font-weight:600;line-height:1.15;color:var(--ink)}
+  .lk p{margin:0;color:var(--soft);font-size:.92rem}
+  .lk .ph{margin-top:12px;display:grid;gap:7px;filter:blur(5px);opacity:.75;user-select:none;pointer-events:none}
+  .lk .ph i{display:block;height:9px;border-radius:5px;background:linear-gradient(90deg,#8E93BC,#5A5F88)}
+  .lk .ph i:nth-child(2){width:86%}.lk .ph i:nth-child(3){width:64%}
+  .mchips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+  .mchips span{min-width:44px;text-align:center;padding:6px 10px;border-radius:12px;border:1px solid var(--line-s);font-family:var(--serif);font-weight:700;font-size:1.2rem;color:var(--gold)}
+  .mchips span.bl{filter:blur(4px);color:#8E93BC;user-select:none}
+  .offer{margin:40px 0 0;padding:32px 24px;text-align:center;background:linear-gradient(180deg,rgba(40,30,90,.75),rgba(18,20,54,.75));border:1.5px solid rgba(242,207,138,.7);border-radius:30px;box-shadow:0 30px 90px -40px #F2CF8A}
+  .offer .badge{display:inline-block;margin-bottom:10px;padding:4px 14px;border-radius:99px;background:rgba(242,207,138,.14);border:1px solid rgba(242,207,138,.5);color:#F2CF8A;font-size:.78rem;font-weight:700;letter-spacing:.08em}
+  .offer h2{margin-bottom:6px}
+  .offer .lead{margin:0 auto 18px}
+  .offer ul.ticks{text-align:left;max-width:520px;margin:0 auto 24px}
+  .price{margin:0 0 16px}
+  .price small{display:block;color:var(--muted);text-decoration:line-through;font-size:.95rem}
+  .price b{display:block;font-family:var(--serif);font-size:3.2rem;line-height:1;color:var(--gold)}
+  .price span{color:var(--muted);font-size:.85rem}
+  .offer .btn{width:100%;max-width:420px}
+  .offer .fine{margin:14px 0 0;color:var(--muted);font-size:.82rem}
+  .novo{margin:26px 0 0;text-align:center}
+  .novo button{background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font:inherit}
+  .sticky{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;gap:12px;align-items:center;justify-content:center;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(7,10,28,.94);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid rgba(242,207,138,.4);transform:translateY(110%);transition:transform .35s}
+  .sticky.on{transform:none}
+  .sticky span{font-size:.9rem;color:#E3E6FA}.sticky span b{color:#F2CF8A}
+  .sticky .btn{min-height:44px;padding:8px 20px;font-size:.95rem}
+  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:60;background:#1b1f4a;color:#fff;border:1px solid rgba(255,255,255,.3);padding:12px 18px;border-radius:14px;max-width:90vw;font-size:.9rem}
+  .toast[hidden]{display:none}
+  #resultado[hidden],.sec[hidden]{display:none}
+
+  /* ===================== VIDA: movimento, brilho e interação ===================== */
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
+  @keyframes sweepA{to{--a:360deg}}
+  .sec{overflow:hidden}
+  .sec>.wrap,.sec>.narrow{position:relative;z-index:1}
+  .sec::after{content:"";position:absolute;width:440px;height:440px;border-radius:50%;border:1.5px dashed rgba(242,207,138,.2);right:-190px;top:-100px;animation:spin 90s linear infinite;pointer-events:none}
+  .sec:nth-of-type(even)::after{right:auto;left:-190px;top:auto;bottom:-140px}
+  .sec.lt::after{border-color:rgba(169,115,26,.26)}
+  .sec.lt{background:radial-gradient(48% 58% at 94% 0%,rgba(242,207,138,.38),transparent 66%),radial-gradient(44% 50% at 0% 100%,rgba(155,130,255,.15),transparent 66%),linear-gradient(180deg,#FBF7EE 0%,#F4ECDC 100%)}
+  /* topo */
+  .hero{position:relative}
+  .hero::before{content:"";position:absolute;inset:-30px -20px;pointer-events:none;background:radial-gradient(380px circle at var(--px,72%) var(--py,40%),rgba(242,207,138,.16),transparent 62%);z-index:-1}
+  .fx-hero{position:absolute;inset:-70px -40px;z-index:-1;pointer-events:none;overflow:hidden}
+  .aur{position:absolute;border-radius:50%;filter:blur(64px);opacity:.6;animation:drift 18s ease-in-out infinite alternate}
+  .a1{width:440px;height:440px;left:-90px;top:-50px;background:radial-gradient(circle,#7C5CFF,transparent 66%)}
+  .a2{width:400px;height:400px;right:-70px;top:50px;background:radial-gradient(circle,rgba(242,207,138,.55),transparent 66%);animation-duration:23s}
+  .a3{width:360px;height:360px;left:34%;bottom:-130px;background:radial-gradient(circle,rgba(255,110,200,.5),transparent 66%);animation-duration:27s}
+  @keyframes drift{to{transform:translate(70px,46px) scale(1.18)}}
+  .spark-box{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+  .sp{position:absolute;bottom:-14px;color:#F2CF8A;opacity:0;font-size:var(--s,12px);text-shadow:0 0 10px #F2CF8A;animation:rise var(--t,9s) linear var(--dl,0s) infinite}
+  @keyframes rise{0%{transform:translateY(0) rotate(0);opacity:0}10%{opacity:.95}85%{opacity:.7}100%{transform:translateY(-620px) rotate(200deg);opacity:0}}
+  h1 em.shine{background:linear-gradient(100deg,#E3B35C 0%,#fff 28%,#F2CF8A 52%,#E3B35C 100%);background-size:240% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;animation:shine 5.5s linear infinite}
+  @keyframes shine{to{background-position:-240% 0}}
+  .portrait{transition:transform .25s ease-out;transform:perspective(900px) rotateY(calc(var(--mx,0)*7deg)) rotateX(calc(var(--my,0)*-7deg))}
+  .portrait .sweep{position:absolute;left:16%;top:11%;width:68%;height:78%;border-radius:50%;background:conic-gradient(from var(--a,0deg),transparent 0 52%,rgba(242,207,138,.95) 96%,transparent 100%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));filter:drop-shadow(0 0 8px #F2CF8A);animation:sweepA 5s linear infinite}
+  .pcircle{animation:halo 4.5s ease-in-out infinite}
+  @keyframes halo{50%{box-shadow:0 0 96px -2px rgba(242,207,138,.8),0 0 0 8px rgba(242,207,138,.14)}}
+  /* botões com brilho */
+  .btn{position:relative;overflow:hidden}
+  .btn:not(.ghost)::after{content:"";position:absolute;top:0;bottom:0;width:55%;left:-80%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.65),transparent);transform:skewX(-20deg);animation:sheen 4.2s ease-in-out infinite;pointer-events:none}
+  @keyframes sheen{0%,55%{left:-80%}100%{left:140%}}
+  .btn.big:not(.ghost){animation:pulseBtn 2.8s ease-in-out infinite}
+  @keyframes pulseBtn{0%,100%{box-shadow:0 12px 30px -12px rgba(200,150,50,.85),0 0 0 0 rgba(242,207,138,.55)}50%{box-shadow:0 12px 30px -12px rgba(200,150,50,.85),0 0 0 15px rgba(242,207,138,0)}}
+  .snd.nudge{animation:nudge 2.4s ease-in-out infinite}
+  @keyframes nudge{0%,100%{box-shadow:0 0 0 0 rgba(242,207,138,0)}50%{box-shadow:0 0 0 11px rgba(242,207,138,.28)}}
+  /* aparecer ao rolar */
+  html.js .rv{opacity:0;transform:translateY(30px) scale(.98);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--dl,0s)}
+  html.js .rv.in{opacity:1;transform:none}
+  .sh h2::after{transition:width 1.1s .3s ease}
+  html.js .sh:not(.in) h2::after{width:0}
+  /* cartões respondem ao toque/mouse */
+  .how .st,.cmp .col,.lk,.dep,.trust div,.ltab div,.gcard{transition:transform .3s,box-shadow .3s,border-color .3s}
+  .how .st:hover,.cmp .col:hover,.lk:hover,.dep:hover,.trust div:hover,.ltab div:hover{transform:translateY(-6px);border-color:var(--gold)}
+  .lk:hover .ic{animation:wig .6s}
+  @keyframes wig{20%{transform:rotate(-14deg)}50%{transform:rotate(12deg)}80%{transform:rotate(-6deg)}}
+  details.q summary{transition:color .2s,padding-left .25s}
+  details.q summary:hover{color:var(--gold);padding-left:6px}
+  /* roda dos 9 anos */
+  .w9{display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:center;max-width:920px;margin:0 auto}
+  @media (max-width:820px){.w9{grid-template-columns:1fr;gap:26px;justify-items:center;text-align:center}}
+  .w9wheel{position:relative;width:min(88vw,400px);aspect-ratio:1}
+  .w9svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .w-ring{fill:none;stroke:var(--line-s);stroke-width:1}
+  .w-dash{fill:none;stroke:var(--gold);opacity:.55;stroke-dasharray:2 7}
+  .w-line{stroke:var(--gold);stroke-width:1.2;opacity:.6;stroke-dasharray:3 4}
+  .w9svg g.o{animation:spin 80s linear infinite}
+  #w9nodes{position:absolute;inset:0}
+  .w9n{position:absolute;width:15.5%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:1.5px solid var(--line-s);background:var(--card);color:var(--ink);font:700 1.4rem var(--serif);cursor:pointer;display:grid;place-items:center;transition:transform .35s cubic-bezier(.3,1.4,.5,1),background .3s,box-shadow .3s,color .3s,border-color .3s;padding:0}
+  .w9n:hover{transform:translate(-50%,-50%) scale(1.14);border-color:var(--gold)}
+  .w9n.on{background:linear-gradient(180deg,#F8DDA0,#E3B35C);color:#1A1330;border-color:#E3B35C;transform:translate(-50%,-50%) scale(1.22);box-shadow:0 0 30px rgba(227,179,92,.75)}
+  .w9c{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34%;text-align:center;pointer-events:none}
+  .w9c b{display:block;font-family:var(--serif);font-weight:700;font-size:clamp(3rem,13vw,4.6rem);line-height:.95;color:var(--gold);text-shadow:0 0 30px rgba(227,179,92,.5)}
+  .w9c span{display:block;font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--soft);line-height:1.1}
+  .w9txt{min-height:300px}
+  .w9txt.sw{animation:swap .55s cubic-bezier(.2,.8,.3,1)}
+  @keyframes swap{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .w9k{color:var(--gold);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.78rem;margin:0 0 6px}
+  .w9txt h3{font-size:2.2rem;margin:0 0 6px}
+  .w9s{font-family:var(--serif);font-style:italic;font-size:1.25rem;color:var(--gold);margin:0 0 10px}
+  .w9txt p{color:var(--soft)}
+  .w9txt ul.ticks{margin:12px 0 0;text-align:left}
+  .w9h{margin-top:14px;font-size:.84rem;color:var(--muted)}
+  /* celebração ao abrir o resultado */
+  #fx{position:fixed;left:50%;top:46%;width:0;height:0;pointer-events:none;z-index:70}
+  #fx i{position:absolute;font-style:normal;color:#F2CF8A;font-size:var(--s,14px);text-shadow:0 0 12px #F2CF8A;animation:fly 1.3s cubic-bezier(.1,.7,.3,1) forwards}
+  @keyframes fly{0%{transform:translate(0,0) scale(.3) rotate(0);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1) rotate(var(--r));opacity:0}}
+  .orb.big.pop{animation:orbpop 1.1s cubic-bezier(.2,1.4,.4,1)}
+  @keyframes orbpop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}
+  @media (prefers-reduced-motion: reduce){ .sec::after,.aur,.sp,.btn::after,.portrait .sweep,.snd.nudge,.btn.big,h1 em.shine,.pcircle,.portrait .sweep{animation:none !important} .portrait{transform:none !important} }
+</style>
+</head>
+<body>
+<div class="nebula" aria-hidden="true"></div>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<div id="fx" aria-hidden="true"></div>
+<button type="button" id="snd" class="snd nudge" aria-pressed="false" aria-label="Ligar som ambiente">
+  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 9.5v5h4l5 4v-13l-5 4H3z" fill="currentColor" fill-opacity=".25"/>
+    <g class="waves"><path d="M15.5 8.8a4.6 4.6 0 010 6.4"/><path d="M18.2 6.2a8.2 8.2 0 010 11.6"/></g>
+    <g class="slash"><path d="M16 9.5l5 5M21 9.5l-5 5"/></g>
+  </svg>
+  <span id="sndT">Ligar o som</span>
+</button>
+
+<div id="ritual" hidden role="status" aria-live="polite"><div class="rbox"><div id="ritualRing" aria-hidden="true"></div><p id="ritualText"></p></div></div>
+
+<main>
+<div class="wrap">
+  <header class="top">
+    <a href="#topo" aria-label="Giulia Dantas · Numerologia"><img src="logo.png" alt="Giulia Dantas · Numerologia" width="1100" height="272"></a>
+    <a class="btn ghost sm" href="cliente.html" style="color:#EEF0FF;border-color:rgba(255,255,255,.3)">Já sou cliente</a>
+  </header>
+
+  <section class="hero" id="topo">
+    <div class="fx-hero" aria-hidden="true"><span class="aur a1"></span><span class="aur a2"></span><span class="aur a3"></span></div>
+    <div class="spark-box" id="sparks" aria-hidden="true"></div>
+    <div style="position:relative;z-index:1">
+      <p class="eyebrow">Teste grátis · resultado na hora</p>
+      <h1>Em qual <em class="shine">ano</em> da sua vida você está?</h1>
+      <p class="sub">Todo mundo vive um ciclo de nove anos, e cada ano pede uma coisa: começar, construir, colher ou soltar. <b>Com a sua data de nascimento, eu faço a conta</b> e te mostro o seu ano, o que ele pede de você e se o seu nome carrega algum bloqueio.</p>
+      <a class="btn big" href="#teste">Fazer o meu teste grátis</a>
+      <p class="micro">Grátis · sem cartão · leva menos de um minuto</p>
+    </div>
+    <div class="hart">
+      <div class="portrait"><div class="ring" id="heroRing" aria-hidden="true"></div><div class="sweep" aria-hidden="true"></div><div class="pcircle"><img class="pfoto" src="giulia.jpg" alt="Giulia Dantas, numeróloga" width="800" height="1200" fetchpriority="high"></div></div>
+      <p class="tag"><b>Giulia Dantas</b> · Numeróloga</p>
+      <p class="tag2">Autoconhecimento com números, em linguagem simples.</p>
+    </div>
+  </section>
+  <div class="trust" id="trust"></div>
+</div>
+
+<section class="sec" id="teste">
+  <div class="narrow">
+    <div class="sh"><p class="kicker">Passo 1 de 2</p><h2>Faça a conta do seu ano</h2><p class="lead">Preencha os dados abaixo. O resultado aparece na hora, aqui mesmo, assim que você tocar no botão.</p></div>
+    <div class="panel">
+      <div class="steps"><i class="on"></i><i></i><span>Seus dados</span></div>
+      <form id="f" novalidate autocomplete="on">
+        <label class="field" for="nome"><span>Nome completo de nascimento</span>
+          <input id="nome" name="name" type="text" autocomplete="name" placeholder="Como está na certidão" maxlength="120">
+          <small>Com acento, se tiver. Se mudou o sobrenome, use o de nascimento.</small><p class="err" id="eNome"></p>
+        </label>
+        <label class="field" for="data"><span>Data de nascimento</span>
+          <input id="data" name="bday" type="date" autocomplete="bday"><p class="err" id="eData"></p>
+        </label>
+        <div class="two">
+          <label class="field" for="email"><span>Seu e-mail</span>
+            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="voce@email.com" maxlength="120"><p class="err" id="eEmail"></p>
+          </label>
+          <label class="field" for="zap"><span>Seu WhatsApp</span>
+            <input id="zap" name="tel" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="(11) 91234-5678" maxlength="16"><p class="err" id="eZap"></p>
+          </label>
+        </div>
+        <input class="hp" id="site" name="site" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="check"><input id="ok" type="checkbox"><span>Quero receber contato de Giulia Dantas por e-mail e WhatsApp sobre o meu resultado e a consulta completa. Posso pedir a remoção dos meus dados quando quiser.</span></label>
+        <p class="err" id="eOk"></p>
+        <button class="btn big full" type="submit">Ver o meu resultado grátis</button>
+      </form>
+      <div class="safe"><span>Grátis, sem cartão</span><span>Resultado na hora</span><span>Dados protegidos</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="resultado" hidden aria-live="polite" data-force="dk">
+  <div class="narrow" id="resBox"></div>
+</section>
+
+<section class="sec" id="calendario">
+  <div class="wrap">
+    <div class="sh"><p class="kicker">A roda dos 9 anos</p><h2>Cada fase da vida tem a sua estação</h2>
+    <p class="lead">A sua data de nascimento coloca você num ciclo de 9 anos, e cada ano traz um tema: iniciar, construir, colher, soltar. Quem ignora a estação em que está costuma sentir o peso no dinheiro, no amor e no trabalho, sem entender de onde veio.</p></div>
+    <div class="w9" id="w9">
+      <div class="w9wheel">
+        <svg class="w9svg" viewBox="-150 -150 300 300" aria-hidden="true">
+          <circle class="w-ring" r="142"/><g class="o"><circle class="w-dash" r="128"/></g><circle class="w-ring" r="98"/><circle class="w-ring" r="64"/>
+          <g id="w9ptr" style="transition:transform 1s cubic-bezier(.3,.8,.2,1)"><line class="w-line" x1="66" y1="0" x2="104" y2="0"/><circle class="pl" cx="118" cy="0" r="7" fill="#E3B35C" style="color:#E3B35C"/></g>
+        </svg>
+        <div id="w9nodes"></div>
+        <div class="w9c" id="w9c"></div>
+      </div>
+      <div class="w9txt" id="w9txt" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="como">
+  <div class="wrap">
+    <div class="sh"><p class="kicker">Como funciona</p><h2>Do teste grátis à consulta completa</h2></div>
+    <div class="how">
+      <div class="st"><div class="n">1</div><h3>Faça o teste</h3><p>Com o nome e a data de nascimento, o sistema faz a conta do seu Ano Pessoal e do seu mês, e mostra quantos bloqueios o seu nome forma.</p></div>
+      <div class="st"><div class="n">2</div><h3>Veja o que o seu ano pede</h3><p>Você lê o resultado na hora e confere com o que está vivendo. É o que costuma fazer a pessoa dizer: “era isso mesmo”.</p></div>
+      <div class="st"><div class="n">3</div><h3>Receba a consulta completa</h3><p>Se quiser ir além, a consulta completa abre os capítulos fechados e fica na sua área, no celular, para reler quando quiser.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="completa">
+  <div class="wrap">
+    <div class="sh"><p class="kicker">Grátis ou completa</p><h2>O que você recebe em cada uma</h2></div>
+    <div class="cmp">
+      <div class="col"><h3>Teste grátis</h3><p>Para conhecer o seu ano</p>
+        <ul class="ticks"><li>O seu Ano Pessoal e a conta, passo a passo</li><li>O que o seu ano significa, em poucas linhas</li><li>O seu mês atual e o que ele pede</li><li>Quantos bloqueios o seu nome forma</li></ul></div>
+      <div class="col pro"><h3>Consulta completa</h3><p>O seu mapa numerológico inteiro</p>
+        <ul class="ticks"><li>O seu ano completo, com a armadilha que pega quase todo mundo</li><li>O ano seguinte, mês a mês</li><li>Como contornar cada bloqueio do seu nome</li><li>Qual nome usar para assinar e se apresentar</li><li>Destino, coração e expressão, com a conta de cada um</li><li>Amor, dinheiro e casa nos seus números</li></ul></div>
+    </div>
+    <div style="text-align:center;margin-top:30px"><a class="btn big" href="#teste">Começar pelo teste grátis</a></div>
+  </div>
+</section>
+
+<section class="sec" id="metodo">
+  <div class="wrap">
+    <div class="sh"><p class="kicker">Sem mistério</p><h2>Como a conta é feita</h2>
+    <p class="lead">Nada de caixa-preta. A conta usa a sua data e as letras do seu nome, aparece passo a passo na tela, e você mesmo pode conferir cada soma.</p></div>
+    <div class="how">
+      <div class="st"><div class="n">1</div><h3>A data mostra o ano</h3><p>Dia + mês de nascimento + o ano do seu último aniversário, somados até sobrar um dígito. Esse é o seu Ano Pessoal, e ele muda no dia do seu aniversário.</p></div>
+      <div class="st"><div class="n">2</div><h3>O nome vira números</h3><p>Cada letra vale um número de 1 a 8, pela tabela da numerologia cabalística (abaixo). Acentos e o ç têm valores próprios.</p></div>
+      <div class="st"><div class="n">3</div><h3>O triângulo mostra bloqueios</h3><p>Somando as letras vizinhas, forma-se um triângulo. Se o mesmo número aparece três vezes seguidas, isso é um bloqueio.</p></div>
+    </div>
+    <div class="ltab" aria-label="Tabela de letras da numerologia cabalística">
+      <div><b>1</b><span>A I J Q Y</span></div><div><b>2</b><span>B K R</span></div><div><b>3</b><span>C G L S</span></div><div><b>4</b><span>D M T</span></div>
+      <div><b>5</b><span>E H N</span></div><div><b>6</b><span>U V W X</span></div><div><b>7</b><span>O Z</span></div><div><b>8</b><span>F P</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="giulia" hidden>
+  <div class="narrow"><div class="gcard" id="gcard"></div></div>
+</section>
+
+<section class="sec" id="depoimentos" hidden>
+  <div class="narrow"><div class="sh"><p class="kicker">Quem já fez</p><h2>O que as pessoas dizem</h2></div><div class="deps" id="deps"></div></div>
+</section>
+
+<section class="sec" id="faq">
+  <div class="narrow">
+    <div class="sh"><p class="kicker">Antes de começar</p><h2>Perguntas frequentes</h2></div>
+    <div>
+      <details class="q"><summary>A numerologia combina com a minha religião?</summary><p>Aqui ela entra como ferramenta de autoconhecimento e reflexão: não faz previsão e não toma o lugar da sua fé. Muita gente usa o ciclo do ano como um calendário de decisões, do mesmo jeito que se olha a estação antes de plantar. Se algum ponto não combinar com a sua crença, é só deixar de lado.</p></details>
+      <details class="q"><summary>Preciso crer na numerologia para ler o meu resultado?</summary><p>Não. Leia como um espelho: veja o que bate com o que você vive e o que não bate. O que fizer sentido, você aproveita. O resto, descarta.</p></details>
+      <details class="q"><summary>O que eu vejo no teste gratuito?</summary><p>O resultado aparece na tela na hora. Ele traz o seu Ano Pessoal com a conta feita na sua frente, o que o ano pede, o clima do mês em que você está e quantos bloqueios o seu nome forma. Os capítulos que dizem como agir, o calendário dos meses e a forma de contornar os bloqueios ficam na consulta completa.</p></details>
+      <details class="q"><summary>Para que serve o meu nome completo?</summary><p>O nome de nascimento forma o triângulo que mostra se existem bloqueios, isto é, o mesmo número repetido três vezes seguidas. Quanto mais fiel à certidão, mais fiel o resultado.</p></details>
+      <details class="q"><summary>O que acontece com o meu e-mail e o meu WhatsApp?</summary><p>Eles servem para a Giulia Dantas falar com você sobre o seu resultado e a consulta completa, e para liberar o seu acesso depois da compra. Se quiser que os seus dados sejam apagados, é só avisar pelo mesmo contato.</p></details>
+      <details class="q"><summary>Dá para fazer a conta de um familiar ou amigo?</summary><p>Dá, e muita gente faz para presentear. Use o nome completo e a data de nascimento da pessoa. O e-mail e o WhatsApp continuam sendo os seus, e é para você que o contato e o acesso vão.</p></details>
+      <details class="q"><summary>Como e quando chega a consulta completa?</summary><p>Assim que o pagamento é confirmado, o link de acesso ao seu mapa chega no seu e-mail. Você entra com o mesmo e-mail que usou aqui e vê apenas o seu resultado.</p></details>
+      <details class="q"><summary>Consigo guardar o resultado em PDF ou no celular?</summary><p>Consegue. A consulta completa fica na sua área, e dali você pode imprimir, salvar em PDF e instalar como aplicativo no celular para reler quando quiser.</p></details>
+      <details class="q"><summary>Quem está por trás da leitura?</summary><p>A conta segue a numerologia cabalística, e cada passo aparece na tela para você conferir (veja “Como a conta é feita”). A leitura é assinada por Giulia Dantas, numeróloga.</p></details>
+    </div>
+    <div style="text-align:center;margin-top:30px"><a class="btn big" href="#teste">Fazer o meu teste grátis</a></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="narrow">
+    <div class="orn" aria-hidden="true"><i></i><span>✦</span><i></i></div>
+    <img src="logo.png" alt="Giulia Dantas · Numerologia" width="1100" height="272">
+    <p class="ftag">Autoconhecimento com números, em linguagem simples.</p>
+    <nav class="flinks" aria-label="Rodapé"><a href="#teste">Teste grátis</a><a href="#calendario">A roda dos 9 anos</a><a href="#faq">Perguntas</a><a href="cliente.html">Área do cliente</a></nav>
+    <p class="legal">Numerologia é ferramenta de autoconhecimento. Não substitui a sua fé nem o acompanhamento de médico, psicólogo, advogado ou contador.</p>
+    <p class="legal" id="contato"></p>
+    <p class="copy">© <span id="ano">2026</span> Giulia Dantas · Numerologia</p>
+  </div>
+</footer>
+
+<div class="sticky" id="sticky"><span>Consulta completa <b id="stickyPreco"></b></span><button class="btn" type="button" id="stickyBtn">Quero a minha</button></div>
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script>
+window.CAB=(function(){
+/* ===================== CÁLCULOS ===================== */
+const red = n => { n = Math.abs(n); while (n > 9) n = String(n).split("").reduce((a, b) => a + +b, 0); return n; };
+/* Tabela CABALÍSTICA (brasileira). Acentos somam ao valor da letra. */
+const L = {A:1,B:2,C:3,D:4,E:5,F:8,G:3,H:5,I:1,J:1,K:2,L:3,M:4,N:5,O:7,P:8,Q:1,R:2,S:3,T:4,U:6,V:6,W:6,X:6,Y:1,Z:7};
+// agudo +2, circunflexo +7, til +3, cedilha +3 (Ç = 6). Grave e trema: sem valor padrão, contam como a letra-base.
+const ACENTO = {"́":2,"̂":7,"̃":3,"̧":3};
+const letras = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase().replace(/[^A-Z]/g, "");
+// devolve [{c:letra, v:valor 1-9, vogal:bool}] já com acentos
+const valores = s => {
+  const out = [];
+  for (const ch of s.normalize("NFD").toUpperCase()) {
+    if (/[A-Z]/.test(ch)) out.push({ c: ch, v: L[ch], vogal: "AEIOUY".includes(ch) });
+    else if (ACENTO[ch] && out.length) out.at(-1).v += ACENTO[ch];
+  }
+  out.forEach(o => o.v = red(o.v));
+  return out;
+};
+const soma = arr => red(arr.reduce((a, b) => a + b, 0));
+const MESES = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+const fmt = d => d.toLocaleDateString("pt-BR");
+const pd = s => { const [y, m, d] = s.split("-").map(Number); return { y, m, d }; };
+
+function anoPessoal(nasc, anoBase) { return red(red(nasc.d) + red(nasc.m) + red(anoBase)); }
+
+function calcular(v) {
+  const n = pd(v.nasc), r = pd(v.ref);
+  const jaFez = r.m > n.m || (r.m === n.m && r.d >= n.d);
+  const anoUlt = jaFez ? r.y : r.y - 1;
+  const ap = anoPessoal(n, anoUlt), prox = anoPessoal(n, anoUlt + 1);
+  const proxAniv = new Date(anoUlt + 1, n.m - 1, n.d);
+  const ultAniv = new Date(anoUlt, n.m - 1, n.d);
+  const fimAno = new Date(anoUlt + 1, n.m - 1, n.d - 1);
+  const vals = valores(v.nome);
+  const nums = vals.map(o => o.v);
+  const vog = vals.filter(o => o.vogal).map(o => o.v);
+  const con = vals.filter(o => !o.vogal).map(o => o.v);
+  const destino = red(red(n.d) + red(n.m) + red(n.y));
+  const coracao = soma(vog), expressao = soma(nums), personalidade = soma(con);
+  // triângulo do nome
+  const tri = [nums]; while (tri[tri.length - 1].length > 1) { const p = tri[tri.length - 1]; tri.push(p.slice(1).map((x, i) => red(x + p[i]))); }
+  const blocos = []; tri.forEach((row, ri) => { let i = 0; while (i < row.length) { let j = i; while (j + 1 < row.length && row[j + 1] === row[i]) j++; if (j - i >= 2) blocos.push({ num: row[i], row: ri, ini: i, fim: j, len: j - i + 1 }); i = j + 1; } });
+  // meses: do mês de referência até dezembro do ano seguinte
+  const meses = [];
+  for (let y = r.y, m = r.m; !(y === r.y + 1 && m === 13); ) {
+    if (m === 13) { m = 1; y++; }
+    const primeiro = new Date(y, m - 1, 1);
+    const anoVig = primeiro >= proxAniv ? prox : (primeiro >= ultAniv ? ap : anoPessoal(n, anoUlt - 1));
+    const base = red(anoVig + m);
+    let troca = null;
+    if (proxAniv.getFullYear() === y && proxAniv.getMonth() === m - 1 && proxAniv.getDate() > 1) troca = { dia: proxAniv.getDate(), num: red(prox + m) };
+    if (ultAniv.getFullYear() === y && ultAniv.getMonth() === m - 1 && ultAniv.getDate() > 1 && !jaFez) { /* não ocorre */ }
+    meses.push({ y, m, ano: anoVig, num: base, troca, atual: y === r.y && m === r.m });
+    m++; if (y === r.y + 1 && m === 13) break;
+  }
+  // casa
+  let casa = null;
+  if (v.casa.trim()) { const t = v.casa.toUpperCase(); const dig = [...t].filter(c => /\d/.test(c)).map(Number); const let_ = valores(t).map(o => o.v); casa = { num: soma([...dig, ...let_]), txt: v.casa.trim(), temLetra: let_.length > 0, soNum: soma(dig) }; }
+  return { n, r, ap, prox, ultAniv, proxAniv, fimAno, anoUlt, destino, coracao, expressao, personalidade, tri, blocos, meses, casa, nome: v.nome.trim(), primeiro: v.nome.trim().split(/\s+/)[0] };
+}
+
+/* ===================== ESTRATÉGIA DE NOME ===================== */
+const PART = new Set(["da","de","do","das","dos","e","di","du","del","la","von","van"]);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function analisar(txt) {
+  const vals = valores(txt), nums = vals.map(o => o.v);
+  const tri = [nums]; while (tri.at(-1).length > 1) { const p = tri.at(-1); tri.push(p.slice(1).map((x, i) => red(x + p[i]))); }
+  const seqs = [];
+  tri.forEach(row => { let i = 0; while (i < row.length) { let j = i; while (j + 1 < row.length && row[j + 1] === row[i]) j++; if (j - i >= 2) seqs.push(String(row[i]).repeat(3)); i = j + 1; } });
+  return { bl: seqs.length, seqs, exp: soma(nums), cor: soma(vals.filter(o => o.vogal).map(o => o.v)), pers: soma(vals.filter(o => !o.vogal).map(o => o.v)) };
+}
+function estrategia(nome) {
+  const tk = nome.trim().split(/\s+/).filter(Boolean);
+  let un = [], pend = [];
+  tk.forEach(t => { if (PART.has(t.toLowerCase())) pend.push(t); else { un.push({ txt: [...pend, t].join(" "), ini: t[0].toUpperCase() }); pend = []; } });
+  if (pend.length && un.length) un.at(-1).txt += " " + pend.join(" ");
+  if (!un.length) return null;
+  if (un.length > 8) un = un.slice(0, 4).concat(un.slice(-4));
+  const n = un.length, ref = analisar(un.map(u => u.txt).join(" "));
+  const vistos = new Set(), cand = [];
+  const semAcentos = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").normalize("NFC");
+  const add = (txt, tipo, extra) => {
+    const k = txt.toLowerCase(); if (vistos.has(k)) return; vistos.add(k);
+    cand.push({ txt, tipo, r: analisar(txt), ...extra });
+    const sem = semAcentos(txt);   // mesma escrita, sem acento (grafia que existe: André/Andre)
+    if (sem !== txt && !extra.semAcento) add(sem, tipo, { ...extra, semAcento: true, comAcento: txt });
+  };
+  for (let mask = 1; mask < (1 << n); mask++) {
+    const idx = [...Array(n).keys()].filter(i => mask >> i & 1);
+    const temPrimeiro = !!(mask & 1), temUltimo = !!(mask >> (n - 1) & 1);
+    const base = { temPrimeiro, temUltimo, qtd: idx.length, omitidos: un.filter((u, i) => !(mask >> i & 1)).map(u => u.txt) };
+    if (idx.length < n) add(idx.map(i => un[i].txt).join(" "), "partes", base);
+    if (idx.length >= 1 && idx.length < n && n > 2) {
+      for (let k = 0; k < n; k++) if (!(mask >> k & 1)) {
+        const txt = [...Array(n).keys()].filter(i => (mask >> i & 1) || i === k).map(i => (mask >> i & 1) ? un[i].txt : un[i].ini + ".").join(" ");
+        add(txt, "inicial", { ...base, omitidos: base.omitidos.filter(o => o !== un[k].txt), inicializado: un[k].txt });
+      }
+    }
+  }
+  { // nome completo, só que sem acentos
+    const completo = un.map(u => u.txt).join(" "), sem = semAcentos(completo);
+    if (sem !== completo) add(sem, "partes", { temPrimeiro: true, temUltimo: true, qtd: n, omitidos: [], semAcento: true, comAcento: completo });
+  }
+  // chave de preferência (menor = melhor): reconhecível (tem o 1º nome), mantém a expressão, uso natural (2 nomes), sem inicial
+  const chave = c => (c.temPrimeiro ? 0 : 100) + (c.tipo === "inicial" ? 30 : 0) + (c.r.exp === ref.exp ? 0 : 4) + Math.abs(c.qtd - 2) * 3 + (c.temUltimo ? 0 : 3) + (c.semAcento ? 2 : 0);
+  const zeros = cand.filter(c => c.r.bl === 0).sort((a, b) => chave(a) - chave(b));
+  // nome artístico: letra extra ao fim do primeiro ou do último nome
+  const bases = [...new Set([un.map(u => u.txt).join(" "), n > 1 ? un[0].txt + " " + un[n - 1].txt : un[0].txt])];
+  const letras_ = [];
+  const vis2 = new Set();
+  bases.forEach(b => {
+    const ps = b.split(" ");
+    [0, ps.length - 1].forEach(pos => {
+      if (PART.has(ps[pos].toLowerCase())) return;
+      for (const ch of "AEIOUYSHRN") {
+        const q = ps.slice(); q[pos] = q[pos] + ch.toLowerCase();
+        const txt = q.join(" "), k = txt.toLowerCase(); if (vis2.has(k)) continue; vis2.add(k);
+        const r = analisar(txt);
+        if (r.bl < ref.bl && r.bl === 0) letras_.push({ txt, r, onde: ps[pos], ch, pos });
+      }
+    });
+  });
+  // letra extra: só como orientação (quais letras quebram), nunca como nome inventado
+  const porNome = {};
+  letras_.forEach(l => { (porNome[l.onde] = porNome[l.onde] || new Set()).add(l.ch); });
+  const letrasOk = Object.entries(porNome).map(([onde, s]) => ({ onde, letras: [...s] })).slice(0, 2);
+  const principal = zeros[0] || null;
+  const alt = [];
+  const poe = c => { if (c && c !== principal && !alt.includes(c) && alt.length < 3) alt.push(c); };
+  poe(zeros.find(c => c.r.exp === ref.exp && c !== principal));           // mantém a expressão
+  poe(zeros.find(c => c.tipo === "inicial" && c !== principal));           // inicial de um nome omitido
+  poe(zeros.find(c => c.qtd === 1 && c !== principal));                    // só um nome
+  zeros.slice(1).forEach(poe);
+  return { ref, principal, alt, letrasOk, un, nomeCompleto: un.map(u => u.txt).join(" ") };
+}
+
+/* ===================== CONTEÚDO ===================== */
+const ANO = {
+1:{nome:"o ano de começar",resumo:"Fecha-se um ciclo de nove anos e abre-se outro. O que você plantar agora define o tom dos próximos anos.",
+ pede:["Escolher uma direção e começar, mesmo sem ter todas as respostas.","Tomar iniciativa em vez de esperar convite ou permissão.","Cortar de vez o que ficou velho: hábito, emprego, vínculo, versão de si.","Aceitar que vai ficar um pouco sozinho(a) na decisão."],
+ amor:"O amor pede autonomia. Quem está a dois precisa de espaço próprio sem culpa; quem está só tende a se reencontrar antes de se envolver. Relações novas surgem quando você para de se moldar ao outro.",
+ dinheiro:"Bom ano para abrir negócio, pedir aumento, cobrar o que vale e iniciar uma fonte de renda sua. Evite investimentos que dependem de sócio indeciso. Comece pequeno, mas comece.",
+ trabalho:"Ano de liderar, propor e mudar de área se for o caso. Projetos iniciados agora ganham força. Resista a ficar esperando que alguém decida por você.",
+ casa:"Mudança de casa, de cômodo ou de rotina doméstica combina com o 1. Tire o que é do passado do caminho e deixe um espaço só seu.",
+ corpofe:"Energia alta pede movimento: comece uma atividade física e mantenha. Na fé, é tempo de escolher o que você realmente acredita, e não só o que herdou.",
+ evitar:["Adiar o começo por perfeccionismo.","Depender de aprovação para agir.","Brigar por orgulho com quem poderia ajudar.","Começar dez coisas e terminar nenhuma."],
+ armadilha:"Querer fazer tudo sozinho(a) e se esgotar. O 1 dá força, e a força vira dureza quando você deixa de pedir ajuda.",
+ favorece:["Abrir negócio ou novo projeto","Mudar de carreira","Assumir liderança","Começar um estudo longo"],
+ espera:["Casar por pressa","Assinar sociedade sem prazo de saída","Decisões tomadas em raiva","Grandes empréstimos"],
+ fechar:"Termine o que é do ciclo anterior, perdoe o que ficou pendente e escolha uma meta única para o próximo ano.",
+ entrar:"Chegar ao ano 1 sem ter encerrado o 9. O que não foi solto continua puxando, e o começo nasce pesado."},
+2:{nome:"o ano de cultivar",resumo:"Depois da semente vem a espera. O 2 é ano de paciência, parceria e detalhe, em que o resultado aparece devagar.",
+ pede:["Ter paciência: o que cresce agora não se apressa.","Cooperar e ouvir antes de decidir.","Cuidar dos vínculos que importam, com conversa de verdade.","Prestar atenção em detalhes e na sua intuição."],
+ amor:"O amor floresce na escuta. É ano de reconciliação, de aprofundar a relação e de conhecer alguém com calma. Cuidado com a dependência emocional e com engolir o que incomoda.",
+ dinheiro:"Dinheiro rende em parceria e constância. Poupe aos poucos, negocie com diplomacia e evite pressa. Resultados grandes ficam para depois, e as bases são plantadas agora.",
+ trabalho:"Ótimo para trabalho em equipe, mediação, atendimento e funções de apoio. Seja visto(a) sem brigar por holofote. Contratos pedem leitura atenta.",
+ casa:"Harmonia no lar. Pequenos ajustes de ambiente (cores, cheiro, luz suave) pesam mais do que grandes reformas.",
+ corpofe:"A sensibilidade aumenta: durma bem, cuide do sistema digestivo e do emocional. Na fé, a oração silenciosa e a gratidão ajudam.",
+ evitar:["Ficar em cima do muro por medo de desagradar.","Guardar mágoa em vez de falar.","Se anular na relação.","Exigir resultado rápido."],
+ armadilha:"Confundir paz com silêncio. No 2, o que você não diz volta como ressentimento.",
+ favorece:["Parcerias e acordos","Reconciliações","Terapia e autoconhecimento","Poupar com regularidade"],
+ espera:["Decisões drásticas","Sociedades por impulso","Mudanças bruscas","Cobranças ríspidas"],
+ fechar:"Resolva as conversas pendentes, agradeça quem ajudou e escolha o que vai merecer sua energia no ano da expansão.",
+ entrar:"Chegar ao 2 com pressa de colher. O 2 não entrega rápido, e quem força perde o ponto da semente."},
+3:{nome:"o ano de aparecer",resumo:"O 3 é expansão, comunicação e alegria. O mundo quer ouvir você, e você precisa decidir o que dizer.",
+ pede:["Se expressar: falar, escrever, mostrar, cantar, publicar.","Socializar e ampliar a rede de contatos.","Cultivar prazer e leveza sem culpa.","Focar para não espalhar a energia em vinte frentes."],
+ amor:"Flerte, festas, reencontros e novos convites. Bom para renovar a graça da relação. Cuidado com leviandade, ciúme e conversas paralelas que viram confusão.",
+ dinheiro:"Renda por comunicação, vendas, criatividade e rede de contatos. Também aumenta o gasto com lazer. Defina um teto para a diversão antes que o mês acabe.",
+ trabalho:"Ótimo ano para marketing, ensino, arte, vendas e para divulgar o seu trabalho. Apresente ideias, apareça em eventos e mostre o que sabe fazer.",
+ casa:"Casa cheia, visitas, cores e festas. Reserve um canto de silêncio para não se perder no barulho.",
+ corpofe:"Cuide da garganta, da voz e do excesso (comida, bebida, tela). Na fé, a alegria compartilhada fortalece.",
+ evitar:["Fofoca e promessa solta.","Gastar além do que entra.","Começar muito e terminar pouco.","Usar humor para fugir de assunto sério."],
+ armadilha:"Dispersão. Com tantos convites, você corre o risco de brilhar em tudo e entregar pouco em qualquer coisa.",
+ favorece:["Lançar projeto criativo","Aparecer nas redes e na imprensa","Fazer cursos e viagens curtas","Ampliar amizades"],
+ espera:["Contratos grandes sem ler","Empréstimos para festas","Romper por impulso","Prometer o que não vai cumprir"],
+ fechar:"Escolha dois projetos para levar adiante e organize a agenda e as finanças antes da fase de construir.",
+ entrar:"Entrar no 4 sem ter organizado a bagunça do 3. O ano da construção cobra ordem, e a dispersão vira dívida."},
+4:{nome:"o ano de construir",resumo:"O 4 pede base: trabalho constante, organização e passos firmes. É o ano do alicerce, sem glamour e com muito resultado.",
+ pede:["Criar rotina e cumpri-la.","Organizar finanças, documentos e saúde.","Trabalhar duro com paciência.","Investir no que dura (casa, estudo, reserva)."],
+ amor:"O amor se mede em presença e compromisso. Relações sólidas se firmam; as frágeis se mostram. Pouca emoção explosiva e muita lealdade.",
+ dinheiro:"Ano de reserva, quitar dívida, financiar com planejamento e formalizar o negócio. Gaste menos do que ganha. Ganhos vêm do esforço, e atalhos costumam falhar.",
+ trabalho:"Ano pesado e produtivo. Estruture processos, entregue com qualidade e documente. Promoções saem de quem é confiável.",
+ casa:"Reforma, compra, regularização de imóvel, organização do espaço. A casa pede ordem e manutenção.",
+ corpofe:"Coluna, ossos e postura pedem atenção. Rotina de exercício e sono é remédio. Na fé, a disciplina espiritual sustenta.",
+ evitar:["Teimosia e rigidez.","Viver só de trabalho.","Cortar lazer por completo.","Atalhos e jeitinhos."],
+ armadilha:"Virar escravo(a) da obrigação. No 4 é fácil esquecer de viver enquanto constrói.",
+ favorece:["Comprar ou reformar imóvel","Organizar finanças","Criar rotina de saúde","Formalizar negócio"],
+ espera:["Aventuras de risco","Mudanças impulsivas","Apostas e esquemas rápidos","Empréstimos sem plano"],
+ fechar:"Revise o que foi construído, faça uma pausa de verdade e prepare-se para o vento de mudança do 5.",
+ entrar:"Chegar ao 5 esgotado(a), sem ter descansado. A mudança pede disposição, e o corpo cobra."},
+5:{nome:"o ano de mudar",resumo:"O 5 traz movimento, liberdade e imprevisto. O que estava preso se solta, e a vida pede flexibilidade.",
+ pede:["Aceitar a mudança em vez de resistir.","Experimentar o novo: lugar, pessoa, ideia.","Dizer sim a oportunidades que aparecem de lado.","Manter um mínimo de rotina para não se perder."],
+ amor:"Atração, novidade e instabilidade. Quem está a dois precisa renovar a relação; quem está só pode viver encontros intensos e curtos. Cuidado com decisões por impulso.",
+ dinheiro:"Dinheiro entra e sai com velocidade. Diversifique fontes, evite prender capital e reserve uma parte intocável. Bom para vender, negociar e viajar a trabalho.",
+ trabalho:"Mudança de cargo, de cidade, de área. Funções com variedade, viagem e comunicação rendem. Estabilidade total é difícil, então aprenda a se mover.",
+ casa:"Mudança de endereço é comum. Se ficar, mexa nos móveis e no ambiente. Evite se apegar a objetos.",
+ corpofe:"Sistema nervoso agitado: cuide de sono, vícios e excessos. Na fé, buscas novas e conversas amplas ajudam a ver mais longe.",
+ evitar:["Impulsividade sem pensar nas consequências.","Excessos (comida, bebida, gasto).","Fugir do compromisso por medo.","Prometer e sumir."],
+ armadilha:"Confundir liberdade com fuga. No 5 dá para sair de tudo, e isso nem sempre é resolver.",
+ favorece:["Viajar e mudar de ambiente","Vender e negociar","Aprender algo novo","Reinventar a imagem"],
+ espera:["Casamento por impulso","Comprar imóvel sem pesquisa","Investimentos de alto risco","Abandonar tudo de uma vez"],
+ fechar:"Escolha o que quer manter da bagunça boa e prepare a casa e a família, porque o 6 chega pedindo presença.",
+ entrar:"Entrar no 6 sem ter arrumado a vida prática. A família pede você inteiro(a), e o improviso pesa."},
+6:{nome:"o ano de cuidar",resumo:"O 6 chama para dentro de casa: família, casamento, filhos, pais e responsabilidade com quem você ama.",
+ pede:["Dividir as tarefas da casa e da família, com nome e dia.","Ter as conversas adiadas: pais, herança, casamento, filhos.","Pôr limite com carinho.","Reservar um tempo só seu toda semana."],
+ amor:"O amor pede decisão. Casar, morar junto, ter filho, renovar votos ou encerrar o que acabou entram na conversa. Mais cobrança e mais vontade de cuidar.",
+ dinheiro:"Boa parte do dinheiro vai para casa e família: escola, remédio, reforma, ajuda a parente. Crie uma linha no orçamento só para isso e respeite o teto. Dinheiro emprestado a parente costuma demorar a voltar.",
+ trabalho:"Funções de cuidado, ensino, saúde, beleza, arte e serviço rendem. Equilibre trabalho e casa para um não engolir o outro.",
+ casa:"A casa é o centro. Reformas, decoração, receber gente, resolver pendência de moradia. Beleza e conforto importam.",
+ corpofe:"Garganta, coração e estômago refletem o peso emocional. Cuide de si antes de cuidar de todos. Na fé, a vida em comunidade e a família espiritual sustentam.",
+ evitar:["Fazer pelos outros o que cabe a eles.","Cobrança e controle disfarçados de amor.","Esquecer do próprio exame e da própria saúde.","Prometer ajuda que não pode dar."],
+ armadilha:"Virar a pessoa que resolve tudo. A família se acostuma rápido, e o favor vira obrigação.",
+ favorece:["Casamento, filhos, reconciliação familiar","Reforma e decoração","Cuidar da saúde de quem ama","Combinar divisão de tarefas"],
+ espera:["Assumir dívida de outra pessoa","Aceitar mais um compromisso por culpa","Decisões financeiras pela emoção","Emprestar sem prazo"],
+ fechar:"Devolva as responsabilidades que eram dos outros, combine como será o próximo ano e marque o seu exame junto com os de todos.",
+ entrar:"Chegar ao 7 carregando todo mundo nas costas. O 7 pede recolhimento, e ele pesa para quem não largou o peso."},
+7:{nome:"o ano de segurar",resumo:"O 7 é ano de dentro: estudo, silêncio, análise e fé. Menos ação, mais compreensão.",
+ pede:["Estudar, ler e se especializar.","Reservar silêncio e tempo sozinho(a) sem culpa.","Escutar antes de apostar.","Guardar dinheiro e energia."],
+ amor:"O amor pede verdade. Relações superficiais se desfazem; as profundas amadurecem. Evite se isolar além do necessário e explique ao outro o seu recolhimento.",
+ dinheiro:"Dinheiro rende mais parado do que em movimento. Poupe, estude antes de investir e evite apostas. Não é ano de grandes lucros rápidos.",
+ trabalho:"Ótimo para pós, especialização, pesquisa, planejamento e funções técnicas. Evite lançar grandes projetos de visibilidade e use o ano para afiar a ferramenta.",
+ casa:"A casa vira refúgio. Arrumar um canto só seu (leitura, oração, descanso) muda o ano.",
+ corpofe:"O corpo cobra pelo excesso dos anos anteriores: faça os exames, durma e desacelere. É um ano forte de fé e vida interior.",
+ evitar:["Se isolar a ponto de afastar quem ama.","Forçar resultado externo.","Decidir grandes coisas no escuro.","Duvidar de tudo e de todos."],
+ armadilha:"Confundir recolhimento com abandono de si. Pausa é diferente de desistir.",
+ favorece:["Estudos e especialização","Exames e check-up","Reserva financeira","Vida espiritual"],
+ espera:["Abrir negócio de grande porte","Investir por impulso","Casar às pressas","Mudar de cidade sem plano"],
+ fechar:"Anote o que aprendeu, defina o que está pronto para ir ao mundo e prepare-se para o ano da colheita.",
+ entrar:"Entrar no 7 esperando resultado do 8. Ele pede paciência, e a pressa vira desânimo."},
+8:{nome:"o ano de colher",resumo:"O 8 traz poder, dinheiro e resultado. É o ano em que o esforço aparece no bolso e na posição.",
+ pede:["Assumir o seu valor e cobrar por ele.","Negociar com números na mão.","Tomar decisões de autoridade.","Cuidar da ética: poder mal usado cobra caro."],
+ amor:"O amor sofre com a agenda cheia. Reserve tempo de qualidade. Relações com equilíbrio de poder prosperam; as de domínio estouram.",
+ dinheiro:"É o ano do dinheiro: promoção, venda, investimento e negociação. Também é ano de grandes gastos. Planeje impostos, contratos e reserva.",
+ trabalho:"Cargos de liderança, negócios, finanças e direção. Foque em resultado e entregue em escala. Seja justo(a) com a equipe.",
+ casa:"Investimento em patrimônio: imóvel, carro, reforma de valor. Cuide de documentos e escrituras.",
+ corpofe:"Estresse e pressão sobem: coração, pressão e costas pedem monitoramento. Na fé, a generosidade equilibra o poder.",
+ evitar:["Autoritarismo e soberba.","Medir tudo por dinheiro.","Esquecer da família.","Fazer negócio sem contrato."],
+ armadilha:"Trabalhar tanto que o ganho cobra o corpo e os afetos. No 8 é fácil ganhar o mundo e perder a casa.",
+ favorece:["Pedir aumento ou promoção","Fechar negócio e contrato","Investir com estratégia","Assumir cargo de liderança"],
+ espera:["Dívidas por vaidade","Sociedades sem contrato","Abusar de autoridade","Negligenciar a saúde"],
+ fechar:"Reconheça o que foi conquistado, reparta o que ganhou com quem ajudou e prepare-se para soltar no 9.",
+ entrar:"Chegar ao 9 apegado(a) ao que conquistou. O 9 pede desapego, e o que é agarrado pesa."},
+9:{nome:"o ano de soltar",resumo:"O 9 fecha o ciclo. É o ano de terminar, perdoar, doar e limpar o que não cabe mais na próxima fase.",
+ pede:["Encerrar o que já acabou: relação, trabalho, objeto.","Perdoar, a si e aos outros.","Doar, ajudar, fazer o bem sem esperar retorno.","Fazer um balanço sincero dos nove anos."],
+ amor:"O amor passa por limpeza. Relações que cumpriram o ciclo terminam; as vivas se renovam. Conversas finais e reencontros de despedida são comuns.",
+ dinheiro:"Não é ano de começar grandes investimentos. Pague dívidas, venda o que não usa, doe e organize a vida financeira para o recomeço.",
+ trabalho:"Termine projetos, passe cargos, transmita conhecimento. Mudanças de emprego que surgem agora costumam preparar o 1.",
+ casa:"Faça a grande limpeza: doe roupas, jogue fora o que pesa, conserte pendências. A casa respira.",
+ corpofe:"Emoções acumuladas pedem saída: choro, conversa, terapia. Na fé, é ano de perdão e entrega.",
+ evitar:["Começar projeto longo agora.","Remoer mágoa.","Se agarrar ao que está indo embora.","Fazer drama do fim."],
+ armadilha:"Carregar para o próximo ciclo as mágoas do anterior. Quem não solta no 9 começa o 1 cansado.",
+ favorece:["Encerrar ciclos","Perdoar e pedir perdão","Doar e fazer caridade","Quitar dívidas"],
+ espera:["Abrir negócio novo","Casar","Comprar bens grandes","Assinar compromissos longos"],
+ fechar:"Escreva uma carta de despedida do ciclo e faça uma lista do que quer levar. O resto fica.",
+ entrar:"Entrar no 1 sem ter soltado o 9. O recomeço nasce com o passado nas costas."}
+};
+const MES = {
+1:{nome:"Mês de começar",txt:"Energia de início. Boa hora para iniciar o que está parado.",fazer:"Marque a primeira ação do projeto e faça já. Peça o que quer.",evitar:"Esperar o momento perfeito."},
+2:{nome:"Mês de cultivar",txt:"Mês de paciência, escuta e parceria.",fazer:"Converse, alinhe, ajuste detalhes. Cuide de uma relação.",evitar:"Pressa e decisões fortes."},
+3:{nome:"Mês de aparecer",txt:"Comunicação, convites e criatividade em alta.",fazer:"Divulgue, ligue, apareça, socialize.",evitar:"Gastar demais e prometer em excesso."},
+4:{nome:"Mês de construir",txt:"Trabalho, ordem e base.",fazer:"Organize papelada, finanças e rotina. Faça o trabalho chato.",evitar:"Atalhos e teimosia."},
+5:{nome:"Mês de mudar",txt:"Movimento, imprevisto e liberdade.",fazer:"Viaje, teste o novo, seja flexível.",evitar:"Impulso e excesso."},
+6:{nome:"Mês de cuidar",txt:"Família, casa e responsabilidade.",fazer:"Converse em família, resolva pendência de casa e cuide da saúde.",evitar:"Assumir o que não é seu."},
+7:{nome:"Mês de segurar",txt:"Mês interno, de estudo e silêncio.",fazer:"Estude, descanse, planeje a decisão grande. Faça os exames.",evitar:"Apostas e lançamentos."},
+8:{nome:"Mês de colher",txt:"Dinheiro, negociação e resultado em pauta.",fazer:"Negocie com números, cobre o que lhe devem, feche contrato.",evitar:"Autoritarismo e gasto por vaidade."},
+9:{nome:"Mês de soltar",txt:"Encerramento, limpeza e perdão.",fazer:"Termine pendências, doe, pague dívidas, peça desculpa.",evitar:"Começar algo grande."}
+};
+const BLOCO = {
+1:{trava:"Decisão e iniciativa. Dificuldade de começar, de liderar ou de se posicionar.",onde:"Ao pedir, ao dizer não, ao assumir um projeto próprio.",contorna:"Comece por ações pequenas e diárias de decisão. Escreva o que quer em uma frase e aja em 24 horas. Use o seu nome completo em documentos e assinaturas com firmeza."},
+2:{trava:"Parceria e sensibilidade. Medo de desagradar, dependência do outro, indecisão.",onde:"Em relacionamentos, sociedades e quando precisa escolher entre agradar e ser honesto.",contorna:"Pratique dizer o que sente em voz calma. Escolha parceiros pelo respeito, e não pela urgência. Reserve um tempo diário de silêncio."},
+3:{trava:"Comunicação e alegria. Dificuldade de se expressar, falar em público ou mostrar o que faz.",onde:"Em entrevistas, apresentações e conversas íntimas.",contorna:"Escreva antes de falar. Exponha-se em pequenos passos: grupo pequeno, vídeo curto, mensagem. Dê espaço à criatividade como hábito, e não como luxo."},
+4:{trava:"Estabilidade e trabalho. Esforço grande para resultado pequeno, rotina que não pega.",onde:"Em dinheiro guardado, em organização e em projetos longos.",contorna:"Crie sistemas simples (planilha, agenda) e cumpra um mínimo diário. Divida metas grandes em etapas de uma semana."},
+5:{trava:"Mudança e liberdade. Medo de mudar ou, ao contrário, mudar demais sem se firmar.",onde:"Em trabalho, endereço e relacionamentos de longo prazo.",contorna:"Mude com planejamento: teste antes de largar. Mantenha um compromisso fixo para ancorar a agitação."},
+6:{trava:"Família e responsabilidade. Peso de cuidar, culpa e cobranças dos outros.",onde:"Em casa, no casamento e na relação com pais e filhos.",contorna:"Estabeleça limites claros e divida tarefas. Cuide de si primeiro, sem culpa."},
+7:{trava:"Fé e confiança. Desconfiança excessiva, isolamento, dificuldade de abrir o coração.",onde:"Em relações íntimas e em aceitar ajuda.",contorna:"Pratique uma vida interior regular (leitura, oração, caminhada). Abra-se em doses pequenas com pessoas de confiança."},
+8:{trava:"Dinheiro e poder. Ganhar e perder, dificuldade de cobrar, relação tensa com autoridade.",onde:"Em negociações, promoções e finanças pessoais.",contorna:"Tenha controle simples do dinheiro, contratos por escrito e uma reserva. Cobre o valor do seu trabalho com números."},
+9:{trava:"Desapego e encerramento. Dificuldade de soltar, mágoa guardada, dar mais do que tem.",onde:"Em términos, mudanças de ciclo e em causas dos outros.",contorna:"Faça rituais de encerramento (carta, doação, conversa final). Estabeleça um teto do que você oferece."}
+};
+const CORACAO = {
+1:{txt:"No coração você quer liberdade e protagonismo. Ama com intensidade e precisa sentir que escolhe, e não que cede.",padrao:"Dominar ou fugir quando se sente controlado(a).",pede:"Um(a) parceiro(a) que respeite seu espaço e admire sua iniciativa."},
+2:{txt:"Seu coração é de escuta e delicadeza. Você ama em detalhes e sente muito o que não é dito.",padrao:"Se anular para manter a paz.",pede:"Alguém gentil e claro, que fale o que sente."},
+3:{txt:"Seu coração quer alegria, conversa e leveza. Você conquista com palavra e humor.",padrao:"Evitar conversa difícil com piada.",pede:"Alguém que ria com você e também escute você quando for sério."},
+4:{txt:"Seu coração é de lealdade e constância. Você demonstra amor com atos, e não com palavras.",padrao:"Rotina demais e pouca emoção dita.",pede:"Um(a) parceiro(a) estável e que valorize o seu cuidado."},
+5:{txt:"Seu coração é de aventura e novidade. Você ama enquanto o amor se mexe.",padrao:"Sair quando fica tedioso ou intenso demais.",pede:"Alguém que cresça com você e permita movimento."},
+6:{txt:"Seu coração é de lar e cuidado. Você ama cuidando, e quer uma família, por pequena que seja.",padrao:"Cuidar demais e cobrar por isso depois.",pede:"Alguém que também cuide de você."},
+7:{txt:"Seu coração é profundo e reservado. Você precisa de verdade e de espaço para conhecer e confiar.",padrao:"Se fechar e esperar que o outro adivinhe.",pede:"Alguém paciente, inteligente e honesto, que respeite seu silêncio."},
+8:{txt:"Seu coração é forte e intenso. Você ama com projeto, lealdade e vontade de construir algo grande.",padrao:"Transformar amor em disputa de poder ou em trabalho.",pede:"Um(a) parceiro(a) seguro(a) de si, que seja igual, e não súdito."},
+9:{txt:"Seu coração é amplo e generoso. Você ama a humanidade inteira e se doa fácil.",padrao:"Dar mais do que recebe e guardar mágoa.",pede:"Alguém que retribua e saiba encerrar com respeito."}
+};
+const DINHEIRO = {
+1:{entra:"Por iniciativa própria: negócio, liderança, ideias novas.",vaza:"Gastos por orgulho e investimentos solitários.",dica:"Comece algo seu, mas com limite de risco e uma reserva de 6 meses."},
+2:{entra:"Por parcerias, atendimento e constância.",vaza:"Em ajudar os outros por não saber dizer não.",dica:"Poupe automático todo mês, mesmo valor pequeno."},
+3:{entra:"Por comunicação, vendas, arte e rede de contatos.",vaza:"Em lazer, festas e compras de impulso.",dica:"Defina um teto de lazer e dê nome a cada gasto."},
+4:{entra:"Por trabalho firme, processo e ativos tangíveis.",vaza:"Em medo de gastar e perder boas oportunidades; ou em dívida longa.",dica:"Construa reserva e invista em imóvel ou renda fixa com plano."},
+5:{entra:"Por variedade: vendas, viagens, múltiplas fontes de renda.",vaza:"Em impulso, risco e mudança frequente.",dica:"Mantenha uma conta intocável e diversifique."},
+6:{entra:"Por serviço, cuidado, ensino, beleza, saúde e família.",vaza:"Em ajuda a parentes e na casa.",dica:"Crie um orçamento da família e respeite o teto."},
+7:{entra:"Por conhecimento, estudo, pesquisa e especialização.",vaza:"Em não cobrar e em investir sem conhecer.",dica:"Estude antes de investir e prefira o que entende."},
+8:{entra:"Por posição, negócios, liderança e negociação.",vaza:"Em vaidade, grandes gastos e impostos mal planejados.",dica:"Tenha contabilidade e contrato por escrito."},
+9:{entra:"Por causas, ensino, saúde, arte e serviço ao público.",vaza:"Em doar demais e cobrar de menos.",dica:"Pague-se primeiro: separe sua parte antes de doar."}
+};
+const CASA = {
+1:{fav:"Independência, recomeço e liderança. Boa para quem mora só ou abre projeto.",pesa:"Pode gerar isolamento e pouco diálogo.",dica:"Crie um espaço comum aconchegante e ponha plantas no hall."},
+2:{fav:"Harmonia, casal e parceria. Casa de escuta.",pesa:"Pode gerar indecisão e sensibilidade a ambiente.",dica:"Tons suaves, objetos em pares e muita luz natural."},
+3:{fav:"Alegria, visita e criatividade. Casa de convivência.",pesa:"Barulho, dispersão e bagunça.",dica:"Organize por áreas e reserve um canto de silêncio."},
+4:{fav:"Estabilidade, ordem e segurança. Casa para construir patrimônio.",pesa:"Rigidez e rotina em excesso.",dica:"Traga cor e movimento: flores, música, mudança de arranjo."},
+5:{fav:"Movimento, visitas e liberdade. Casa de passagem.",pesa:"Instabilidade e dificuldade de enraizar.",dica:"Crie rituais fixos (jantar, café) para ancorar."},
+6:{fav:"Família, acolhimento e beleza. A casa mais doméstica.",pesa:"Cobrança e excesso de responsabilidade.",dica:"Divida tarefas e deixe um canto só seu."},
+7:{fav:"Recolhimento, estudo e fé. Casa de refúgio.",pesa:"Solidão e silêncio demais.",dica:"Receba gente regularmente e abra janelas."},
+8:{fav:"Prosperidade, trabalho e patrimônio. Casa de resultado.",pesa:"Tensão, pressa e foco só em dinheiro.",dica:"Reserve ambiente de descanso e faça dele sagrado."},
+9:{fav:"Generosidade, arte e acolhimento. Casa aberta.",pesa:"Desgaste por dar demais e dificuldade de fechar ciclos.",dica:"Faça limpeza periódica e doe o que não usa."}
+};
+const DEST = {
+1:{q:["liderança","coragem","iniciativa","independência","determinação","originalidade","pioneirismo","força de vontade"],m:["teimosia","orgulho","solidão","impaciência","autoritarismo"]},
+2:{q:["diplomacia","sensibilidade","cooperação","paciência","empatia","delicadeza","intuição","harmonia"],m:["dependência","indecisão","mágoa guardada","anular-se","excesso de cautela"]},
+3:{q:["comunicação","alegria","criatividade","carisma","otimismo","expressão","sociabilidade","humor"],m:["dispersão","superficialidade","fofoca","gasto por impulso","vaidade"]},
+4:{q:["disciplina","lealdade","organização","persistência","praticidade","honestidade","confiança","método"],m:["rigidez","teimosia","workaholismo","medo de mudar","pessimismo"]},
+5:{q:["liberdade","adaptação","curiosidade","versatilidade","coragem","comunicação","energia","aventura"],m:["impulsividade","inconstância","excessos","fuga de compromisso","ansiedade"]},
+6:{q:["cuidado","responsabilidade","amor","senso de justiça","harmonia","beleza","acolhimento","lealdade familiar"],m:["controle","culpa","cobrança","perfeccionismo","interferir demais"]},
+7:{q:["sabedoria","análise","fé","intuição","profundidade","pesquisa","silêncio","espiritualidade"],m:["isolamento","desconfiança","crítica dura","frieza aparente","pessimismo"]},
+8:{q:["poder pessoal","ambição","eficiência","liderança","visão de negócio","resiliência","autoridade","organização"],m:["autoritarismo","workaholismo","materialismo","controle","dureza"]},
+9:{q:["compaixão","generosidade","sabedoria","idealismo","tolerância","visão ampla","entrega","humanidade"],m:["sacrifício demais","não saber encerrar","mágoa guardada","dar mais do que tem","viver pelo outro"]}
+};
+const GRUPO = {1:"mente",5:"mente",7:"mente",2:"base",4:"base",8:"base",3:"coração",6:"coração",9:"coração"};
+const COMPAT = (a, b) => {
+  if (a === b) return `Dois ${a}: espelho. Vocês se entendem rápido e também reconhecem os defeitos um do outro. Cuidado para a mesma fraqueza não virar rotina.`;
+  if (a + b === 10) return `${a} e ${b}: complementares. Um tem o que falta ao outro, e isso atrai e cansa. Combinem os papéis, e não os sobreponham.`;
+  if (GRUPO[a] === GRUPO[b]) return `${a} e ${b} são do mesmo grupo (${GRUPO[a]}): falam a mesma língua, e a convivência tende a ser fluida. Cuidado com a acomodação.`;
+  return `${a} e ${b}: línguas diferentes (${GRUPO[a]} e ${GRUPO[b]}). Funciona quando cada um traduz o outro com paciência; sem isso, nascem ruídos.`;
+};
+
+
+return {calcular:calcular,ANO:ANO,MES:MES,BLOCO:BLOCO,DEST:DEST,MESES:MESES,fmt:fmt,red:red};
+})();
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const app = initializeApp({
+  apiKey: "AIzaSyBBH4zsdmS0I7a4IsXuJ444kqwPIelGIxw",
+  authDomain: "gd-consultoria-cdaf4.firebaseapp.com",
+  projectId: "gd-consultoria-cdaf4",
+  storageBucket: "gd-consultoria-cdaf4.firebasestorage.app",
+  messagingSenderId: "242208354270",
+  appId: "1:242208354270:web:b978a79e9c451f7b34374f"
+});
+const db = getFirestore(app);
+window.LEAD = { save: d => addDoc(collection(db, "leads"), Object.assign({}, d, { criadoEm: serverTimestamp() })) };
+</script>
+
+<script>
+(function(){
+  /* ===== Configuração da venda: preencha aqui ===== */
+  var CFG = {
+    preco: "",          // ex.: "R$ 97,00"
+    precoAntes: "",     // ex.: "R$ 197,00" (opcional, aparece riscado)
+    linkCompra: "",     // link de pagamento (Mercado Pago, Stripe, Kiwify, etc.)
+    whatsapp: "",       // ex.: "5511999999999" (DDI + DDD + número), usado se não houver link de compra
+    /* Credibilidade: só preencha com o que for REAL. Vazio = a parte não aparece. */
+    foto: "giulia.jpg", // foto da Giulia (arquivo enviado ao repositório)
+    bio: "",            // 2 a 4 frases escritas pela Giulia sobre ela e o trabalho dela
+    instagram: "",      // ex.: "https://instagram.com/usuario"
+    leituras: 0,        // número real de leituras feitas (ex.: 150). 0 = não mostra
+    depoimentos: []     // ex.: [{nome:"Ana, 34 anos", texto:"Texto que a própria pessoa autorizou."}]
+  };
+
+  var $ = function(id){ return document.getElementById(id); };
+  var REDUCE = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+  function pad2(n){ return (n<10?"0":"")+n; }
+  function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+  function toast(t){ var e=$("toast"); e.textContent=t; e.hidden=false; clearTimeout(toast.t); toast.t=setTimeout(function(){ e.hidden=true; },4500); }
+
+  /* ----- alterna seções escuras e creme ----- */
+  function paint(){
+    var prev="dk";
+    [].slice.call(document.querySelectorAll("main > section.sec")).forEach(function(s){
+      if(s.hidden) return;
+      var c=s.getAttribute("data-force")||(prev==="lt"?"dk":"lt");
+      s.classList.remove("lt","dk"); s.classList.add(c); prev=c;
+    });
+  }
+
+  /* ----- céu de estrelas ----- */
+  (function(){
+    var cv=$("sky"), ctx=cv.getContext&&cv.getContext("2d"); if(!ctx) return;
+    var W=0,H=0,dpr=1,stars=[],raf=0,lastT=0, COLORS=["255,255,255","214,222,255","255,236,200","200,190,255"];
+    function build(){ dpr=Math.min(window.devicePixelRatio||1,2); W=window.innerWidth; H=Math.max(window.innerHeight,500);
+      cv.width=W*dpr; cv.height=H*dpr; cv.style.width=W+"px"; cv.style.height=H+"px"; ctx.setTransform(dpr,0,0,dpr,0,0);
+      var n=Math.max(60,Math.min(Math.round(W*H/7000),190)); stars=[];
+      for(var i=0;i<n;i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.25+.3,p:Math.random()*6.28,s:Math.random()*1.4+.4,v:Math.random()*3+.6,c:COLORS[Math.floor(Math.random()*COLORS.length)]}); }
+    function draw(t,dt){ ctx.clearRect(0,0,W,H);
+      for(var i=0;i<stars.length;i++){ var s=stars[i];
+        if(!REDUCE){ s.y+=s.v*dt*0.0035; if(s.y>H+2){ s.y=-2; s.x=Math.random()*W; } }
+        var a=REDUCE?0.7:(0.3+0.7*(0.5+0.5*Math.sin(t*0.001*s.s+s.p)));
+        ctx.beginPath(); ctx.fillStyle="rgba("+s.c+","+a.toFixed(3)+")"; ctx.arc(s.x,s.y,s.r,0,6.283); ctx.fill(); } }
+    function loop(t){ var dt=Math.min(t-lastT,60); lastT=t; draw(t,dt); raf=requestAnimationFrame(loop); }
+    build(); if(REDUCE){ draw(0,0); } else { raf=requestAnimationFrame(function(t){ lastT=t; loop(t); }); }
+    var lw=W; window.addEventListener("resize",function(){ if(window.innerWidth!==lw){ lw=window.innerWidth; build(); if(REDUCE) draw(0,0); } });
+    document.addEventListener("visibilitychange",function(){ if(REDUCE) return; if(document.hidden) cancelAnimationFrame(raf); else raf=requestAnimationFrame(function(t){ lastT=t; loop(t); }); });
+  })();
+
+  /* ----- a roda: astrolábio do ritual ----- */
+  function ringSVG(speed){
+    function spin(d){ return '<animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="'+(d/speed)+'s" repeatCount="indefinite"/>'; }
+    return '<svg viewBox="-150 -150 300 300" aria-hidden="true"><circle class="ring-line" r="142"/>'+
+      '<g>'+spin(90)+'<circle class="ring-line" r="108"/><circle class="pl" cx="108" cy="0" r="5.5" fill="#F2CF8A" style="color:#F2CF8A"/></g>'+
+      '<g>'+spin(-60)+'<circle class="ring-dash" r="82"/><circle class="pl" cx="-82" cy="0" r="4.2" fill="#5CE1E6" style="color:#5CE1E6"/></g>'+
+      '<g>'+spin(38)+'<circle class="ring-line" r="56"/><circle class="pl" cx="0" cy="-56" r="3.6" fill="#FF8FD1" style="color:#FF8FD1"/></g>'+
+      '<path class="core" d="M0 -24 L5.5 -5.5 L24 0 L5.5 5.5 L0 24 L-5.5 5.5 L-24 0 L-5.5 -5.5Z"/></svg>';
+  }
+  (function(){
+    var h=$("ritualRing"); h.innerHTML=ringSVG(14);
+    if(REDUCE){ var an=h.querySelectorAll("animateTransform"); for(var i=0;i<an.length;i++) an[i].parentNode.removeChild(an[i]); }
+  })();
+  /* ----- a roda em volta do retrato: números 1 a 9 que acendem em sequência e astros em órbita ----- */
+  (function(){
+    var m=""; for(var i=0;i<9;i++){ var a=(-90+i*40)*Math.PI/180; m+='<text class="mark" style="--i:'+i+'" x="'+(131*Math.cos(a)).toFixed(1)+'" y="'+(177*Math.sin(a)).toFixed(1)+'" text-anchor="middle" dominant-baseline="central">'+(i+1)+'</text>'; }
+    function orb(rx,ry,dur,rev,r,fill){ var sf=rev?0:1, p="M "+rx+" 0 A "+rx+" "+ry+" 0 1 "+sf+" "+(-rx)+" 0 A "+rx+" "+ry+" 0 1 "+sf+" "+rx+" 0 Z"; return '<circle class="pl" r="'+r+'" fill="'+fill+'" style="color:'+fill+'"><animateMotion dur="'+dur+'s" repeatCount="indefinite" path="'+p+'"/></circle>'; }
+    var hr=$("heroRing");
+    hr.innerHTML='<svg viewBox="-150 -192 300 384" aria-hidden="true"><ellipse class="ring-line" rx="147" ry="189"/>'+m+
+      '<ellipse class="ring-line" rx="107" ry="158"/>'+orb(107,158,34,false,5.5,"#F2CF8A")+
+      '<ellipse class="ring-dash" rx="116" ry="168"/>'+orb(116,168,26,true,4,"#5CE1E6")+
+      orb(101,152,19,false,3.4,"#FF8FD1")+'</svg>';
+    if(REDUCE){ var an=hr.querySelectorAll("animateMotion"); for(var j=0;j<an.length;j++) an[j].parentNode.removeChild(an[j]); }
+  })();
+
+    var Snd = (function(){
+    var ctx=null, master=null, pad=null, lp=null, bus=null, on=false, timer=null;
+    var NOTES=[587.33,659.25,739.99,880,987.77,1174.66];
+    var CHORD=[73.42,110,146.83,164.81,220];
+    function impulse(sec,decay){
+      var rate=ctx.sampleRate, len=Math.floor(rate*sec), buf=ctx.createBuffer(2,len,rate);
+      for(var c=0;c<2;c++){var d=buf.getChannelData(c);for(var i=0;i<len;i++){d[i]=(Math.random()*2-1)*Math.pow(1-i/len,decay)}}
+      return buf;
+    }
+    function build(){
+      var AC=window.AudioContext||window.webkitAudioContext; if(!AC) return false;
+      try{ ctx=new AC() }catch(e){ ctx=null; return false }
+      master=ctx.createGain(); master.gain.value=0;
+      var conv=ctx.createConvolver(); conv.buffer=impulse(3.4,2.4);
+      var wet=ctx.createGain(); wet.gain.value=.6;
+      var dry=ctx.createGain(); dry.gain.value=.7;
+      lp=ctx.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value=900; lp.Q.value=.5;
+      pad=ctx.createGain(); pad.gain.value=.4;
+      bus=ctx.createGain(); bus.gain.value=1;
+      pad.connect(lp); lp.connect(dry); lp.connect(conv);
+      bus.connect(dry); bus.connect(conv);
+      conv.connect(wet); dry.connect(master); wet.connect(master); master.connect(ctx.destination);
+      var fl=ctx.createOscillator(); fl.frequency.value=.045;
+      var fg=ctx.createGain(); fg.gain.value=260; fl.connect(fg); fg.connect(lp.frequency); fl.start();
+      CHORD.forEach(function(f,i){
+        [-5,5].forEach(function(det){
+          var o=ctx.createOscillator(); o.type=i<2?"sine":"triangle"; o.frequency.value=f; o.detune.value=det;
+          var base=i<2?.12:.05, g=ctx.createGain(); g.gain.value=base;
+          var l=ctx.createOscillator(); l.frequency.value=.04+Math.random()*.07;
+          var lg=ctx.createGain(); lg.gain.value=base*.6; l.connect(lg); lg.connect(g.gain);
+          o.connect(g); g.connect(pad); o.start(); l.start();
+        });
+      });
+      return true;
+    }
+    function chime(freq,when,vol){
+      var o=ctx.createOscillator(), o2=ctx.createOscillator(), h=ctx.createGain(), g=ctx.createGain();
+      o.type="sine"; o.frequency.value=freq; o2.type="sine"; o2.frequency.value=freq*2.01; h.gain.value=.18;
+      g.gain.setValueAtTime(0.0001,when); g.gain.linearRampToValueAtTime(vol,when+.012); g.gain.exponentialRampToValueAtTime(.0001,when+4);
+      o.connect(g); o2.connect(h); h.connect(g); g.connect(bus);
+      o.start(when); o2.start(when); o.stop(when+4.2); o2.stop(when+4.2);
+    }
+    function schedule(){
+      clearTimeout(timer);
+      timer=setTimeout(function(){
+        if(!on) return;
+        chime(NOTES[Math.floor(Math.random()*NOTES.length)],ctx.currentTime+.05,.05+Math.random()*.04);
+        schedule();
+      },4500+Math.random()*6500);
+    }
+    function start(){
+      ctx.resume(); on=true;
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setTargetAtTime(.8,ctx.currentTime,1.4);
+      schedule(); return true;
+    }
+    function stop(){
+      on=false; clearTimeout(timer);
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setTargetAtTime(0,ctx.currentTime,.5);
+      setTimeout(function(){ if(!on&&ctx) ctx.suspend() },2500);
+    }
+    document.addEventListener("visibilitychange",function(){
+      if(!ctx) return;
+      if(document.hidden){ ctx.suspend() } else if(on){ ctx.resume() }
+    });
+    return {
+      toggle:function(){ if(on){stop();return false} if(!ctx&&!build()) return null; return start() },
+      swell:function(sec){
+        if(!on) return; var t=ctx.currentTime;
+        lp.frequency.cancelScheduledValues(t);
+        lp.frequency.setTargetAtTime(2600,t,sec*.35);
+        lp.frequency.setTargetAtTime(900,t+sec,1.2);
+      },
+      reveal:function(){
+        if(!on) return; var t=ctx.currentTime+.05;
+        [587.33,880,1174.66].forEach(function(f,i){ chime(f,t+i*.2,.09) });
+      }
+    };
+  })();
+
+
+
+  var sb=$("snd"), sbt=$("sndT");
+  sb.addEventListener("click",function(){
+    var r=Snd.toggle(); sb.classList.remove("nudge");
+    if(r===null){ sbt.textContent="Sem suporte de som"; return; }
+    sb.setAttribute("aria-pressed",r?"true":"false");
+    sb.setAttribute("aria-label",r?"Desligar som ambiente":"Ligar som ambiente");
+    sbt.textContent=r?"Som ligado":"Som desligado";
+  });
+
+  /* ----- calendário dos 9 anos ----- */
+  (function(){
+    var short={1:"A semente: iniciar, ousar o novo.",2:"A espera: parcerias e paciência.",3:"O brilho: comunicar, criar, aparecer.",4:"A base: ordem, trabalho e estrutura.",5:"A virada: movimento, troca e viagem.",6:"O lar: família, vínculos e cuidado.",7:"O recolhimento: estudo, pausa e escuta.",8:"A colheita: dinheiro e reconhecimento.",9:"O encerramento: limpar, perdoar, soltar."};
+    var nodes=$("w9nodes"), c=$("w9c"), t=$("w9txt"), ptr=$("w9ptr"), cur=1, pauseUntil=0, visivel=true, h="";
+    for(var n=1;n<=9;n++){ var a=(-90+(n-1)*40)*Math.PI/180; h+='<button type="button" class="w9n" data-n="'+n+'" aria-label="Ano '+n+'" style="left:'+(50+39.3*Math.cos(a)).toFixed(2)+'%;top:'+(50+39.3*Math.sin(a)).toFixed(2)+'%">'+n+'</button>'; }
+    nodes.innerHTML=h;
+    function show(n,user){
+      cur=n; var A=CAB.ANO[n], bs=nodes.querySelectorAll(".w9n");
+      for(var i=0;i<bs.length;i++) bs[i].classList.toggle("on",+bs[i].getAttribute("data-n")===n);
+      ptr.style.transform="rotate("+(-90+(n-1)*40)+"deg)";
+      c.innerHTML="<b>"+n+"</b><span>"+esc(cap(A.nome.replace(/^o ano de /,"")))+"</span>";
+      t.innerHTML='<p class="w9k">Ano '+n+' do ciclo</p><h3>'+esc(cap(A.nome))+'</h3><p class="w9s">'+short[n]+'</p><p>'+esc(A.resumo)+'</p><ul class="ticks">'+A.pede.slice(0,2).map(function(x){ return "<li>"+esc(x)+"</li>"; }).join("")+'</ul><p class="w9h">Toque num número para ver cada ano da roda.</p>';
+      t.classList.remove("sw"); void t.offsetWidth; t.classList.add("sw");
+      if(user) pauseUntil=Date.now()+12000;
+    }
+    nodes.addEventListener("click",function(e){ var b=e.target.closest(".w9n"); if(b) show(+b.getAttribute("data-n"),true); });
+    show(1,false);
+    if(!REDUCE){
+      if("IntersectionObserver" in window) new IntersectionObserver(function(en){ visivel=en[0].isIntersecting; },{threshold:.2}).observe($("w9"));
+      setInterval(function(){ if(Date.now()<pauseUntil||document.hidden||!visivel) return; show(cur%9+1,false); },3300);
+    }
+  })();
+
+  /* ----- credibilidade: só o que é verdadeiro ----- */
+  (function(){
+    var itens=[
+      CFG.leituras>0 ? ['+'+CFG.leituras+' leituras feitas','Pessoas que já fizeram a conta do próprio ano.'] : ['Conta feita na sua frente','Cada passo aparece na tela, para você conferir.'],
+      ['Leitura assinada','Cada leitura é assinada por Giulia Dantas, numeróloga.'],
+      ['Seus dados protegidos','Usados só para falar sobre a sua leitura. Você pode pedir a remoção.'],
+      ['7 dias para desistir','Direito de arrependimento da compra, conforme o Código de Defesa do Consumidor.']
+    ];
+    $("trust").innerHTML=itens.map(function(i){ return '<div><b>'+esc(i[0])+'</b>'+esc(i[1])+'</div>'; }).join("");
+    var bio=CFG.bio||"Giulia Dantas assina cada leitura feita aqui. A proposta é simples: pegar a sua data e o seu nome, mostrar a conta na sua frente e traduzir o resultado em linguagem clara, para você usar nas decisões do dia a dia.";
+    var chips=["Numerologia cabalística","Leitura assinada"]; if(CFG.whatsapp) chips.push("Atendimento pelo WhatsApp");
+    $("gcard").innerHTML='<img class="gfoto" src="'+esc(CFG.foto||"icon-512.png")+'" alt="Giulia Dantas" width="156" height="234"><div><p class="kicker">Quem assina a sua leitura</p><h2>Giulia Dantas</h2><p class="role">Numeróloga</p><p>'+esc(bio)+'</p><ul class="chips">'+chips.map(function(c){ return '<li>'+esc(c)+'</li>'; }).join("")+'</ul>'+
+      (CFG.instagram?'<p style="margin-top:12px"><a href="'+esc(CFG.instagram)+'" target="_blank" rel="noopener">Acompanhe no Instagram</a></p>':'')+'</div>';
+    $("giulia").hidden=false;
+    if(CFG.depoimentos&&CFG.depoimentos.length){
+      $("deps").innerHTML=CFG.depoimentos.map(function(d){ return '<div class="dep"><p>“'+esc(d.texto)+'”</p><span>'+esc(d.nome)+'</span></div>'; }).join("");
+      $("depoimentos").hidden=false;
+    }
+    paint();
+  })();
+
+  /* ----- vida: faíscas, parallax, aparecer ao rolar e celebração ----- */
+  (function(){
+    var box=$("sparks"); if(box&&!REDUCE){ var s=""; for(var i=0;i<18;i++){ s+='<i class="sp" style="left:'+(Math.random()*100).toFixed(1)+'%;--s:'+(9+Math.random()*13).toFixed(0)+'px;--t:'+(8+Math.random()*8).toFixed(1)+'s;--dl:-'+(Math.random()*14).toFixed(1)+'s;font-style:normal">✦</i>'; } box.innerHTML=s; }
+    var hero=document.querySelector(".hero"), por=document.querySelector(".portrait");
+    if(hero&&por&&!REDUCE&&window.matchMedia("(pointer:fine)").matches){
+      hero.addEventListener("pointermove",function(e){ var r=hero.getBoundingClientRect(), x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
+        por.style.setProperty("--mx",(x-.5).toFixed(3)); por.style.setProperty("--my",(y-.5).toFixed(3)); hero.style.setProperty("--px",(x*100).toFixed(1)+"%"); hero.style.setProperty("--py",(y*100).toFixed(1)+"%"); });
+      hero.addEventListener("pointerleave",function(){ por.style.setProperty("--mx",0); por.style.setProperty("--my",0); });
+    }
+  })();
+  var rvIO=null;
+  function rv(nodes,step){
+    if(!document.documentElement.classList.contains("js")) return;
+    if(!rvIO&&"IntersectionObserver" in window) rvIO=new IntersectionObserver(function(en){ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); rvIO.unobserve(x.target); } }); },{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+    [].slice.call(nodes).forEach(function(el,i){
+      if(el.classList.contains("rv")) return;
+      el.classList.add("rv"); el.style.setProperty("--dl",Math.min(i*(step||.08),.5)+"s");
+      if(rvIO) rvIO.observe(el); else el.classList.add("in");
+    });
+  }
+  function rvGroup(sel,step){ [].slice.call(document.querySelectorAll(sel)).forEach(function(parent){ rv(parent.children,step); }); }
+  rv(document.querySelectorAll(".sh,.panel,.w9,.gcard,.dep,.cmp .col,details.q,.ltab div,.how .st,.trust div,.honest"),.09);
+  function countUp(el,to,ms){
+    if(REDUCE){ el.textContent=to; return; }
+    var t0=null; el.textContent=0;
+    function f(t){ if(!t0) t0=t; var p=Math.min((t-t0)/ms,1); el.textContent=Math.round(to*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(f); }
+    requestAnimationFrame(f);
+  }
+  function burst(){
+    if(REDUCE) return;
+    var fx=$("fx"); for(var i=0;i<54;i++){
+      var p=document.createElement("i"), ang=Math.random()*6.283, d=110+Math.random()*300;
+      p.textContent="✦"; p.style.cssText="--dx:"+(Math.cos(ang)*d).toFixed(0)+"px;--dy:"+(Math.sin(ang)*d*.8).toFixed(0)+"px;--s:"+(10+Math.random()*18).toFixed(0)+"px;--r:"+(Math.random()*540-270).toFixed(0)+"deg";
+      fx.appendChild(p); (function(q){ setTimeout(function(){ q.remove(); },1500); })(p);
+    }
+  }
+  function fxResult(){
+    var rb=$("resBox");
+    rv(rb.querySelectorAll(".sh,.calcbox,.yhero,.card,.lk,.offer,.novo"),.1);
+    var orb=rb.querySelector(".yhero .orb.big"); if(orb){ var b=orb.querySelector("b"), v=+b.textContent; orb.classList.add("pop"); countUp(b,v,1100); }
+    burst();
+  }
+
+  /* ----- configuração da compra ----- */
+  $("stickyPreco").textContent=CFG.preco?("· "+CFG.preco):"";
+  $("ano").textContent=new Date().getFullYear();
+  $("contato").innerHTML=CFG.whatsapp?('Dúvidas? Fale com a Giulia no <a href="https://wa.me/'+esc(CFG.whatsapp)+'" target="_blank" rel="noopener">WhatsApp</a>.'):'';
+  var leadAtual=null;
+  function comprar(){
+    if(CFG.linkCompra){ window.open(CFG.linkCompra,"_blank","noopener"); return; }
+    if(CFG.whatsapp){
+      var t="Oi, Giulia! Fiz o teste do Ano Pessoal e quero a consulta completa."+(leadAtual?(" Meu nome: "+leadAtual.nome+"."):"");
+      window.open("https://wa.me/"+CFG.whatsapp+"?text="+encodeURIComponent(t),"_blank","noopener"); return;
+    }
+    toast("Em breve você poderá comprar por aqui. A Giulia vai entrar em contato pelo seu WhatsApp.");
+  }
+  $("stickyBtn").addEventListener("click",comprar);
+
+  /* ----- ritual: a roda gira e o som cresce ----- */
+  var busy=false;
+  function ritual(msgs,cb){
+    if(busy) return; busy=true;
+    var rt=$("ritual"), tx=$("ritualText"), i=0, iv=null;
+    function say(t){ tx.textContent=t; }
+    function done(){ if(iv) clearInterval(iv); rt.hidden=true; document.body.classList.remove("rito"); busy=false; Snd.reveal(); cb(); }
+    rt.hidden=false; document.body.classList.add("rito"); Snd.swell(msgs.length*.76); say(msgs[0]);
+    if(REDUCE){ setTimeout(done,500); return; }
+    iv=setInterval(function(){ i++; if(i<msgs.length) say(msgs[i]); },760);
+    setTimeout(done,msgs.length*760);
+  }
+
+  /* ----- máscara e validação ----- */
+  $("zap").addEventListener("input",function(){
+    var d=this.value.replace(/\D/g,"").slice(0,11), o="";
+    if(d.length>0) o="("+d.slice(0,2); if(d.length>=2) o+=") "; if(d.length>2) o+=d.slice(2,d.length>10?7:6); if(d.length>(d.length>10?7:6)) o+="-"+d.slice(d.length>10?7:6);
+    this.value=o;
+  });
+  function setErr(id,fieldId,msg){ var e=$(id); e.textContent=msg||""; if(fieldId){ $(fieldId).classList.toggle("bad",!!msg); } return !msg; }
+  function letrasN(s){ return s.normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^A-Za-z]/g,"").length; }
+
+  $("f").addEventListener("submit",function(e){
+    e.preventDefault();
+    if($("site").value) return;
+    var nome=$("nome").value.trim().replace(/\s+/g," "), data=$("data").value, email=$("email").value.trim().toLowerCase(), zapD=$("zap").value.replace(/\D/g,"");
+    var ok=true;
+    ok=setErr("eNome","nome",(letrasN(nome)<4||nome.split(" ").length<2)?"Digite o nome completo, com nome e sobrenome.":"")&&ok;
+    var dt=data?new Date(data+"T12:00:00"):null, y=dt?dt.getFullYear():0;
+    ok=setErr("eData","data",(!dt||isNaN(dt)||y<1900||dt>new Date())?"Informe uma data de nascimento válida.":"")&&ok;
+    ok=setErr("eEmail","email",!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)?"Digite um e-mail válido.":"")&&ok;
+    ok=setErr("eZap","zap",(zapD.length<10||zapD.length>11)?"Digite o WhatsApp com DDD.":"")&&ok;
+    ok=setErr("eOk",null,!$("ok").checked?"Marque a caixa para receber o resultado.":"")&&ok;
+    if(!ok){ var b=document.querySelector("input.bad"); if(b) b.focus(); return; }
+    ritual(["Lendo a sua data…","Fazendo a conta do seu ano…","Abrindo o seu resultado…"],function(){
+      var now=new Date(), ref=now.getFullYear()+"-"+pad2(now.getMonth()+1)+"-"+pad2(now.getDate());
+      var C=CAB.calcular({nome:nome,nasc:data,ref:ref,casa:"",nasc2:""});
+      leadAtual={nome:nome,nascimento:data,email:email,whatsapp:"55"+zapD,consent:true,origem:"teste",ano:C.ap,bloqueios:C.blocos.length};
+      guardarLead(leadAtual);
+      render(C);
+    });
+  });
+  function guardarLead(d){
+    try{
+      if(!window.LEAD) return;
+      Promise.race([window.LEAD.save(d),new Promise(function(r){ setTimeout(r,8000); })]).catch(function(er){ if(window.console) console.warn("lead",er&&er.code); });
+    }catch(er){}
+  }
+
+  /* ----- resultado ----- */
+  var lock='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>';
+  function lk(titulo,texto,extra){ return '<div class="lk"><div class="t"><span class="ic">'+lock+'</span><div><h4>'+titulo+'</h4><p>'+texto+'</p></div></div>'+(extra||'<div class="ph" aria-hidden="true"><i></i><i></i><i></i></div>')+'</div>'; }
+  function sum(parts){ var s=0; parts.forEach(function(x){ s+=x; }); var r=CAB.red(s); return parts.join(" + ")+" = "+s+(r!==s?" → "+r:""); }
+  function render(C){
+    var A=CAB.ANO[C.ap], B=CAB.ANO[C.prox], R=CAB.red, n=C.n;
+    var ds=pad2(n.d), ms=pad2(n.m), ys=String(C.anoUlt), dg=function(s){ return s.split("").map(Number); };
+    var m=C.meses.filter(function(x){return x.atual})[0]||C.meses[0], MM=CAB.MES[m.num];
+    var seqs=C.blocos.map(function(b){ return new Array(4).join(String(b.num)); });
+    var uniq=[]; C.blocos.forEach(function(b){ if(uniq.indexOf(b.num)<0) uniq.push(b.num); });
+    var nb=C.blocos.length, h="";
+    h+='<div class="sh" style="margin-bottom:22px"><p class="kicker">Passo 2 de 2 · o seu resultado</p><h2>Oi, '+esc(C.primeiro)+'. Este é o seu ano.</h2></div>';
+    h+='<p style="color:var(--soft)">Fiz a conta da sua data com o ano do seu último aniversário, '+C.anoUlt+':</p>';
+    h+='<div class="calcbox"><div class="cr"><span>Dia '+ds+'</span><span>'+sum(dg(ds))+'</span></div><div class="cr"><span>Mês '+ms+'</span><span>'+sum(dg(ms))+'</span></div><div class="cr"><span>Ano '+ys+'</span><span>'+sum(dg(ys))+'</span></div><div class="cr sum"><span>Somando</span><span>'+sum([R(n.d),R(n.m),R(C.anoUlt)])+'</span></div></div>';
+    h+='<div class="yhero"><p class="tagc">O seu Ano Pessoal até '+CAB.fmt(C.fimAno)+'</p><div class="orb big o-gold"><b>'+C.ap+'</b></div><h3 class="bigttl">'+cap(A.nome)+'</h3><p class="resumo">'+A.resumo+'</p>'+
+      '<p class="byline"><img src="giulia-sm.jpg" alt="" width="34" height="34"><span>Leitura de <b>Giulia Dantas</b>, numeróloga</span></p></div>';
+    h+='<div class="card"><div class="hn"><div class="orb o-cyan"><b>'+m.num+'</b></div><div><h3>E '+CAB.MESES[m.m-1]+'?</h3><p class="kw">'+MM.nome+'</p></div></div><p style="color:var(--soft)">'+MM.txt+'</p><p style="color:var(--soft)"><b style="color:var(--ink)">Fazer:</b> '+MM.fazer+'</p></div>';
+    if(nb){
+      h+='<div class="card warn"><h3>O seu nome forma '+nb+' bloqueio'+(nb>1?'s':'')+'</h3><div class="seqs">'+seqs.map(function(s){return '<span class="seq">'+s+'</span>';}).join('')+'</div>'+
+        '<p style="color:var(--soft)">Bloqueio é quando o mesmo número aparece três vezes seguidas no triângulo do nome. '+(uniq.length?'O <b style="color:var(--ink)">'+uniq[0]+'</b>, por exemplo, ': 'Ele ')+'costuma pesar em: <i>'+esc(CAB.BLOCO[uniq[0]].trava.split('.')[0])+'.</i></p>'+
+        '<p style="color:var(--gold)"><b>O que fazer com isso, e como assinar o seu nome sem esses bloqueios, está na consulta completa.</b></p></div>';
+    } else {
+      h+='<div class="card"><h3>O seu nome não forma bloqueios</h3><p style="color:var(--soft)">Nenhum número se repete três vezes seguidas no triângulo do seu nome. Na consulta completa, você vê também o seu destino, o seu coração e a sua expressão.</p></div>';
+    }
+    h+='<div class="locked"><div class="sh" style="margin-bottom:18px"><p class="kicker">O que está fechado para você</p><h2>O resto do seu mapa</h2></div>';
+    h+=lk('A armadilha do seu ano '+C.ap, '<b>'+esc(A.armadilha.split('.')[0])+'.</b> O que fazer para não cair nela está na consulta completa.');
+    h+=lk('A decisão que o ano '+C.ap+' pede para você adiar','4 decisões que o seu ano favorece e 4 que pedem espera, para você não gastar energia na hora errada.');
+    var chips=C.meses.map(function(mm,i){ return '<span class="'+(i<2?'':'bl')+'">'+mm.num+'</span>'; }).join('');
+    h+=lk('Os '+C.meses.length+' meses: quando agir e quando esperar','De '+CAB.MESES[C.meses[0].m-1]+' de '+C.meses[0].y+' a dezembro de '+C.meses[C.meses.length-1].y+', com o que fazer e o que evitar em cada mês.','<div class="mchips" aria-hidden="true">'+chips+'</div>');
+    h+=lk('O seu ano '+C.prox+', a partir de '+CAB.fmt(C.proxAniv),'No seu aniversário você entra em outro ano. Veja como chegar nele sem levar peso do ano '+C.ap+'.');
+    h+=lk(nb?'Como contornar os seus '+nb+' bloqueio'+(nb>1?'s':'')+' e qual nome usar':'O seu destino, coração e expressão','Os números do seu nome e da sua data, com a conta de cada um'+(nb?', e a forma de assinar e se apresentar que quebra os bloqueios, sem mudar o registro':'')+'.');
+    h+=lk('Amor, dinheiro e casa nos seus números','Por onde o seu dinheiro entra e por onde vaza, o que o seu coração pede no amor e o que o número da sua casa favorece.');
+    h+='</div>';
+    h+='<div class="offer" id="oferta"><span class="badge">CONSULTA COMPLETA</span><h2>Abra o seu mapa inteiro</h2><p class="lead">Tudo o que está fechado acima, lido por Giulia Dantas e disponível na sua área, no seu celular.</p>'+
+      '<ul class="ticks"><li>O seu ano '+C.ap+' completo: o que pede, o que evitar e a armadilha</li><li>As decisões que o seu ano favorece e as que pedem espera</li><li>O ano '+C.prox+' e os '+C.meses.length+' meses, um a um</li><li>'+(nb?'Como contornar cada bloqueio do seu nome e qual nome usar':'Destino, coração e expressão, com a conta de cada um')+'</li><li>Amor, dinheiro e casa nos seus números</li><li>Acesso no seu e-mail, para ler no celular, imprimir ou instalar como app</li></ul>'+
+      (CFG.preco?'<div class="price">'+(CFG.precoAntes?'<small>De '+esc(CFG.precoAntes)+' por</small>':'')+'<b>'+esc(CFG.preco)+'</b><span>pagamento único, sem mensalidade</span></div>':'')+
+      '<button class="btn big" type="button" id="comprarBtn">Quero a minha consulta completa</button>'+
+      '<p class="fine">Compra única, sem mensalidade. Depois da confirmação do pagamento, o acesso chega no e-mail '+esc(leadAtual.email)+'.</p></div>';
+    h+='<div class="novo"><button type="button" id="novoBtn">Fazer o teste com outra data</button></div>';
+    $("resBox").innerHTML=h;
+    $("resultado").hidden=false; paint(); fxResult();
+    $("comprarBtn").addEventListener("click",comprar);
+    $("novoBtn").addEventListener("click",function(){ $("resultado").hidden=true; paint(); $("sticky").classList.remove("on"); document.getElementById("teste").scrollIntoView(); });
+    setTimeout(function(){ $("resultado").scrollIntoView({behavior:REDUCE?"auto":"smooth",block:"start"}); },50);
+    if("IntersectionObserver" in window){
+      var of=$("oferta"), st=$("sticky");
+      var io=new IntersectionObserver(function(en){ st.classList.toggle("on",!en[0].isIntersecting); },{threshold:.15});
+      io.observe(of);
+    } else { $("sticky").classList.add("on"); }
+  }
+})();
+</script>
+</body>
+</html>

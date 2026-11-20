@@ -228,11 +228,16 @@
   #cliMsg[hidden],#saveWrap[hidden],#cMdet[hidden],#casaF[hidden],#cliBar[hidden]{display:none !important}
   .admbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px}
   .admbar[hidden]{display:none !important}
-  .seg2x{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:4px;flex:1 1 220px}
+  .seg2x{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:4px;flex:1 1 220px}
   .seg2x button{background:transparent;border:0;border-radius:10px;padding:10px 8px;font-weight:600;color:var(--muted);min-height:44px}
   .seg2x button[aria-pressed="true"]{background:rgba(242,207,138,.14);color:var(--gold);box-shadow:inset 0 0 0 1px rgba(242,207,138,.5)}
   #admWho{flex:1 1 100%;margin:0}
-  #admGate,#cliGate,#cliBar,#admBar,#admClients{display:none}
+  #admGate,#cliGate,#cliBar,#admBar,#admClients,#admLeads{display:none}
+  body.consultor.view-leads #admLeads{display:block}
+  body.consultor.view-leads .seg,body.consultor.view-leads #f,body.consultor.view-leads #out,body.consultor.view-leads #outC,body.consultor.view-leads #outCab,body.consultor.view-leads #saveWrap{display:none !important}
+  #leadList .pair{grid-template-columns:56px 1fr}
+  #leadList .actions{margin-top:8px}
+  #leadList .actions .btn{min-height:42px;padding:8px 14px;font-size:.9rem}
   body.consultor.gated #admGate{display:grid}
   body.consultor:not(.gated) #admBar{display:flex}
   body.cliente #cliGate:not([hidden]){display:grid}
@@ -389,6 +394,7 @@
     <div class="seg2x" role="group" aria-label="Área do consultor">
       <button type="button" id="admV1" aria-pressed="true">Consulta</button>
       <button type="button" id="admV2" aria-pressed="false">Clientes</button>
+      <button type="button" id="admV3" aria-pressed="false">Leads</button>
     </div>
     <span class="note" id="admWho"></span>
     <button class="btn ghost" type="button" id="admSair">Sair</button>
@@ -573,6 +579,13 @@
     </label>
     <div class="actions"><button class="btn" type="button" id="svGo">Salvar cliente</button></div>
     <div class="status" id="svSt" role="status"></div>
+  </section>
+
+  <section id="admLeads">
+    <h2 class="sec">Leads do teste grátis</h2>
+    <p class="note">Pessoas que fizeram o teste na página de venda. Chame pelo WhatsApp e, quando fecharem a consulta, use “Abrir na consulta” e depois “Salvar como cliente”.</p>
+    <div id="leadList"></div>
+    <div class="status" id="ldSt" role="status"></div>
   </section>
 
   <section id="admClients">
@@ -961,7 +974,9 @@ window.FB = {
     const id = norm(email), ref = doc(db, COL, id), old = await getDoc(ref);
     await setDoc(ref, Object.assign({}, data, { email: id, atualizadoEm: serverTimestamp(), criadoEm: (old.exists() && old.data().criadoEm) ? old.data().criadoEm : serverTimestamp() }));
   },
-  removeClient: id => deleteDoc(doc(db, COL, norm(id)))
+  removeClient: id => deleteDoc(doc(db, COL, norm(id))),
+  listLeads: async () => { const s = await getDocs(collection(db, "leads")); return s.docs.map(d => Object.assign({ id: d.id }, d.data())); },
+  removeLead: id => deleteDoc(doc(db, "leads", String(id)))
 };
 if (window.__fbres) window.__fbres();
 </script>
@@ -2379,10 +2394,31 @@ if (window.__fbres) window.__fbres();
     var clientes=[];
     function showView(v){
       document.body.classList.toggle('view-clientes',v==='clientes');
-      $('admV1').setAttribute('aria-pressed',v==='clientes'?'false':'true');
+      document.body.classList.toggle('view-leads',v==='leads');
+      $('admV1').setAttribute('aria-pressed',v==='consulta'?'true':'false');
       $('admV2').setAttribute('aria-pressed',v==='clientes'?'true':'false');
+      $('admV3').setAttribute('aria-pressed',v==='leads'?'true':'false');
       window.scrollTo({top:0,behavior:REDUCE?'auto':'smooth'});
     }
+    var leads=[];
+    function renderLeads(){
+      var box=$('leadList'); box.innerHTML='';
+      if(!leads.length){ box.appendChild(el('p','note','Nenhum lead ainda. Quando alguém fizer o teste na página de venda, aparece aqui.')); return; }
+      leads.slice().sort(function(a,b){ var x=a.criadoEm&&a.criadoEm.seconds||0, y=b.criadoEm&&b.criadoEm.seconds||0; return y-x; }).forEach(function(l){
+        var d=el('div','pair'), quando=(l.criadoEm&&l.criadoEm.toDate)?l.criadoEm.toDate().toLocaleDateString('pt-BR'):'', fone=String(l.whatsapp||'').replace(/\D/g,'');
+        d.innerHTML='<div class="pn"><span class="orb sm o-gold"><b>'+esc(l.ano||'?')+'</b></span></div><div class="pt"><b>'+esc(l.nome||'(sem nome)')+'</b><p class="note">'+esc(l.email||'')+' · WhatsApp '+esc(l.whatsapp||'')+'</p><p class="note">Nascimento '+fmtd(l.nascimento)+' · Ano pessoal '+esc(l.ano||'—')+' · '+(l.bloqueios||0)+' bloqueio(s)'+(quando?' · '+quando:'')+'</p><div class="actions"></div></div>';
+        var ac=d.querySelector('.actions');
+        function btn(t,fn){ var b=el('button','btn ghost',t); b.type='button'; b.addEventListener('click',fn); ac.appendChild(b); return b; }
+        if(fone) { var a=el('a','btn ghost','Chamar no WhatsApp'); a.href='https://wa.me/'+fone; a.target='_blank'; a.rel='noopener'; a.style.textDecoration='none'; ac.appendChild(a); }
+        btn('Abrir na consulta',function(){ showView('consulta'); runRecord({sistema:'c',nome:l.nome,nascimento:l.nascimento,casa:''}); $('svEmail').value=String(l.email||'').toLowerCase(); });
+        btn('Remover',function(){
+          if(!window.confirm('Remover este lead? Isso apaga o contato da lista.')) return;
+          FB.removeLead(l.id).then(function(){ leads=leads.filter(function(x){return x.id!==l.id}); renderLeads(); $('ldSt').textContent='Lead removido.'; }).catch(function(e){ $('ldSt').textContent=msgErr(e); });
+        });
+        box.appendChild(d);
+      });
+    }
+    function carregarLeads(){ return FB.listLeads().then(function(r){ leads=r; renderLeads(); }); }
     function renderClientes(){
       var box=$('cliList'); box.innerHTML='';
       if(!clientes.length){ box.appendChild(el('p','note','Nenhum cliente cadastrado ainda. Faça uma consulta e use “Salvar como cliente”.')); return; }
@@ -2424,6 +2460,7 @@ if (window.__fbres) window.__fbres();
     });
     $('admV1').addEventListener('click',function(){ showView('consulta'); });
     $('admV2').addEventListener('click',function(){ showView('clientes'); carregarClientes().catch(function(e){ $('clSt').textContent=msgErr(e); }); });
+    $('admV3').addEventListener('click',function(){ showView('leads'); $('ldSt').textContent='Carregando…'; carregarLeads().then(function(){ $('ldSt').textContent=''; }).catch(function(e){ $('ldSt').textContent=msgErr(e); }); });
     $('admSair').addEventListener('click',function(){ FB.logout(); });
     $('svGo').addEventListener('click',function(){
       var st=$('svSt'), em=($('svEmail').value||'').trim().toLowerCase();
